@@ -1,5 +1,6 @@
 group 'com.boyuanitsm'
 version '1.0-SNAPSHOT'
+description 'Payment set and refactoring.'
 
 apply plugin: 'java'
 
@@ -7,12 +8,15 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 repositories {
+    mavenLocal();
     mavenCentral()
     maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile group: 'com.github.kenglxn.QRGen', name: 'javase', version: '2.2.0'
-    compile group: 'com.esotericsoftware.yamlbeans', name: 'yamlbeans', version: '1.09'
+    testCompile "junit:junit:4.11"
+    testCompile "org.springframework.boot:spring-boot-starter-web:1.3.5.RELEASE"
+    compile "com.github.kenglxn.QRGen:javase:2.2.0"
+    compile "com.esotericsoftware.yamlbeans:yamlbeans:1.09"
+    compile "org.slf4j:slf4j-api:1.7.21"
 }
