@@ -7,8 +7,10 @@ sourceCompatibility = 1.5
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'com.github.kenglxn.QRGen:javase:2.2.0'
 }
