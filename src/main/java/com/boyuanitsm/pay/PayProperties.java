@@ -30,7 +30,23 @@ public class PayProperties {
     }
 
     public static class WeChat {
+
+        private String key;
         private String appid;
+        private String mchid;
+        private String sdbmchid;
+        private String certLocalPath;
+        private String certPassword;
+        private String useThreadToDoReport;
+        private String ip;
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
 
         public String getAppid() {
             return appid;
@@ -38,6 +54,54 @@ public class PayProperties {
 
         public void setAppid(String appid) {
             this.appid = appid;
+        }
+
+        public String getMchid() {
+            return mchid;
+        }
+
+        public void setMchid(String mchid) {
+            this.mchid = mchid;
+        }
+
+        public String getSdbmchid() {
+            return sdbmchid;
+        }
+
+        public void setSdbmchid(String sdbmchid) {
+            this.sdbmchid = sdbmchid;
+        }
+
+        public String getCertLocalPath() {
+            return certLocalPath;
+        }
+
+        public void setCertLocalPath(String certLocalPath) {
+            this.certLocalPath = certLocalPath;
+        }
+
+        public String getCertPassword() {
+            return certPassword;
+        }
+
+        public void setCertPassword(String certPassword) {
+            this.certPassword = certPassword;
+        }
+
+        public String getUseThreadToDoReport() {
+            return useThreadToDoReport;
+        }
+
+        public void setUseThreadToDoReport(String useThreadToDoReport) {
+            this.useThreadToDoReport = useThreadToDoReport;
+        }
+
+        public String getIp() {
+            return ip;
+        }
+
+        public void setIp(String ip) {
+            this.ip = ip;
         }
     }
 
