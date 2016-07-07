@@ -2,7 +2,6 @@ group 'com.boyuanitsm'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-apply from: 'gradle/maven_push.gradle'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
