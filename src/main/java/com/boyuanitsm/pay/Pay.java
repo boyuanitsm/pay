@@ -1,7 +1,5 @@
 package com.boyuanitsm.pay;
 
-import net.glxn.qrgen.javase.QRCode;
-
 import java.io.*;
 
 /**
@@ -9,9 +7,6 @@ import java.io.*;
  */
 public class Pay {
     public static void main(String[] args) throws IOException {
-        System.out.println("Hello World");
-        ByteArrayOutputStream stream = QRCode.from("Hello World").stream();
-        OutputStream outputStream = new FileOutputStream("/Users/zhanghua/Desktop/qrcode.png");
-        outputStream.write(stream.toByteArray());
+        System.out.println(PayProperties.getInstance().getWechat().getAppid());
     }
 }
