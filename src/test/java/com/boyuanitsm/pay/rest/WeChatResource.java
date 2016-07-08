@@ -1,9 +1,9 @@
 package com.boyuanitsm.pay.rest;
 
-import com.boyuanitsm.pay.wechat.scan.business.ScanPayBusiness;
+import com.boyuanitsm.pay.wechat.scan.business.UnifiedOrderBusiness;
 import com.boyuanitsm.pay.wechat.scan.common.*;
-import com.boyuanitsm.pay.wechat.scan.protocol.pay_protocol.ScanPayReqData;
-import com.boyuanitsm.pay.wechat.scan.protocol.pay_protocol.ScanPayResData;
+import com.boyuanitsm.pay.wechat.scan.protocol.unified_order_protocol.UnifiedOrderReqData;
+import com.boyuanitsm.pay.wechat.scan.protocol.unified_order_protocol.UnifiedOrderResData;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
@@ -76,15 +76,19 @@ public class WeChatResource {
             result.put("mch_id", Configure.getMchid());
             result.put("nonce_str", RandomStringGenerator.getRandomStringByLength(24));
             // 调用统一下单API
-            ScanPayBusiness scanPayBusiness = new ScanPayBusiness();
-            scanPayBusiness.run(getTestScanPayReqData(responseString), new MyResultListener());
+            UnifiedOrderBusiness unifiedOrderBusiness = new UnifiedOrderBusiness();
+            UnifiedOrderResData resData = unifiedOrderBusiness.run(getUnifiedOrderReqDataTest(responseString));
+            log.info("预支付交易会话标识: {}", resData.getPrepay_id());
+            result.put("prepay_id", resData.getPrepay_id());
             result.put("result_code", "SUCCESS");
         } else {
             result.put("return_code", "FAIL");
             result.put("return_msg", "签名失败");
         }
 
+        // 签名
         result.put("sign", Signature.getSign(request));
+
         //解决XStream对出现双下划线的bug
         XStream xStream = new XStream(new DomDriver("UTF-8", new XmlFriendlyNameCoder("-_", "_")));
         //将要提交给API的数据对象转换成XML格式数据Post给API
@@ -93,58 +97,36 @@ public class WeChatResource {
         return xml;
     }
 
-    private ScanPayReqData getTestScanPayReqData(String responseString) throws IOException, SAXException, ParserConfigurationException {
-        Map<String, Object> map = XMLParser.getMapFromXML(responseString);
-        String productId = String.valueOf(map.get("product_id"));
-        String deviceInfo = "WEB";
-        String body = "WePay Test";
-        String outTradeNo = "wepaytest" + System.currentTimeMillis() / 1000;
-        int totalFee = 1;
-        String spBillCreateIP = "127.0.0.1";
-        String tradeType = "NATIVE";
-        return null;
+    private UnifiedOrderReqData getUnifiedOrderReqDataTest(String responseString) {
+        Map<String, Object> map = new HashMap<>();
+        String product_id = String.valueOf(map.get("product_id"));
+        String notify_url = "localhost/api/wechat/pay_result_callback";
+        int total_fee = 1;// 1分钱
+        return new UnifiedOrderReqData("WePay Test", "wxtest123456", total_fee, notify_url, product_id);
     }
 
-    class MyResultListener implements ScanPayBusiness.ResultListener {
 
-        @Override
-        public void onFailByReturnCodeError(ScanPayResData scanPayResData) {
+    /**
+     * 支付结果通用通知
+     *
+     * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7">https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7</a>
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "pay_result_callback", method = RequestMethod.POST)
+    public String payResultCallback(HttpServletRequest request) throws IOException {
+        String responseString = IOUtils.toString(request.getInputStream());
+        log.debug("Pay result callback response string is: {}", responseString);
+        Map<String, Object> result = new HashMap<>();
+        result.put("return_code", "SUCCESS");
+        result.put("return_msg", "OK");
 
-        }
-
-        @Override
-        public void onFailByReturnCodeFail(ScanPayResData scanPayResData) {
-
-        }
-
-        @Override
-        public void onFailBySignInvalid(ScanPayResData scanPayResData) {
-
-        }
-
-        @Override
-        public void onFailByAuthCodeExpire(ScanPayResData scanPayResData) {
-
-        }
-
-        @Override
-        public void onFailByAuthCodeInvalid(ScanPayResData scanPayResData) {
-
-        }
-
-        @Override
-        public void onFailByMoneyNotEnough(ScanPayResData scanPayResData) {
-
-        }
-
-        @Override
-        public void onFail(ScanPayResData scanPayResData) {
-
-        }
-
-        @Override
-        public void onSuccess(ScanPayResData scanPayResData) {
-
-        }
+        //解决XStream对出现双下划线的bug
+        XStream xStream = new XStream(new DomDriver("UTF-8", new XmlFriendlyNameCoder("-_", "_")));
+        //将要提交给API的数据对象转换成XML格式数据Post给API
+        String xml = xStream.toXML(result);
+        log.debug("Pay callback return string is: {}", xml);
+        return xml;
     }
+
 }
