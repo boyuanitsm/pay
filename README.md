@@ -13,10 +13,12 @@
 ### Gradle
 
 ```
-complice "com.boyuanitsm:pay:${pay.version}"
+compile "com.boyuanitsm:pay:${pay.version}"
 ```
 
 
 ### Development
 
-    ./gradlew
+```
+./gradlew
+```
