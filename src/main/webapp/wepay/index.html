@@ -4,10 +4,29 @@
     <meta charset="UTF-8">
     <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <title>WePay Test</title>
+    <style>
+        .orange {
+            color: darkorange;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>WePay Test</h1>
+        <div style="height: 100px;"></div>
+        <div>
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="/images/WePayLogo.png" height="50px">
+                </div>
+                <div class="col-md-6">
+                    <h4>支付 <span class="orange">0.01</span> 元</h4>
+                </div>
+            </div>
+            <img src="/api/wechat/qrcode?product_id=1" alt="" height="150px">
+            <br>
+            <img src="/images/wepay_tip.png" alt="" width="150px">
+        </div>
     </div>
 </body>
 </html>
