@@ -10,8 +10,9 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.ConnectionPoolTimeoutException;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.ssl.SSLContexts;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -68,9 +69,7 @@ public class HttpsRequest implements IServiceRequest {
         FileInputStream instream = new FileInputStream(new File(Configure.getCertLocalPath()));//加载本地的证书进行https加密传输
         try {
             keyStore.load(instream, Configure.getCertPassword().toCharArray());//设置证书密码
-        } catch (CertificateException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (CertificateException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         } finally {
             instream.close();
@@ -81,14 +80,14 @@ public class HttpsRequest implements IServiceRequest {
                 .loadKeyMaterial(keyStore, Configure.getCertPassword().toCharArray())
                 .build();
         // Allow TLSv1 protocol only
-        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+        SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(
                 sslcontext,
                 new String[]{"TLSv1"},
                 null,
-                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+                new DefaultHostnameVerifier());
 
         httpClient = HttpClients.custom()
-                .setSSLSocketFactory(sslsf)
+                .setSSLSocketFactory(socketFactory)
                 .build();
 
         //根据默认超时限制初始化requestConfig
