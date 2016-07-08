@@ -1,7 +1,12 @@
 package com.boyuanitsm.pay.rest;
 
-import com.boyuanitsm.pay.wechat.scan.common.Signature;
-import com.boyuanitsm.pay.wechat.scan.common.Util;
+import com.boyuanitsm.pay.wechat.scan.business.ScanPayBusiness;
+import com.boyuanitsm.pay.wechat.scan.common.*;
+import com.boyuanitsm.pay.wechat.scan.protocol.pay_protocol.ScanPayReqData;
+import com.boyuanitsm.pay.wechat.scan.protocol.pay_protocol.ScanPayResData;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
 import net.glxn.qrgen.javase.QRCode;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -17,6 +22,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Rest controller WeChat Resource.
@@ -54,13 +61,90 @@ public class WeChatResource {
      * @throws SAXException
      */
     @RequestMapping(value = "pay_callback", method = RequestMethod.POST)
-    public String payCallback(HttpServletRequest request) throws IOException, ParserConfigurationException, SAXException {
+    public String payCallback(HttpServletRequest request) throws Exception {
         InputStream inputStream = request.getInputStream();
         String responseString = IOUtils.toString(inputStream);
         log.debug("Pay callback response string is: {}", responseString);
         // 检查签名
         boolean isSignValid = Signature.checkIsSignValidFromResponseString(responseString);
+        // 输出结果
+        Map<String, Object> result = new HashMap<>();
 
+        if (isSignValid) {
+            result.put("return_code", "SUCCESS");
+            result.put("appid", Configure.getAppid());
+            result.put("mch_id", Configure.getMchid());
+            result.put("nonce_str", RandomStringGenerator.getRandomStringByLength(24));
+            // 调用统一下单API
+            ScanPayBusiness scanPayBusiness = new ScanPayBusiness();
+            scanPayBusiness.run(getTestScanPayReqData(responseString), new MyResultListener());
+            result.put("result_code", "SUCCESS");
+        } else {
+            result.put("return_code", "FAIL");
+            result.put("return_msg", "签名失败");
+        }
+
+        result.put("sign", Signature.getSign(request));
+        //解决XStream对出现双下划线的bug
+        XStream xStream = new XStream(new DomDriver("UTF-8", new XmlFriendlyNameCoder("-_", "_")));
+        //将要提交给API的数据对象转换成XML格式数据Post给API
+        String xml = xStream.toXML(result);
+        log.debug("Pay callback return string is: {}", xml);
+        return xml;
+    }
+
+    private ScanPayReqData getTestScanPayReqData(String responseString) throws IOException, SAXException, ParserConfigurationException {
+        Map<String, Object> map = XMLParser.getMapFromXML(responseString);
+        String productId = String.valueOf(map.get("product_id"));
+        String deviceInfo = "WEB";
+        String body = "WePay Test";
+        String outTradeNo = "wepaytest" + System.currentTimeMillis() / 1000;
+        int totalFee = 1;
+        String spBillCreateIP = "127.0.0.1";
+        String tradeType = "NATIVE";
         return null;
+    }
+
+    class MyResultListener implements ScanPayBusiness.ResultListener {
+
+        @Override
+        public void onFailByReturnCodeError(ScanPayResData scanPayResData) {
+
+        }
+
+        @Override
+        public void onFailByReturnCodeFail(ScanPayResData scanPayResData) {
+
+        }
+
+        @Override
+        public void onFailBySignInvalid(ScanPayResData scanPayResData) {
+
+        }
+
+        @Override
+        public void onFailByAuthCodeExpire(ScanPayResData scanPayResData) {
+
+        }
+
+        @Override
+        public void onFailByAuthCodeInvalid(ScanPayResData scanPayResData) {
+
+        }
+
+        @Override
+        public void onFailByMoneyNotEnough(ScanPayResData scanPayResData) {
+
+        }
+
+        @Override
+        public void onFail(ScanPayResData scanPayResData) {
+
+        }
+
+        @Override
+        public void onSuccess(ScanPayResData scanPayResData) {
+
+        }
     }
 }
