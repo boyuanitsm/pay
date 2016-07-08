@@ -16,9 +16,6 @@ import java.util.Map;
  */
 public class Util {
 
-    //打log用
-    // private static Log logger = new Log(LoggerFactory.getLogger(Util.class));
-
     /**
      * 通过反射的方式遍历对象的属性和属性值，方便调试
      *
@@ -31,7 +28,6 @@ public class Util {
         for (int i = 0; i < fields.length; i++) {
             Field f = fields[i];
             f.setAccessible(true);
-            Util.log(f.getName() + " -> " + f.get(o));
         }
     }
 
@@ -93,18 +89,6 @@ public class Util {
             return 0;
         }
         return Integer.parseInt((String) map.get(key));
-    }
-
-    /**
-     * 打log接口
-     *
-     * @param log 要打印的log字符串
-     * @return 返回log
-     */
-    public static String log(Object log) {
-//        logger.i(log.toString());
-        //System.out.println(log);
-        return log.toString();
     }
 
     /**

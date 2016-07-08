@@ -126,8 +126,8 @@ public class HttpsRequest implements IServiceRequest {
         //将要提交给API的数据对象转换成XML格式数据Post给API
         String postDataXML = xStreamForRequestPostData.toXML(xmlObj);
 
-        Util.log("API，POST过去的数据是：");
-        Util.log(postDataXML);
+        log.info("API，POST过去的数据是：");
+        log.info(postDataXML);
 
         //得指明使用UTF-8编码，否则到API服务器XML的中文不能被成功识别
         StringEntity postEntity = new StringEntity(postDataXML, "UTF-8");
@@ -137,7 +137,7 @@ public class HttpsRequest implements IServiceRequest {
         //设置请求器的配置
         httpPost.setConfig(requestConfig);
 
-        Util.log("executing request" + httpPost.getRequestLine());
+        log.info("executing request" + httpPost.getRequestLine());
 
         try {
             HttpResponse response = httpClient.execute(httpPost);

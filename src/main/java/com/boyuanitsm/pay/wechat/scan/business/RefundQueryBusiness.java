@@ -115,11 +115,11 @@ public class RefundQueryBusiness {
         if (Configure.isUseThreadToDoReport()) {
             ReporterFactory.getReporter(reportReqData).run();
             timeAfterReport = System.currentTimeMillis();
-            Util.log("pay+report总耗时（异步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
+            log.info("pay+report总耗时（异步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
         } else {
             ReportService.request(reportReqData);
             timeAfterReport = System.currentTimeMillis();
-            Util.log("pay+report总耗时（同步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
+            log.info("pay+report总耗时（同步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
         }
 
 
@@ -151,7 +151,7 @@ public class RefundQueryBusiness {
             }
 
             if (refundQueryResData.getResult_code().equals("FAIL")) {
-                Util.log("出错，错误码：" + refundQueryResData.getErr_code() + "     错误信息：" + refundQueryResData.getErr_code_des());
+                log.error("出错，错误码：" + refundQueryResData.getErr_code() + "     错误信息：" + refundQueryResData.getErr_code_des());
                 setResult("Case4:【退款查询失败】");
                 resultListener.onRefundQueryFail(refundQueryResData);
                 //退款失败时再怎么延时查询退款状态都没有意义，这个时间建议要么再手动重试一次，依然失败的话请走投诉渠道进行投诉
@@ -176,13 +176,12 @@ public class RefundQueryBusiness {
         List<RefundOrderData> refundOrderList = XMLParser.getRefundOrderList(refundQueryResponseString);
         int count = 1;
         for (RefundOrderData refundOrderData : refundOrderList) {
-            Util.log("退款订单数据NO" + count + ":");
-            Util.log(refundOrderData.toMap());
+            log.info("退款订单数据NO" + count + ":");
+            log.info(refundOrderData.toMap());
             orderListResult += refundOrderData.toMap().toString();
             count++;
         }
-        log.info("查询到的结果如下：");
-        log.info(orderListResult);
+        log.info("查询到的结果如下：{}", orderListResult);
     }
 
     public void setRefundQueryService(RefundQueryService service) {
