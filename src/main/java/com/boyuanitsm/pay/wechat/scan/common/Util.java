@@ -107,6 +107,8 @@ public class Util {
     /**
      * Build wechat scan qrcode url. call QRCode.from(String) to build qrcode
      *
+     * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4">https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4</a>
+     * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=4_3">https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=4_3</a>
      * @param product_id the id of the product
      * @return qrcode url
      */
