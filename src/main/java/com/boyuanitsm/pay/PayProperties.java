@@ -34,7 +34,7 @@ public class PayProperties {
         private String key;
         private String appid;
         private String mchid;
-        private String sdbmchid;
+        private String submchid;
         private String certLocalPath;
         private String certPassword;
         private String useThreadToDoReport;
@@ -64,12 +64,12 @@ public class PayProperties {
             this.mchid = mchid;
         }
 
-        public String getSdbmchid() {
-            return sdbmchid;
+        public String getSubmchid() {
+            return submchid;
         }
 
-        public void setSdbmchid(String sdbmchid) {
-            this.sdbmchid = sdbmchid;
+        public void setSubmchid(String submchid) {
+            this.submchid = submchid;
         }
 
         public String getCertLocalPath() {

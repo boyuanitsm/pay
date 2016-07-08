@@ -22,7 +22,7 @@ public class Configure {
 	private static String mchID = PayProperties.getInstance().getWechat().getMchid();
 
 	//受理模式下给子商户分配的子商户号
-	private static String subMchID = PayProperties.getInstance().getWechat().getSdbmchid();
+	private static String subMchID = PayProperties.getInstance().getWechat().getSubmchid();
 
 	//HTTPS证书的本地路径
 	private static String certLocalPath = PayProperties.getInstance().getWechat().getCertLocalPath();

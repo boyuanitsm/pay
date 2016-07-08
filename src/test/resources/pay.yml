@@ -9,7 +9,7 @@ wechat:
   # 微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
   mchid: 10000100
   # 受理模式下给子商户分配的子商户号
-  sdbmchid:
+  submchid:
   # HTTPS证书的本地路径
   certLocalPath:
   # HTTPS证书密码，默认密码等于商户号MCHID
