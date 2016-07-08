@@ -45,6 +45,7 @@ public class UnifiedOrderReqData {
     public UnifiedOrderReqData(String body, String out_trade_no, int total_dee, String notify_url, String product_id) {
         this.appid = Configure.getAppid();
         this.mch_id = Configure.getMchid();
+        this.device_info = "WEB";
         this.nonce_str = RandomStringGenerator.getRandomStringByLength(24);
         this.body = body;
         this.out_trade_no = out_trade_no;

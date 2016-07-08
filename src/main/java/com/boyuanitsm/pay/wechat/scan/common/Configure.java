@@ -60,6 +60,8 @@ public class Configure {
 	//7) 统计上报API
 	public static String REPORT_API = "https://api.mch.weixin.qq.com/payitil/report";
 
+	public static String UNIFIFED_ORDER_API = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+
 	public static boolean isUseThreadToDoReport() {
 		return useThreadToDoReport;
 	}

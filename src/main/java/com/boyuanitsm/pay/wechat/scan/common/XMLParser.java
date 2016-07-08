@@ -1,6 +1,7 @@
 package com.boyuanitsm.pay.wechat.scan.common;
 
 import com.boyuanitsm.pay.wechat.scan.protocol.refund_query_protocol.RefundOrderData;
+import com.thoughtworks.xstream.XStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -56,6 +57,14 @@ public class XMLParser {
         }
 
         return list;
+    }
+
+    public static Object getObjectFromXML(String xml, Class tClass) {
+        //将从API返回的XML数据映射到Java对象
+        XStream xStreamForResponseData = new XStream();
+        xStreamForResponseData.alias("xml", tClass);
+        xStreamForResponseData.ignoreUnknownElements();//暂时忽略掉一些新增的字段
+        return xStreamForResponseData.fromXML(xml);
     }
 
     public static Map<String, Object> getMapFromXML(String xmlString) throws ParserConfigurationException, IOException, SAXException {
