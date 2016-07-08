@@ -7,6 +7,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -101,5 +104,45 @@ public class Util {
         return Util.inputStreamToString(Util.class.getResourceAsStream(localPath));
     }
 
+    /**
+     * Build wechat scan qrcode url. call QRCode.from(String) to build qrcode
+     *
+     * @param product_id the id of the product
+     * @return qrcode url
+     */
+    public static String buildQRcodeUrl(String product_id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("appid", Configure.getAppid());
+        map.put("mch_id", Configure.getMchid());
+        map.put("time_stamp", System.currentTimeMillis() / 1000);
+        map.put("nonce_str", RandomStringGenerator.getRandomStringByLength(24));
+        map.put("product_id", product_id);
+        String sign = Signature.getSign(map);
+        map.put("sign", sign);
+        return String.format("%s?%s", Configure.QRCODE_API, param(map));
+    }
+
+    /**
+     * Build Url param from map
+     *
+     * @param map source
+     * @return url param
+     */
+    public static String param(Map<String, Object> map) {
+        ArrayList<String> list = new ArrayList<String>();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getValue() != "") {
+                list.add(entry.getKey() + "=" + entry.getValue() + "&");
+            }
+        }
+        int size = list.size();
+        String[] arrayToSort = list.toArray(new String[size]);
+        Arrays.sort(arrayToSort, String.CASE_INSENSITIVE_ORDER);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            sb.append(arrayToSort[i]);
+        }
+        return sb.substring(0, sb.length() - 1);
+    }
 }
 
