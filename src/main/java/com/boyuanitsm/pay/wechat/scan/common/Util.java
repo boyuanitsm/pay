@@ -117,7 +117,7 @@ public class Util {
         map.put("appid", Configure.getAppid());
         map.put("mch_id", Configure.getMchid());
         map.put("time_stamp", System.currentTimeMillis() / 1000);
-        map.put("nonce_str", RandomStringGenerator.getRandomStringByLength(24));
+        map.put("nonce_str", RandomStringGenerator.getRandomStringByLength(Configure.NONCE_STR_LENGTH));
         map.put("product_id", product_id);
         String sign = Signature.getSign(map);
         map.put("sign", sign);

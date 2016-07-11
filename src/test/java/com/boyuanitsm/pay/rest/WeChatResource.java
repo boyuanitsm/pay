@@ -73,7 +73,7 @@ public class WeChatResource {
             result.put("return_code", "SUCCESS");
             result.put("appid", Configure.getAppid());
             result.put("mch_id", Configure.getMchid());
-            result.put("nonce_str", RandomStringGenerator.getRandomStringByLength(24));
+            result.put("nonce_str", RandomStringGenerator.getRandomStringByLength(Configure.NONCE_STR_LENGTH));
             // 调用统一下单API
             UnifiedOrderBusiness unifiedOrderBusiness = new UnifiedOrderBusiness();
             UnifiedOrderResData resData = unifiedOrderBusiness.run(getUnifiedOrderReqDataTest(responseString));

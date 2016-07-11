@@ -46,7 +46,7 @@ public class UnifiedOrderReqData {
         this.appid = Configure.getAppid();
         this.mch_id = Configure.getMchid();
         this.device_info = "WEB";
-        this.nonce_str = RandomStringGenerator.getRandomStringByLength(24);
+        this.nonce_str = RandomStringGenerator.getRandomStringByLength(Configure.NONCE_STR_LENGTH);
         this.body = body;
         this.out_trade_no = out_trade_no;
         this.total_dee = total_dee;

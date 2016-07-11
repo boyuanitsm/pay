@@ -38,6 +38,11 @@ public class Configure {
 
 	public static String QRCODE_API = "weixin://wxpay/bizpayurl";
 
+	/**
+	 * 随机字符串长度
+	 */
+	public static final int NONCE_STR_LENGTH = 32;
+
 	//以下是几个API的路径：
 	//1）被扫支付API
 	public static String PAY_API = "https://api.mch.weixin.qq.com/pay/micropay";
