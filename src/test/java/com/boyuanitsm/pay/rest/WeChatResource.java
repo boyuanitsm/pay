@@ -4,9 +4,6 @@ import com.boyuanitsm.pay.wechat.scan.business.UnifiedOrderBusiness;
 import com.boyuanitsm.pay.wechat.scan.common.*;
 import com.boyuanitsm.pay.wechat.scan.protocol.unified_order_protocol.UnifiedOrderReqData;
 import com.boyuanitsm.pay.wechat.scan.protocol.unified_order_protocol.UnifiedOrderResData;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
 import net.glxn.qrgen.javase.QRCode;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -35,6 +32,8 @@ import java.util.Map;
 public class WeChatResource {
 
     private static Logger log = LoggerFactory.getLogger(WeChatResource.class);
+
+    // ================== 扫码支付, 模式一 ===========================
 
     /**
      * 构造微信支付的二维码
@@ -89,10 +88,7 @@ public class WeChatResource {
         // 签名
         result.put("sign", Signature.getSign(request));
 
-        //解决XStream对出现双下划线的bug
-        XStream xStream = new XStream(new DomDriver("UTF-8", new XmlFriendlyNameCoder("-_", "_")));
-        //将要提交给API的数据对象转换成XML格式数据Post给API
-        String xml = xStream.toXML(result);
+        String xml = XMLParser.getXMLFromMap(result);
         log.debug("Pay callback return string is: {}", xml);
         return xml;
     }
@@ -121,12 +117,11 @@ public class WeChatResource {
         result.put("return_code", "SUCCESS");
         result.put("return_msg", "OK");
 
-        //解决XStream对出现双下划线的bug
-        XStream xStream = new XStream(new DomDriver("UTF-8", new XmlFriendlyNameCoder("-_", "_")));
-        //将要提交给API的数据对象转换成XML格式数据Post给API
-        String xml = xStream.toXML(result);
-        log.debug("Pay callback return string is: {}", xml);
+        String xml = XMLParser.getXMLFromMap(result);
+        log.debug("Pay result callback return string is: {}", xml);
         return xml;
     }
+
+    // ================== 扫码支付, 模式一 ===========================
 
 }
