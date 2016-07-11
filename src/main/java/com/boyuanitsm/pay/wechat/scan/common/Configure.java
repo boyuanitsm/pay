@@ -65,6 +65,9 @@ public class Configure {
 	//7) 统计上报API
 	public static String REPORT_API = "https://api.mch.weixin.qq.com/payitil/report";
 
+	/**
+	 * 统一下单API
+	 */
 	public static String UNIFIFED_ORDER_API = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
 	public static boolean isUseThreadToDoReport() {
@@ -75,7 +78,7 @@ public class Configure {
 		Configure.useThreadToDoReport = useThreadToDoReport;
 	}
 
-	public static String HttpsRequestClassName = "com.tencent.common.HttpsRequest";
+	public static String HttpsRequestClassName = "com.boyuanitsm.pay.wechat.scan.common.HttpsRequest";
 
 	public static void setKey(String key) {
 		Configure.key = key;
