@@ -1,5 +1,7 @@
 ## Pay
 
+使用之前务必配置[Maven私服](http://172.16.8.21:20000/helper/nexus-maven-repo)
+
 ### Maven
 
 ```xml
@@ -15,6 +17,11 @@
 ```
 compile "com.boyuanitsm:pay:${pay.version}"
 ```
+
+### API
+
+- [Wepay](docs/wepay/wepay.md)
+
 
 
 ### Development
