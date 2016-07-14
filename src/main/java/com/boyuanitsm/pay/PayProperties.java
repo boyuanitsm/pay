@@ -19,6 +19,8 @@ public class PayProperties {
 
     private WeChat wechat;
 
+    private Ali ali;
+
     static {
         try {
             YamlReader reader = new YamlReader(new InputStreamReader(PayProperties.class.getClassLoader().getResourceAsStream("pay.yml")));
@@ -26,6 +28,127 @@ public class PayProperties {
             reader.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static class Ali {
+
+        private String partner;
+        private String sllerId;
+        private String privateKey;
+        private String publicKey;
+        private String notifyUrl;
+        private String returnUrl;
+        private String signType;
+        private String logPath;
+        private String inputCharset;
+        private String paymentType;
+        private String service;
+        private String antiPhishingKey;
+        private String exterInvokeIp;
+
+        public String getPartner() {
+            return partner;
+        }
+
+        public void setPartner(String partner) {
+            this.partner = partner;
+        }
+
+        public String getSllerId() {
+            return sllerId;
+        }
+
+        public void setSllerId(String sllerId) {
+            this.sllerId = sllerId;
+        }
+
+        public String getPrivateKey() {
+            return privateKey;
+        }
+
+        public void setPrivateKey(String privateKey) {
+            this.privateKey = privateKey;
+        }
+
+        public String getPublicKey() {
+            return publicKey;
+        }
+
+        public void setPublicKey(String publicKey) {
+            this.publicKey = publicKey;
+        }
+
+        public String getNotifyUrl() {
+            return notifyUrl;
+        }
+
+        public void setNotifyUrl(String notifyUrl) {
+            this.notifyUrl = notifyUrl;
+        }
+
+        public String getReturnUrl() {
+            return returnUrl;
+        }
+
+        public void setReturnUrl(String returnUrl) {
+            this.returnUrl = returnUrl;
+        }
+
+        public String getSignType() {
+            return signType;
+        }
+
+        public void setSignType(String signType) {
+            this.signType = signType;
+        }
+
+        public String getLogPath() {
+            return logPath;
+        }
+
+        public void setLogPath(String logPath) {
+            this.logPath = logPath;
+        }
+
+        public String getInputCharset() {
+            return inputCharset;
+        }
+
+        public void setInputCharset(String inputCharset) {
+            this.inputCharset = inputCharset;
+        }
+
+        public String getPaymentType() {
+            return paymentType;
+        }
+
+        public void setPaymentType(String paymentType) {
+            this.paymentType = paymentType;
+        }
+
+        public String getService() {
+            return service;
+        }
+
+        public void setService(String service) {
+            this.service = service;
+        }
+
+        public String getAntiPhishingKey() {
+            return antiPhishingKey;
+        }
+
+        public void setAntiPhishingKey(String antiPhishingKey) {
+            this.antiPhishingKey = antiPhishingKey;
+        }
+
+        public String getExterInvokeIp() {
+            return exterInvokeIp;
+        }
+
+        public void setExterInvokeIp(String exterInvokeIp) {
+            this.exterInvokeIp = exterInvokeIp;
         }
     }
 
@@ -103,6 +226,14 @@ public class PayProperties {
         public void setIp(String ip) {
             this.ip = ip;
         }
+    }
+
+    public Ali getAli() {
+        return ali;
+    }
+
+    public void setAli(Ali ali) {
+        this.ali = ali;
     }
 
     public WeChat getWechat() {
