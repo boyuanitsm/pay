@@ -34,7 +34,7 @@ public class PayProperties {
     public static class Ali {
 
         private String partner;
-        private String sllerId;
+        private String sellerId;
         private String privateKey;
         private String publicKey;
         private String notifyUrl;
@@ -42,8 +42,6 @@ public class PayProperties {
         private String signType;
         private String logPath;
         private String inputCharset;
-        private String paymentType;
-        private String service;
         private String antiPhishingKey;
         private String exterInvokeIp;
 
@@ -55,12 +53,12 @@ public class PayProperties {
             this.partner = partner;
         }
 
-        public String getSllerId() {
-            return sllerId;
+        public String getSellerId() {
+            return sellerId;
         }
 
-        public void setSllerId(String sllerId) {
-            this.sllerId = sllerId;
+        public void setSellerId(String sellerId) {
+            this.sellerId = sellerId;
         }
 
         public String getPrivateKey() {
@@ -117,22 +115,6 @@ public class PayProperties {
 
         public void setInputCharset(String inputCharset) {
             this.inputCharset = inputCharset;
-        }
-
-        public String getPaymentType() {
-            return paymentType;
-        }
-
-        public void setPaymentType(String paymentType) {
-            this.paymentType = paymentType;
-        }
-
-        public String getService() {
-            return service;
-        }
-
-        public void setService(String service) {
-            this.service = service;
         }
 
         public String getAntiPhishingKey() {

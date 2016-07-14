@@ -22,7 +22,7 @@ ali:
     # 合作身份者ID，签约账号，以2088开头由16位纯数字组成的字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
     partner: 2088121145819891
     # 收款支付宝账号，以2088开头由16位纯数字组成的字符串，一般情况下收款账号就是签约账号
-    sllerId: 2088121145819891
+    sellerId: 2088121145819891
     # 商户的私钥,需要PKCS8格式
     # RSA公私钥生成：https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.nBDxfy&treeId=58&articleId=103242&docType=1
     privateKey: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAK7c15JTPdZvMlRyyru6Cd8X24aWxB1D1Kcy/2X2xfgFsYae61iCACf3DPMnyKBlSd2iNqDadfLAzItNqJ2bimp7S5BP60ojdpv1w42y4mOpBgE2xKjPm1k9ZBJ7SKW1TkRFf5jIT30wzfjskkL2pf/dQ1In3DYm3eF1kRD+69NNAgMBAAECgYBMFyFfNQXFl+GIyeLaSZweDh2itVxld6zDjPeCAR4oTSHw+Jpkiz1SJrjl3jv5P9oirYGkASwuFCNtwr9KxfI2ps/yzU1xnJQGszy+G3hBz0LNd73gFzp9BrdQuN87RCbrLjbkmebTaERqXCASq6rYBtBNNvdsJDfGPwo6ZBrkqQJBAOcz92TyH7qT6FRlXz5EYgH70bL87wmLdrLqdlq2QuKvn07cKbZClg4NJAyfJJQxMugKzk6w8XukJlAe58FRx2MCQQDBnfcggjcMf+13JWZzaTq7MjctEgBJEGc+L+72nV9Ty0PXpl71gmWy2afcP1MQDb/2a7NOYdZPvB+pOI2dtrGPAkB+S8zgv8LFUPag459bjE9ddgnfFHwfYqe8pIdylg2Ddxw3H91JSqZdlqASpPx+V0HPr9dy9QV03P5w1fETkXCxAkAz/jaBzVX5DlV3fFyhu21hHaABg2b+N+Bxq6+RHDugJeKHA49WgHjM6XQRShQFKJwXEV7qOo2xhcQ+zggBhTDzAkEAl2j5j8BXRzlEG4gpKOVFst2nD5dXO2IooIoeXrRWsDJSwPxmy9qKhST2ouKXPDkqfwnZlcOd+76985Xy+i+ing==
@@ -38,10 +38,6 @@ ali:
     logPath: /Users/zhanghua
     # 字符编码格式 目前支持 gbk 或 utf-8
     inputCharset: utf-8
-    # 支付类型 ，无需修改
-    paymentType: 1
-    # 调用的接口名，无需修改
-    service: create_direct_pay_by_user
     # ⬇️请在这里配置防钓鱼信息，如果没开通防钓鱼功能，为空即可
     # 防钓鱼时间戳  若要使用请调用类文件submit中的query_timestamp函数
     antiPhishingKey:
