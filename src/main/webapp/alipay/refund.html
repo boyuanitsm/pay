@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>支付宝即时到账交易接口</title>
+    <title>支付宝即时到账批量退款有密接口</title>
 </head>
 
 <style>
@@ -13,6 +13,7 @@
         padding:0;
         margin:0;
         font-family:"微软雅黑";
+        background-color:#242736
     }
     .header {
         width:100%;
@@ -151,7 +152,7 @@
     .alipayform {
         width:800px;
         margin:0 auto;
-        height:600px;
+        height:500px;
         border:1px solid #0ae
     }
     .element {
@@ -259,44 +260,35 @@
         </div>
     </div>
     <div class="container blue">
-        <div class="title">支付宝即时到账(create_direct_pay_by_user)</div>
+        <div class="title">即时到账批量退款有密接口(refund_fastpay_by_platform_pwd)</div>
     </div>
 </div>
 <div class="content">
-    <p align="center">
-        <a href="refund.html">即时到账批量退款有密接口(refund_fastpay_by_platform_pwd)</a>
-    </p>
-    <form action="/api/alipay/pay" class="alipayform" method="POST" target="_blank">
+    <form action="alipayapi.jsp" class="alipayform" method="POST" target="_blank">
         <div class="element" style="margin-top:60px;">
-            <div class="legend">支付宝即时到账交易接口快速通道 </div>
+            <div class="legend">支付宝即时到账批量退款有密接口快速通道 </div>
         </div>
         <div class="element">
-            <div class="etitle">商户订单号:</div>
-            <div class="einput"><input type="text" name="WIDout_trade_no" id="out_trade_no"></div>
+            <div class="etitle">退款批次号:</div>
+            <div class="einput"><input type="text" name="WIDbatch_no" id="batch_no"></div>
             <br>
-            <div class="mark">注意：商户订单号(out_trade_no).必填(建议是英文字母和数字,不能含有特殊字符)</div>
+            <div class="mark">注意：退款批次号(batch_no)，必填(时间格式是yyyyMMddHHmmss+数字或者字母)</div>
         </div>
 
         <div class="element">
-            <div class="etitle">商品名称:</div>
-            <div class="einput"><input type="text" name="WIDsubject" value="test商品123"></div>
+            <div class="etitle">退款笔数:</div>
+            <div class="einput"><input type="text" name="WIDbatch_num" ></div>
             <br>
-            <div class="mark">注意：产品名称(subject)，必填(建议中文，英文，数字，不能含有特殊字符)</div>
+            <div class="mark">注意：退款笔数(batch_num)，必填(值为您退款的笔数,取值1~1000间的整数)</div>
         </div>
         <div class="element">
-            <div class="etitle">付款金额:</div>
-            <div class="einput"><input type="text" name="WIDtotal_fee" value="0.01"></div>
+            <div class="etitle">退款详细数据:</div>
+            <div class="einput"><input type="text" name="WIDdetail_data"></div>
             <br>
-            <div class="mark">注意：付款金额(total_fee)，必填(格式如：1.00,请精确到分)</div>
+            <div class="mark">注意：退款详细数据(WIDdetail_data)，必填(支付宝交易号^退款金额^备注)多笔请用#隔开</div>
         </div>
         <div class="element">
-            <div class="etitle">商品描述:</div>
-            <div class="einput"><input type="text" name="WIDbody" value="即时到账测试"></div>
-            <br>
-            <div class="mark">注意：商品描述(body)，选填(建议中文，英文，数字，不能含有特殊字符)</div>
-        </div>
-        <div class="element">
-            <input type="submit" class="alisubmit" value ="确认支付">
+            <input type="submit" class="alisubmit" value ="确认">
         </div>
     </form>
 </div>
@@ -318,7 +310,6 @@
 </div>
 </body>
 <script>
-
     var even = document.getElementById("licode");
     var showqrs = document.getElementById("showqrs");
     even.onmouseover = function(){
@@ -327,30 +318,5 @@
     even.onmouseleave = function(){
         showqrs.style.display = "none";
     }
-
-    var out_trade_no = document.getElementById("out_trade_no");
-
-    //设定时间格式化函数
-    Date.prototype.format = function (format) {
-        var args = {
-            "M+": this.getMonth() + 1,
-            "d+": this.getDate(),
-            "h+": this.getHours(),
-            "m+": this.getMinutes(),
-            "s+": this.getSeconds(),
-        };
-        if (/(y+)/.test(format))
-            format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-        for (var i in args) {
-            var n = args[i];
-            if (new RegExp("(" + i + ")").test(format))
-                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? n : ("00" + n).substr(("" + n).length));
-        }
-        return format;
-    };
-
-    out_trade_no.value = 'test'+ new Date().format("yyyyMMddhhmmss");
-
 </script>
-
 </html>
