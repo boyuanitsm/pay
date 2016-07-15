@@ -41,7 +41,7 @@ public class AlipayResource {
 
     @RequestMapping(value = "sync_return", method = RequestMethod.GET)
     public String syncreturn(SyncReturn ayncReturn) {
-        log.info("Alipay aync notify: {}", ayncReturn);
+        log.info("Alipay sync return: {}", ayncReturn);
         return ayncReturn.toString();
     }
 }

@@ -29,9 +29,9 @@ ali:
     # 支付宝的公钥,查看地址：https://b.alipay.com/order/pidAndKey.htm
     publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCu3NeSUz3WbzJUcsq7ugnfF9uGlsQdQ9SnMv9l9sX4BbGGnutYggAn9wzzJ8igZUndojag2nXywMyLTaidm4pqe0uQT+tKI3ab9cONsuJjqQYBNsSoz5tZPWQSe0iltU5ERX+YyE99MM347JJC9qX/3UNSJ9w2Jt3hdZEQ/uvTTQIDAQAB
     # 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    notifyUrl: http://商户网址/create_direct_pay_by_user-JAVA-UTF-8/notify_url.jsp
+    notifyUrl: http://180.167.77.58:30003/api/alipay/aync_notify
     # 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    returnUrl: http://商户网址/create_direct_pay_by_user-JAVA-UTF-8/return_url.jsp
+    returnUrl: http://180.167.77.58:30003/api/alipay/sync_return
     # 签名方式
     signType: RSA
     # 调试用，创建TXT日志文件夹路径，见AlipayCore.java类中的logResult(String sWord)打印方法。
