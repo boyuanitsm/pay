@@ -16,7 +16,6 @@ import org.springframework.context.annotation.ComponentScan;
 public class PayTest implements EmbeddedServletContainerCustomizer {
 
     public static void main(String[] args) throws Exception {
-        System.out.println(PayProperties.getInstance().getWechat().getAppid());
         SpringApplication.run(PayTest.class, args);
     }
 
