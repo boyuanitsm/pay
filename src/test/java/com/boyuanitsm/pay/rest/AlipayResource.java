@@ -1,10 +1,13 @@
 package com.boyuanitsm.pay.rest;
 
+import com.boyuanitsm.pay.alipay.bean.SyncReturn;
+import com.boyuanitsm.pay.alipay.bean.AyncNotify;
 import com.boyuanitsm.pay.alipay.util.AlipaySubmit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,5 +30,18 @@ public class AlipayResource {
         String sHtmlText = AlipaySubmit.buildRequest(WIDout_trade_no, WIDsubject, WIDtotal_fee, WIDbody);
         response.setHeader("Content-Type", "text/html;charset=UTF-8");
         response.getWriter().println(sHtmlText);
+    }
+
+    @RequestMapping(value = "aync_notify", method = RequestMethod.POST)
+    @ResponseBody
+    public String ayncnotify(AyncNotify ayncNotify) {
+        log.info("Alipay aync notify: {}", ayncNotify);
+        return "success";
+    }
+
+    @RequestMapping(value = "sync_return", method = RequestMethod.GET)
+    public String syncreturn(SyncReturn ayncReturn) {
+        log.info("Alipay aync notify: {}", ayncReturn);
+        return ayncReturn.toString();
     }
 }
