@@ -26,8 +26,14 @@ public class AlipayResource {
 
     @RequestMapping(value = "pay", method = RequestMethod.POST)
     public void pay(String WIDout_trade_no, String WIDsubject, String WIDtotal_fee, String WIDbody, HttpServletResponse response) throws IOException {
-        //建立请求
         String sHtmlText = AlipaySubmit.buildRequest(WIDout_trade_no, WIDsubject, WIDtotal_fee, WIDbody);
+        response.setHeader("Content-Type", "text/html;charset=UTF-8");
+        response.getWriter().println(sHtmlText);
+    }
+
+    @RequestMapping(value = "refund", method = RequestMethod.POST)
+    public void refund(String WIDbatch_no, String WIDbatch_num, String WIDdetail_data, HttpServletResponse response) throws IOException {
+        String sHtmlText = AlipaySubmit.buildRequest(WIDbatch_no, WIDbatch_num, WIDdetail_data);
         response.setHeader("Content-Type", "text/html;charset=UTF-8");
         response.getWriter().println(sHtmlText);
     }

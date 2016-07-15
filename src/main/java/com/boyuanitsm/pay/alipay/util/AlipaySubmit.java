@@ -99,7 +99,7 @@ public class AlipaySubmit {
 
 
     /**
-     * 建立请求, 以表单HTML形式构造（默认）以POST方式提交表单
+     * 建立支付宝即时到账(create_direct_pay_by_user)请求, 以表单HTML形式构造（默认）以POST方式提交表单
      *
      * @param outTradeNo 商户订单号
      * @param subject 商品名称
@@ -110,7 +110,7 @@ public class AlipaySubmit {
     public static String buildRequest(String outTradeNo, String subject, String totalFee, String body) {
         //把请求参数打包成MAP
         Map<String, String> sParaTemp = new HashMap<>();
-        sParaTemp.put("service", AlipayConfig.service);
+        sParaTemp.put("service", AlipayConfig.create_direct_pay_by_user);
         sParaTemp.put("partner", AlipayConfig.partner);
         sParaTemp.put("seller_id", AlipayConfig.seller_id);
         sParaTemp.put("_input_charset", AlipayConfig.input_charset);
@@ -125,7 +125,30 @@ public class AlipaySubmit {
         sParaTemp.put("body", body);
 
         //建立请求
-        return AlipaySubmit.buildRequest(sParaTemp,"post","确认");
+        return AlipaySubmit.buildRequest(sParaTemp, "post", "确认");
+    }
+
+    /**
+     * 建立即时到账批量退款有密接口(refund_fastpay_by_platform_pwd)请求, 以表单HTML形式构造（默认）以POST方式提交表单
+     *
+     * @param batchNo 退款批次号
+     * @param batchNum 退款笔数
+     * @param detailData 退款详细数据
+     * @return 提交表单HTML文本
+     */
+    public static String buildRequest(String batchNo, String batchNum, String detailData) {
+        Map<String, String> sParaTemp = new HashMap<>();
+        sParaTemp.put("service", AlipayConfig.refund_fastpay_by_platform_pwd);
+        sParaTemp.put("partner", AlipayConfig.partner);
+        sParaTemp.put("_input_charset", AlipayConfig.input_charset);
+        sParaTemp.put("notify_url", AlipayConfig.notify_url);
+        sParaTemp.put("seller_user_id", AlipayConfig.seller_id);
+        sParaTemp.put("refund_date", UtilDate.getDateFormatter());
+        sParaTemp.put("batch_no", batchNo);
+        sParaTemp.put("batch_num", batchNum);
+        sParaTemp.put("detail_data", detailData);
+
+        return AlipaySubmit.buildRequest(sParaTemp, "post", "确认");
     }
     
  
