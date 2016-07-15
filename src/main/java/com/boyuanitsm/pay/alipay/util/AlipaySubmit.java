@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,6 +95,37 @@ public class AlipaySubmit {
         sbHtml.append("<script>document.forms['alipaysubmit'].submit();</script>");
 
         return sbHtml.toString();
+    }
+
+
+    /**
+     * 建立请求, 以表单HTML形式构造（默认）以POST方式提交表单
+     *
+     * @param outTradeNo 商户订单号
+     * @param subject 商品名称
+     * @param totalFee 付款金额
+     * @param body 商品描述
+     * @return 提交表单HTML文本
+     */
+    public static String buildRequest(String outTradeNo, String subject, String totalFee, String body) {
+        //把请求参数打包成MAP
+        Map<String, String> sParaTemp = new HashMap<>();
+        sParaTemp.put("service", AlipayConfig.service);
+        sParaTemp.put("partner", AlipayConfig.partner);
+        sParaTemp.put("seller_id", AlipayConfig.seller_id);
+        sParaTemp.put("_input_charset", AlipayConfig.input_charset);
+        sParaTemp.put("payment_type", AlipayConfig.payment_type);
+        sParaTemp.put("notify_url", AlipayConfig.notify_url);
+        sParaTemp.put("return_url", AlipayConfig.return_url);
+        sParaTemp.put("anti_phishing_key", AlipayConfig.anti_phishing_key);
+        sParaTemp.put("exter_invoke_ip", AlipayConfig.exter_invoke_ip);
+        sParaTemp.put("out_trade_no", outTradeNo);
+        sParaTemp.put("subject", subject);
+        sParaTemp.put("total_fee", totalFee);
+        sParaTemp.put("body", body);
+
+        //建立请求
+        return AlipaySubmit.buildRequest(sParaTemp,"post","确认");
     }
     
  
