@@ -9,4 +9,4 @@ build_test:
     except:
         - develop
     tags:
-        - fort
+        - java
