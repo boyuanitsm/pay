@@ -1,0 +1,12 @@
+before_script:
+    - java -version
+
+build_test:
+    script:
+        - ./gradlew build
+    stage: test
+
+    except:
+        - develop
+    tags:
+        - fort
