@@ -135,3 +135,25 @@ public void refund(String WIDbatch_no, String WIDbatch_num, String WIDdetail_dat
     response.getWriter().println(sHtmlText);
 }
 ```
+
+### 移动支付
+
+> [https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.9OdILg&treeId=59&articleId=103563&docType=1](https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.9OdILg&treeId=59&articleId=103563&docType=1)
+
+#### 签名
+
+```java
+/**
+ * 移动支付 签名机制
+ *
+ * @param outTradeNO 商户网站唯一订单号
+ * @param subject 商品名称
+ * @param totalFee total_fee
+ * @return orderStr 主要包含商户的订单信息，key=“value”形式，以&连接。
+ * @throws UnsupportedEncodingException
+ */
+@RequestMapping(value = "mobile_payment_sign", method = RequestMethod.GET)
+public String mobilePaymentSign(String outTradeNO, String subject, String totalFee) throws UnsupportedEncodingException {
+    return AlipayMobilePaymentSign.pay(outTradeNO, subject, totalFee);
+}
+```
