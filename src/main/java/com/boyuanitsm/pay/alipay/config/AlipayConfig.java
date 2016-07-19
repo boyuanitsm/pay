@@ -50,6 +50,7 @@ public class AlipayConfig {
 	// 调用的接口名，无需修改
 	public static String create_direct_pay_by_user = "create_direct_pay_by_user";
 	public static String refund_fastpay_by_platform_pwd = "refund_fastpay_by_platform_pwd";
+	public static String mobile_securitypay_pay = "mobile.securitypay.pay";
 
 
 //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑

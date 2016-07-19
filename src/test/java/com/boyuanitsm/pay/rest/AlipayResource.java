@@ -2,6 +2,7 @@ package com.boyuanitsm.pay.rest;
 
 import com.boyuanitsm.pay.alipay.bean.SyncReturn;
 import com.boyuanitsm.pay.alipay.bean.AyncNotify;
+import com.boyuanitsm.pay.alipay.util.AlipayMobilePaymentSign;
 import com.boyuanitsm.pay.alipay.util.AlipayNotify;
 import com.boyuanitsm.pay.alipay.util.AlipaySubmit;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Rest controller Alipay Resource
@@ -130,5 +132,19 @@ public class AlipayResource {
             //该页面可做页面美工编辑
             return "验证支付宝签名失败";
         }
+    }
+
+    /**
+     * 移动支付 签名机制
+     *
+     * @param outTradeNO 商户网站唯一订单号
+     * @param subject 商品名称
+     * @param totalFee total_fee
+     * @return orderStr 主要包含商户的订单信息，key=“value”形式，以&连接。
+     * @throws UnsupportedEncodingException
+     */
+    @RequestMapping(value = "mobile_payment_sign", method = RequestMethod.GET)
+    public String mobilePaymentSign(String outTradeNO, String subject, String totalFee) throws UnsupportedEncodingException {
+        return AlipayMobilePaymentSign.pay(outTradeNO, subject, totalFee);
     }
 }
