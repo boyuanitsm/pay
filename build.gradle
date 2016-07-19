@@ -1,5 +1,6 @@
 group 'com.boyuanitsm'
-version '1.0-SNAPSHOT'
+// version '1.0-SNAPSHOT'
+version '1.0.0'
 description 'Payment set and refactoring.'
 
 apply plugin: 'java'
@@ -22,14 +23,19 @@ dependencies {
     compile "org.slf4j:slf4j-api:1.7.21"
     compile "org.apache.httpcomponents:httpclient:4.5.2"
     compile "com.thoughtworks.xstream:xstream:1.4.7"
-    // https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient
     compile group: 'commons-httpclient', name: 'commons-httpclient', version: '3.0.1'
-// https://mvnrepository.com/artifact/commons-codec/commons-codec
     compile group: 'commons-codec', name: 'commons-codec', version: '1.6'
-// https://mvnrepository.com/artifact/commons-logging/commons-logging
     compile group: 'commons-logging', name: 'commons-logging', version: '1.1.1'
-// https://mvnrepository.com/artifact/dom4j/dom4j
     compile group: 'dom4j', name: 'dom4j', version: '1.6.1'
-// https://mvnrepository.com/artifact/jaxen/jaxen
     compile group: 'jaxen', name: 'jaxen', version: '1.1.1'
+}
+
+// build source jar
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
 }
