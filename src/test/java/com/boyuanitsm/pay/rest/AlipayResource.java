@@ -26,6 +26,16 @@ public class AlipayResource {
 
     private static Logger log = LoggerFactory.getLogger(AlipayResource.class);
 
+    /**
+     * 支付宝即时到账交易接口快速通道
+     *
+     * @param WIDout_trade_no 商户订单号
+     * @param WIDsubject 商品名称
+     * @param WIDtotal_fee 付款金额
+     * @param WIDbody 商品描述
+     * @param response
+     * @throws IOException
+     */
     @RequestMapping(value = "pay", method = RequestMethod.POST)
     public void pay(String WIDout_trade_no, String WIDsubject, String WIDtotal_fee, String WIDbody, HttpServletResponse response) throws IOException {
         String sHtmlText = AlipaySubmit.buildRequest(WIDout_trade_no, WIDsubject, WIDtotal_fee, WIDbody);
@@ -33,6 +43,15 @@ public class AlipayResource {
         response.getWriter().println(sHtmlText);
     }
 
+    /**
+     * 支付宝即时到账批量退款有密接口快速通道
+     *
+     * @param WIDbatch_no 退款批次号
+     * @param WIDbatch_num 退款笔数
+     * @param WIDdetail_data 退款详细数据
+     * @param response
+     * @throws IOException
+     */
     @RequestMapping(value = "refund", method = RequestMethod.POST)
     public void refund(String WIDbatch_no, String WIDbatch_num, String WIDdetail_data, HttpServletResponse response) throws IOException {
         String sHtmlText = AlipaySubmit.buildRequest(WIDbatch_no, WIDbatch_num, WIDdetail_data);

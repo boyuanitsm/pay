@@ -21,6 +21,7 @@ compile "com.boyuanitsm:pay:${pay.version}"
 ### API
 
 - [Wepay](docs/wepay/wepay.md)
+- [Alipay](docs/alipay/alipay.md)
 
 
 
