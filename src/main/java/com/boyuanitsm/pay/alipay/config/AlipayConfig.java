@@ -27,7 +27,7 @@ public class AlipayConfig {
 	public static String private_key = PayProperties.getInstance().getAli().getPrivateKey();
 	
 	// 支付宝的公钥,查看地址：https://b.alipay.com/order/pidAndKey.htm
-	public static String alipay_public_key  = PayProperties.getInstance().getAli().getPublicKey();
+	public static String alipay_public_key  = PayProperties.getInstance().getAli().getAlipayPublicKey();
 
 	// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
 	public static String notify_url = PayProperties.getInstance().getAli().getNotifyUrl();

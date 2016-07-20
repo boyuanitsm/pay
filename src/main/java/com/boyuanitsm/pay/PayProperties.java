@@ -36,7 +36,7 @@ public class PayProperties {
         private String partner;
         private String sellerId;
         private String privateKey;
-        private String publicKey;
+        private String alipayPublicKey;
         private String notifyUrl;
         private String returnUrl;
         private String signType;
@@ -69,12 +69,12 @@ public class PayProperties {
             this.privateKey = privateKey;
         }
 
-        public String getPublicKey() {
-            return publicKey;
+        public String getAlipayPublicKey() {
+            return alipayPublicKey;
         }
 
-        public void setPublicKey(String publicKey) {
-            this.publicKey = publicKey;
+        public void setAlipayPublicKey(String alipayPublicKey) {
+            this.alipayPublicKey = alipayPublicKey;
         }
 
         public String getNotifyUrl() {
