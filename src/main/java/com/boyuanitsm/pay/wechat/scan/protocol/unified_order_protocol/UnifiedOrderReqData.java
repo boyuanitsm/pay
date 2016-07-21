@@ -2,6 +2,7 @@ package com.boyuanitsm.pay.wechat.scan.protocol.unified_order_protocol;
 
 import com.boyuanitsm.pay.wechat.scan.common.Configure;
 import com.boyuanitsm.pay.wechat.scan.common.RandomStringGenerator;
+import com.boyuanitsm.pay.wechat.scan.common.Signature;
 
 /**
  * 统一下单, 请求参数。应用场景: 除被扫支付场景以外，商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付交易回话标识后再按扫码、JSAPI、APP等不同场景生成交易串调起支付。
@@ -22,7 +23,7 @@ public class UnifiedOrderReqData {
     private String attach;
     private String out_trade_no;
     private String fee_type;
-    private int total_dee;
+    private int total_fee;
     private String spbill_create_ip;
     private String time_start;
     private String time_expire;
@@ -38,22 +39,23 @@ public class UnifiedOrderReqData {
      *
      * @param body 商品描述
      * @param out_trade_no 商户订单号
-     * @param total_dee 总金额, 单位为分
+     * @param total_fee 总金额, 单位为分
      * @param notify_url 通知地址
      * @param product_id 商品ID
      */
-    public UnifiedOrderReqData(String body, String out_trade_no, int total_dee, String notify_url, String product_id) {
+    public UnifiedOrderReqData(String body, String out_trade_no, int total_fee, String notify_url, String product_id) throws IllegalAccessException {
         this.appid = Configure.getAppid();
-        this.mch_id = Configure.getMchid();
+        this.mch_id = "1281492501";
         this.device_info = "WEB";
         this.nonce_str = RandomStringGenerator.getRandomStringByLength(Configure.NONCE_STR_LENGTH);
         this.body = body;
         this.out_trade_no = out_trade_no;
-        this.total_dee = total_dee;
+        this.total_fee = total_fee;
         this.spbill_create_ip = Configure.getIP();
         this.notify_url = notify_url;
         this.trade_type = "NATIVE";
         this.product_id = product_id;
+        this.sign = Signature.getSign(this);
     }
 
     public String getAppid() {
@@ -136,12 +138,12 @@ public class UnifiedOrderReqData {
         this.fee_type = fee_type;
     }
 
-    public int getTotal_dee() {
-        return total_dee;
+    public int getTotal_fee() {
+        return total_fee;
     }
 
-    public void setTotal_dee(int total_dee) {
-        this.total_dee = total_dee;
+    public void setTotal_fee(int total_fee) {
+        this.total_fee = total_fee;
     }
 
     public String getSpbill_create_ip() {
@@ -214,5 +216,31 @@ public class UnifiedOrderReqData {
 
     public void setOpenid(String openid) {
         this.openid = openid;
+    }
+
+    @Override
+    public String toString() {
+        return "UnifiedOrderReqData{" +
+                "appid='" + appid + '\'' +
+                ", mch_id='" + mch_id + '\'' +
+                ", device_info='" + device_info + '\'' +
+                ", nonce_str='" + nonce_str + '\'' +
+                ", sign='" + sign + '\'' +
+                ", body='" + body + '\'' +
+                ", detail='" + detail + '\'' +
+                ", attach='" + attach + '\'' +
+                ", out_trade_no='" + out_trade_no + '\'' +
+                ", fee_type='" + fee_type + '\'' +
+                ", total_fee=" + total_fee +
+                ", spbill_create_ip='" + spbill_create_ip + '\'' +
+                ", time_start='" + time_start + '\'' +
+                ", time_expire='" + time_expire + '\'' +
+                ", goods_tag='" + goods_tag + '\'' +
+                ", notify_url='" + notify_url + '\'' +
+                ", trade_type='" + trade_type + '\'' +
+                ", product_id='" + product_id + '\'' +
+                ", limit_pay='" + limit_pay + '\'' +
+                ", openid='" + openid + '\'' +
+                '}';
     }
 }

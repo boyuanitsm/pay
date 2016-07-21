@@ -93,10 +93,10 @@ public class XMLParser {
 
     }
 
-    public static String getXMLFromMap(Map<String, Object> map) {
+    public static String getXMLFromObject(Object obj) {
         //解决XStream对出现双下划线的bug
         XStream xStream = new XStream(new DomDriver("UTF-8", new XmlFriendlyNameCoder("-_", "_")));
         //将要提交给API的数据对象转换成XML格式数据Post给API
-        return xStream.toXML(map);
+        return xStream.toXML(obj);
     }
 }

@@ -120,8 +120,10 @@ public class Util {
         map.put("nonce_str", RandomStringGenerator.getRandomStringByLength(Configure.NONCE_STR_LENGTH));
         map.put("product_id", product_id);
         String sign = Signature.getSign(map);
-        map.put("sign", sign);
-        return String.format("%s?%s", Configure.QRCODE_API, param(map));
+        // map.put("sign", sign);
+        String url = String.format("%s?%s", Configure.QRCODE_API, param(map));
+        url += "&sign=" + sign;
+        return url;
     }
 
     /**

@@ -21,6 +21,6 @@ public class PayTest implements EmbeddedServletContainerCustomizer {
 
     @Override
     public void customize(ConfigurableEmbeddedServletContainer configurableEmbeddedServletContainer) {
-        configurableEmbeddedServletContainer.setPort(9002);
+        configurableEmbeddedServletContainer.setPort(9001);
     }
 }

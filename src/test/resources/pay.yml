@@ -3,20 +3,20 @@ wechat:
     # 这个就是自己要保管好的私有Key了（切记只能放在自己的后台代码里，不能放在任何可能被看到源代码的客户端程序中）
     # 每次自己Post数据给API的时候都要用这个key来对所有字段进行签名，生成的签名会放在Sign这个字段，API收到Post数据的时候也会用同样的签名算法对Post过来的数据进行签名和验证
     # 收到API的返回的时候也要用这个key来对返回的数据算下签名，跟API的Sign数据进行比较，如果值不一致，有可能数据被第三方给篡改
-    key: 192006250b4c09247ec02edce69f6a2d
+    key: F19436EC27A84B01CA7D5B5531DAA26A
     # 微信分配的公众号ID（开通公众号之后可以获取到）
-    appid: wxd930ea5d5a258f4f
-    # 微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
-    mchid: 10000100
+    appid: wxa259843dd2f9e29c
+    # 微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）查看地址: https://pay.weixin.qq.com/index.php/core/account/info
+    mchid: 1281492501
     # 受理模式下给子商户分配的子商户号
-    submchid:
+    submchid: 1281492501
     # HTTPS证书的本地路径
-    certLocalPath:
+    certLocalPath: /Users/zhanghua/Downloads/cert/apiclient_cert.p12
     # HTTPS证书密码，默认密码等于商户号MCHID
-    certPassword:
+    certPassword: 1281492501
     # 是否使用异步线程的方式来上报API测速，默认为异步模式
     useThreadToDoReport: true
-    ip: localhost
+    ip: 123.12.12.123
 # Alipay
 ali:
     # 合作身份者ID，签约账号，以2088开头由16位纯数字组成的字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
@@ -25,7 +25,7 @@ ali:
     sellerId: 2088121145819891
     # 商户的私钥,需要PKCS8格式
     # RSA公私钥生成：https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.nBDxfy&treeId=58&articleId=103242&docType=1
-    privateKey: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAK7c15JTPdZvMlRyyru6Cd8X24aWxB1D1Kcy/2X2xfgFsYae61iCACf3DPMnyKBlSd2iNqDadfLAzItNqJ2bimp7S5BP60ojdpv1w42y4mOpBgE2xKjPm1k9ZBJ7SKW1TkRFf5jIT30wzfjskkL2pf/dQ1In3DYm3eF1kRD+69NNAgMBAAECgYBMFyFfNQXFl+GIyeLaSZweDh2itVxld6zDjPeCAR4oTSHw+Jpkiz1SJrjl3jv5P9oirYGkASwuFCNtwr9KxfI2ps/yzU1xnJQGszy+G3hBz0LNd73gFzp9BrdQuN87RCbrLjbkmebTaERqXCASq6rYBtBNNvdsJDfGPwo6ZBrkqQJBAOcz92TyH7qT6FRlXz5EYgH70bL87wmLdrLqdlq2QuKvn07cKbZClg4NJAyfJJQxMugKzk6w8XukJlAe58FRx2MCQQDBnfcggjcMf+13JWZzaTq7MjctEgBJEGc+L+72nV9Ty0PXpl71gmWy2afcP1MQDb/2a7NOYdZPvB+pOI2dtrGPAkB+S8zgv8LFUPag459bjE9ddgnfFHwfYqe8pIdylg2Ddxw3H91JSqZdlqASpPx+V0HPr9dy9QV03P5w1fETkXCxAkAz/jaBzVX5DlV3fFyhu21hHaABg2b+N+Bxq6+RHDugJeKHA49WgHjM6XQRShQFKJwXEV7qOo2xhcQ+zggBhTDzAkEAl2j5j8BXRzlEG4gpKOVFst2nD5dXO2IooIoeXrRWsDJSwPxmy9qKhST2ouKXPDkqfwnZlcOd+76985Xy+i+ing==
+    privateKey: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBANzRqp1ZKcQ30aJm+PkTwte+FovXWD1aqzC4h4kluZ/z9irjjeMWJJnxlNkW9ujfNfNqqtVpfF6C2kZiuwwi1iGAc7u6biwHEHnwLAbMZ4FZj+hHT7Gf0HSBifdjTBW9ccxaqlLfm/8DyXDUHnz8atA/QYbdlyR2UK4a5iY3pxcvAgMBAAECgYBZSCTVzfFHNtJ5+Wx9OPI0zNTM4dr5o6lH37RdTXWKKNfFa5A42wEdhUILrG9UpLtpmh1MgIQaqoman9zFAWjWDpCKJIXl1YMr8cJMz4vmsR3GY3N0cxprf4cgmwpfGqSKXAebG3qex3nv/RQLiCeHYw5Qs0Q+wROw1DlyAL28AQJBAPHembv4YcQbhqDobzLzU8HOVDErLwEzB8gOhsa7g7yckBPsYopEyBzTjVmABPM396AU5pkmp/GvKcox02HiaQECQQDpuDwCv89eSb3WCLsxQvZNV4EZqSh+0k3FVwkZ0jnOj1tNY52kpETaFcGPBeAfbaD32MoQuVmq2JEWirh8xdAvAkEAjHAI6bjV441sBWAQuQ/KMT0Ba688UsDzori0jw3v9wMdMURPDyPS4dIAP9hyh1qW4I9iOcjVOSLQ7AM0TqCtAQJBAJ3aD7XvpHfTKELxvLRFvKJ58jjJlg8prNsWsI/e+6n2Cr1XBXbYd6Qvw338guXXHjunELqA5P3NrRhjcrzawYMCQG32GAF1J5iaNuuGHOie08UyPYWo9NdJzpv4zatXPQzaZJ9J7ST93ib4OMy6fHxZ5fWya83/vJZyRbk7d/xioaw=
     # 支付宝的公钥,查看地址：https://b.alipay.com/order/pidAndKey.htm
     alipayPublicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB
     # 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
