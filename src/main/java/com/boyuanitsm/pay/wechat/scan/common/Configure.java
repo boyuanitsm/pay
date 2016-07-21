@@ -38,6 +38,8 @@ public class Configure {
 
 	public static String QRCODE_API = "weixin://wxpay/bizpayurl";
 
+	public static String NOTIFY_URL = PayProperties.getInstance().getWechat().getNotifyUrl();
+
 	/**
 	 * 随机字符串长度
 	 */

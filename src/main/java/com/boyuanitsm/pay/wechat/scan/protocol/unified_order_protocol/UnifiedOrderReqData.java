@@ -1,5 +1,6 @@
 package com.boyuanitsm.pay.wechat.scan.protocol.unified_order_protocol;
 
+import com.boyuanitsm.pay.wechat.scan.bean.SimpleOrder;
 import com.boyuanitsm.pay.wechat.scan.common.Configure;
 import com.boyuanitsm.pay.wechat.scan.common.RandomStringGenerator;
 import com.boyuanitsm.pay.wechat.scan.common.Signature;
@@ -40,22 +41,33 @@ public class UnifiedOrderReqData {
      * @param body 商品描述
      * @param out_trade_no 商户订单号
      * @param total_fee 总金额, 单位为分
-     * @param notify_url 通知地址
      * @param product_id 商品ID
      */
-    public UnifiedOrderReqData(String body, String out_trade_no, int total_fee, String notify_url, String product_id) throws IllegalAccessException {
+    public UnifiedOrderReqData(String body, String out_trade_no, int total_fee, String product_id) throws IllegalAccessException {
         this.appid = Configure.getAppid();
-        this.mch_id = "1281492501";
+        this.mch_id = Configure.getMchid();
         this.device_info = "WEB";
         this.nonce_str = RandomStringGenerator.getRandomStringByLength(Configure.NONCE_STR_LENGTH);
         this.body = body;
         this.out_trade_no = out_trade_no;
         this.total_fee = total_fee;
         this.spbill_create_ip = Configure.getIP();
-        this.notify_url = notify_url;
+        this.notify_url = Configure.NOTIFY_URL;
         this.trade_type = "NATIVE";
         this.product_id = product_id;
         this.sign = Signature.getSign(this);
+    }
+
+    /**
+     * 扫码支付 统一下单构造器, 只有必填字段
+     *
+     * @param simpleOrder
+     */
+    public UnifiedOrderReqData(SimpleOrder simpleOrder) throws IllegalAccessException {
+        this(simpleOrder.getBody(), simpleOrder.getTradeNo(), simpleOrder.getTotalFee(), simpleOrder.getProductId());
+    }
+
+    public UnifiedOrderReqData() {
     }
 
     public String getAppid() {

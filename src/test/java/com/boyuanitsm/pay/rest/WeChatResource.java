@@ -1,6 +1,7 @@
 package com.boyuanitsm.pay.rest;
 
 import com.boyuanitsm.pay.wechat.scan.bean.Result;
+import com.boyuanitsm.pay.wechat.scan.bean.SimpleOrder;
 import com.boyuanitsm.pay.wechat.scan.business.UnifiedOrderBusiness;
 import com.boyuanitsm.pay.wechat.scan.common.*;
 import com.boyuanitsm.pay.wechat.scan.protocol.unified_order_protocol.UnifiedOrderReqData;
@@ -38,105 +39,74 @@ public class WeChatResource {
 
     private static Logger log = LoggerFactory.getLogger(WeChatResource.class);
 
-    // ================== 扫码支付, 模式一 ===========================
-
     /**
-     * 构造微信支付的二维码
+     * 统一下单
+     * 除被扫支付场景以外，商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付交易回话标识后再按扫码、JSAPI、APP等不同场景生成交易串调起支付。
      *
-     * @param product_id 产品ID
-     * @param response http servlet response, auto inject
+     * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1">https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1</a>
      */
-    @RequestMapping(value = "qrcode", method = RequestMethod.GET)
-    public void qrcode(String product_id, HttpServletResponse response) throws IOException {
-        String qrcodeUrl = Util.buildQRcodeUrl(product_id);
-        log.debug("QRCode url is: {}", qrcodeUrl);
-        ByteArrayOutputStream stream = QRCode.from(qrcodeUrl).stream();
-        response.getOutputStream().write(stream.toByteArray());
-    }
-
-    /**
-     * 回调商户支付URL, 商户提供的支付回调URL（回调地址设置）需要实现以下功能：接收用户扫码后微信支付系统发送的数据，根据接收的数据生成支付订单，调用【统一下单API】提交支付交易。
-     *
-     * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4">https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4</a>
-     * @param request http request
-     * @return
-     * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     */
-    @RequestMapping(value = "pay_callback", method = RequestMethod.POST)
-    public String payCallback(HttpServletRequest request) throws Exception {
-        InputStream inputStream = request.getInputStream();
-        String responseString = IOUtils.toString(inputStream);
-        log.debug("Pay callback response string is: {}", responseString);
-        // 检查签名
-        boolean isSignValid = Signature.checkIsSignValidFromResponseString(responseString);
-        // 输出结果
-        Map<String, Object> result = new HashMap<>();
-
-        if (isSignValid) {
-            result.put("return_code", "SUCCESS");
-            result.put("appid", Configure.getAppid());
-            result.put("mch_id", Configure.getMchid());
-            result.put("nonce_str", RandomStringGenerator.getRandomStringByLength(Configure.NONCE_STR_LENGTH));
-            // 调用统一下单API
-            UnifiedOrderBusiness unifiedOrderBusiness = new UnifiedOrderBusiness();
-            UnifiedOrderResData resData = unifiedOrderBusiness.run(getUnifiedOrderReqDataTest(responseString));
-            log.info("预支付交易会话标识: {}", resData.getPrepay_id());
-            result.put("prepay_id", resData.getPrepay_id());
-            result.put("result_code", "SUCCESS");
-        } else {
-            result.put("return_code", "FAIL");
-            result.put("return_msg", "签名失败");
-        }
-
-        // 签名
-        result.put("sign", Signature.getSign(request));
-
-        String xml = XMLParser.getXMLFromObject(result);
-        log.debug("Pay callback return string is: {}", xml);
-        return xml;
-    }
-
     @RequestMapping(value = "unifiedorder", method = RequestMethod.GET)
-    public void unifiedorder(HttpServletResponse response) throws IllegalAccessException, ClassNotFoundException, InstantiationException, SAXException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyManagementException, KeyStoreException, ParserConfigurationException, IOException {
-        String notify_url = "http://180.167.77.58:30003/api/wechat/pay_result_callback";
+    public void unifiedorder(HttpServletResponse response) throws IOException {
         // 调用统一下单API
-        UnifiedOrderBusiness unifiedOrderBusiness = new UnifiedOrderBusiness();
-        int total_fee = 1;// 1分钱
-        UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData("WxPay Test", "wxtest" + System.currentTimeMillis(), total_fee, notify_url, "1"));
-        log.info(resData.toString());
-        String qrcodeUrl = resData.getCode_url();
-        log.debug("QRCode url is: {}", qrcodeUrl);
-        ByteArrayOutputStream stream = QRCode.from(qrcodeUrl).stream();
-        response.getOutputStream().write(stream.toByteArray());
+        UnifiedOrderBusiness unifiedOrderBusiness = null;
+        try {
+            unifiedOrderBusiness = new UnifiedOrderBusiness();
+            UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(getOrderById("1")));
+            log.debug("订单信息: {}", resData);
+            // 获得二维码URL
+            String qrcodeUrl = resData.getCode_url();
+            // 生成二维码字节数组输出流
+            ByteArrayOutputStream stream = QRCode.from(qrcodeUrl).stream();
+            // 输出
+            response.getOutputStream().write(stream.toByteArray());
+        } catch (Exception e) {
+            response.getWriter().println("ServerError");
+        }
     }
 
-    private UnifiedOrderReqData getUnifiedOrderReqDataTest(String responseString) throws IllegalAccessException {
-        Map<String, Object> map = new HashMap<>();
-        String product_id = String.valueOf(map.get("product_id"));
-        String notify_url = "http://180.167.77.58:30003/api/wechat/pay_result_callback";
-        int total_fee = 1;// 1分钱
-        return new UnifiedOrderReqData("WePayTest", "wxtest123456", total_fee, notify_url, product_id);
+    private SimpleOrder getOrderById(String productId) {
+        if (productId.equals("1")) {
+            return new SimpleOrder("WxPay Text", "wxtest" + System.currentTimeMillis(), 1, productId);
+        }
+        return null;
     }
-
 
     /**
      * 支付结果通用通知
+     * 支付完成后，微信会把相关支付结果和用户信息发送给商户，商户需要接收处理，并返回应答。
+     * 对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，微信会通过一定的策略定期重新发起通知，尽可能提高通知的成功率，但微信不保证通知最终能成功。 （通知频率为15/15/30/180/1800/1800/1800/1800/3600，单位：秒）
+     * 注意：同样的通知可能会多次发送给商户系统。商户系统必须能够正确处理重复的通知。
+     * 推荐的做法是，当收到通知进行处理时，首先检查对应业务数据的状态，判断该通知是否已经处理过，如果没有处理过再进行处理，如果处理过直接返回结果成功。在对业务数据进行状态检查和处理之前，要采用数据锁进行并发控制，以避免函数重入造成的数据混乱。
+     * 特别提醒：商户系统对于支付结果通知的内容一定要做签名验证，防止数据泄漏导致出现“假通知”，造成资金损失。
+     * 技术人员可登进微信商户后台扫描加入接口报警群。
      *
+     * @param request the http request
+     * @return success or fail
      * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7">https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7</a>
-     * @param request
-     * @return
      */
     @RequestMapping(value = "pay_result_callback", method = RequestMethod.POST)
     public String payResultCallback(HttpServletRequest request) throws IOException {
         String responseString = IOUtils.toString(request.getInputStream());
         log.debug("Pay result callback response string is: {}", responseString);
-        String xml = XMLParser.getXMLFromObject(new Result("SUCCESS", "OK"));
-        log.debug("Pay result callback return string is: {}", xml);
-        return xml;
+        try {
+            boolean isSign = Signature.checkIsSignValidFromResponseString(responseString);
+            if (isSign) {
+                // TODO 检查对应业务数据的状态，判断该通知是否已经处理过, 如果没有处理过再进行处理，如果处理过直接返回结果成功
+                boolean isDealWith = false;
+                if (isDealWith) {
+                    // TODO 处理支付成功的业务逻辑
+                } else {
+                    // 处理过直接返回结果成功
+                    return XMLParser.getXMLFromObject(new Result("SUCCESS", "OK"));
+                }
+            } else {
+                // 签名验证失败, "假通知"
+                log.warn("签名验证失败: {}", responseString);
+                return XMLParser.getXMLFromObject(new Result("FAIL", "Sign Fail"));
+            }
+        } catch (Exception e) {
+            return XMLParser.getXMLFromObject(new Result("FAIL", "Server Error"));
+        }
+        return XMLParser.getXMLFromObject(new Result("SUCCESS", "OK"));
     }
-
-    // ================== 扫码支付, 模式一 ===========================
-
 }
