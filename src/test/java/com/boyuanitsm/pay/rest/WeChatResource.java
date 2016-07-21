@@ -1,11 +1,12 @@
 package com.boyuanitsm.pay.rest;
 
-import com.boyuanitsm.pay.wechat.scan.bean.Result;
-import com.boyuanitsm.pay.wechat.scan.bean.SimpleOrder;
-import com.boyuanitsm.pay.wechat.scan.business.UnifiedOrderBusiness;
-import com.boyuanitsm.pay.wechat.scan.common.*;
-import com.boyuanitsm.pay.wechat.scan.protocol.unified_order_protocol.UnifiedOrderReqData;
-import com.boyuanitsm.pay.wechat.scan.protocol.unified_order_protocol.UnifiedOrderResData;
+import com.boyuanitsm.pay.wxpay.bean.Result;
+import com.boyuanitsm.pay.wxpay.bean.SimpleOrder;
+import com.boyuanitsm.pay.wxpay.business.UnifiedOrderBusiness;
+import com.boyuanitsm.pay.wxpay.common.Signature;
+import com.boyuanitsm.pay.wxpay.common.XMLParser;
+import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderReqData;
+import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderResData;
 import net.glxn.qrgen.javase.QRCode;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -13,20 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Rest controller WeChat Resource.
