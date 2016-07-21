@@ -106,9 +106,11 @@ public class WeChatResource {
 
     /**
      * 获得App 调起支付需要的请求参数
+     * APP端调起支付的参数列表
      *
      * @param productId 产品ID
      * @return
+     * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_12&index=2">https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_12&index=2</a>
      */
     @RequestMapping(value = "app_pay_params", method = RequestMethod.GET)
     public AppPayParams appPayParams(String productId) {
