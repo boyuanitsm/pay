@@ -1,5 +1,6 @@
 package com.boyuanitsm.pay.rest;
 
+import com.boyuanitsm.pay.wxpay.bean.AppPayParams;
 import com.boyuanitsm.pay.wxpay.bean.Result;
 import com.boyuanitsm.pay.wxpay.bean.SimpleOrder;
 import com.boyuanitsm.pay.wxpay.business.UnifiedOrderBusiness;
@@ -9,6 +10,7 @@ import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderReqD
 import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderResData;
 import net.glxn.qrgen.javase.QRCode;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.impl.cookie.PublicSuffixDomainFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,15 +37,16 @@ public class WeChatResource {
      * 统一下单
      * 除被扫支付场景以外，商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付交易回话标识后再按扫码、JSAPI、APP等不同场景生成交易串调起支付。
      *
+     * @param productId 产品ID
      * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1">https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1</a>
      */
     @RequestMapping(value = "unifiedorder", method = RequestMethod.GET)
-    public void unifiedorder(HttpServletResponse response) throws IOException {
+    public void unifiedorder(HttpServletResponse response, String productId) throws IOException {
         // 调用统一下单API
         UnifiedOrderBusiness unifiedOrderBusiness = null;
         try {
             unifiedOrderBusiness = new UnifiedOrderBusiness();
-            UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(getOrderById("1")));
+            UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(getOrderById(productId)));
             log.debug("订单信息: {}", resData);
             // 获得二维码URL
             String qrcodeUrl = resData.getCode_url();
@@ -57,10 +60,7 @@ public class WeChatResource {
     }
 
     private SimpleOrder getOrderById(String productId) {
-        if (productId.equals("1")) {
-            return new SimpleOrder("WxPay Text", "wxtest" + System.currentTimeMillis(), 1, productId);
-        }
-        return null;
+        return new SimpleOrder("WxPay Text", "wxtest" + System.currentTimeMillis(), 1, productId);
     }
 
     /**
@@ -87,6 +87,7 @@ public class WeChatResource {
                 boolean isDealWith = false;
                 if (isDealWith) {
                     // TODO 处理支付成功的业务逻辑
+                    UnifiedOrderReqData reqData = (UnifiedOrderReqData) XMLParser.getObjectFromXML(responseString, UnifiedOrderReqData.class);
                 } else {
                     // 处理过直接返回结果成功
                     return XMLParser.getXMLFromObject(new Result("SUCCESS", "OK"));
@@ -97,8 +98,32 @@ public class WeChatResource {
                 return XMLParser.getXMLFromObject(new Result("FAIL", "Sign Fail"));
             }
         } catch (Exception e) {
+            log.error("pay_result_callback error!", e);
             return XMLParser.getXMLFromObject(new Result("FAIL", "Server Error"));
         }
         return XMLParser.getXMLFromObject(new Result("SUCCESS", "OK"));
+    }
+
+    /**
+     * 获得App 调起支付需要的请求参数
+     *
+     * @param productId 产品ID
+     * @return
+     */
+    @RequestMapping(value = "app_pay_params", method = RequestMethod.GET)
+    public AppPayParams appPayParams(String productId) {
+        // 调用统一下单API
+        UnifiedOrderBusiness unifiedOrderBusiness = null;
+        try {
+            unifiedOrderBusiness = new UnifiedOrderBusiness();
+            UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(getOrderById(productId)));
+            log.debug("订单信息: {}", resData);
+            // 获得预支付交易会话ID
+            String prepay_id = resData.getPrepay_id();
+            return new AppPayParams(prepay_id);
+        } catch (Exception e) {
+            log.error("app_pay_params error!", e);
+            return null;
+        }
     }
 }

@@ -80,7 +80,7 @@ public class Configure {
 		Configure.useThreadToDoReport = useThreadToDoReport;
 	}
 
-	public static String HttpsRequestClassName = "HttpsRequest";
+	public static String HttpsRequestClassName = "com.boyuanitsm.pay.wxpay.common.HttpsRequest";
 
 	public static void setKey(String key) {
 		Configure.key = key;
