@@ -11,7 +11,7 @@ wechat:
     # 受理模式下给子商户分配的子商户号 如果没有就和mchid一样
     submchid: 1281492501
     # HTTPS证书的本地路径 https://pay.weixin.qq.com/index.php/core/cert/api_cert
-    certLocalPath: /Users/zhanghua/Downloads/cert/apiclient_cert.p12
+    certLocalPath: /Users/zhanghua/ssl/lllw/apiclient_cert.p12
     # HTTPS证书密码，默认密码等于商户号MCHID
     certPassword: 1281492501
     # 是否使用异步线程的方式来上报API测速，默认为异步模式

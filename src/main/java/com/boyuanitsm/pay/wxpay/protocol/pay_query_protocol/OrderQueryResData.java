@@ -5,7 +5,7 @@ package com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol;
  * Date: 2014/10/25
  * Time: 13:54
  */
-public class ScanPayQueryResData {
+public class OrderQueryResData {
 
     //协议层
     private String return_code = "";

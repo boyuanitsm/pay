@@ -8,8 +8,8 @@ import com.boyuanitsm.pay.wxpay.common.Signature;
 import com.boyuanitsm.pay.wxpay.common.Util;
 import com.boyuanitsm.pay.wxpay.common.report.service.ReportService;
 import com.boyuanitsm.pay.wxpay.protocol.pay_protocol.ScanPayResData;
-import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.ScanPayQueryReqData;
-import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.ScanPayQueryResData;
+import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryReqData;
+import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryResData;
 import com.boyuanitsm.pay.wxpay.protocol.reverse_protocol.ReverseReqData;
 import com.boyuanitsm.pay.wxpay.protocol.reverse_protocol.ReverseResData;
 import com.boyuanitsm.pay.wxpay.service.ReverseService;
@@ -254,26 +254,26 @@ public class ScanPayBusiness {
 
         String payQueryServiceResponseString;
 
-        ScanPayQueryReqData scanPayQueryReqData = new ScanPayQueryReqData("",outTradeNo);
-        payQueryServiceResponseString = orderQueryService.request(scanPayQueryReqData);
+        OrderQueryReqData orderQueryReqData = new OrderQueryReqData("",outTradeNo);
+        payQueryServiceResponseString = orderQueryService.request(orderQueryReqData);
 
         log.info("支付订单查询API返回的数据如下：");
         log.info(payQueryServiceResponseString);
 
         //将从API返回的XML数据映射到Java对象
-        ScanPayQueryResData scanPayQueryResData = (ScanPayQueryResData) Util.getObjectFromXML(payQueryServiceResponseString, ScanPayQueryResData.class);
-        if (scanPayQueryResData == null || scanPayQueryResData.getReturn_code() == null) {
+        OrderQueryResData orderQueryResData = (OrderQueryResData) Util.getObjectFromXML(payQueryServiceResponseString, OrderQueryResData.class);
+        if (orderQueryResData == null || orderQueryResData.getReturn_code() == null) {
             log.info("支付订单查询请求逻辑错误，请仔细检测传过去的每一个参数是否合法");
             return false;
         }
 
-        if (scanPayQueryResData.getReturn_code().equals("FAIL")) {
+        if (orderQueryResData.getReturn_code().equals("FAIL")) {
             //注意：一般这里返回FAIL是出现系统级参数错误，请检测Post给API的数据是否规范合法
-            log.info("支付订单查询API系统返回失败，失败信息为：" + scanPayQueryResData.getReturn_msg());
+            log.info("支付订单查询API系统返回失败，失败信息为：" + orderQueryResData.getReturn_msg());
             return false;
         } else {
-            if (scanPayQueryResData.getResult_code().equals("SUCCESS")) {//业务层成功
-                if (scanPayQueryResData.getTrade_state().equals("SUCCESS")) {
+            if (orderQueryResData.getResult_code().equals("SUCCESS")) {//业务层成功
+                if (orderQueryResData.getTrade_state().equals("SUCCESS")) {
                     //表示查单结果为“支付成功”
                     log.info("查询到订单支付成功");
                     return true;
@@ -283,7 +283,7 @@ public class ScanPayBusiness {
                     return false;
                 }
             } else {
-                log.info("查询出错，错误码：" + scanPayQueryResData.getErr_code() + "     错误信息：" + scanPayQueryResData.getErr_code_des());
+                log.info("查询出错，错误码：" + orderQueryResData.getErr_code() + "     错误信息：" + orderQueryResData.getErr_code_des());
                 return false;
             }
         }

@@ -6,8 +6,11 @@ import com.boyuanitsm.pay.wxpay.bean.SimpleOrder;
 import com.boyuanitsm.pay.wxpay.business.UnifiedOrderBusiness;
 import com.boyuanitsm.pay.wxpay.common.Signature;
 import com.boyuanitsm.pay.wxpay.common.XMLParser;
+import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryReqData;
+import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryResData;
 import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderReqData;
 import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderResData;
+import com.boyuanitsm.pay.wxpay.service.OrderQueryService;
 import net.glxn.qrgen.javase.QRCode;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.impl.cookie.PublicSuffixDomainFilter;
@@ -32,6 +35,11 @@ import java.io.IOException;
 public class WeChatResource {
 
     private static Logger log = LoggerFactory.getLogger(WeChatResource.class);
+
+    private OrderQueryService orderQueryService = new OrderQueryService();
+
+    public WeChatResource() throws IllegalAccessException, ClassNotFoundException, InstantiationException {
+    }
 
     /**
      * 统一下单
@@ -125,6 +133,28 @@ public class WeChatResource {
             return new AppPayParams(prepay_id);
         } catch (Exception e) {
             log.error("app_pay_params error!", e);
+            return null;
+        }
+    }
+
+    /**
+     * 查询订单
+     * 该接口提供所有微信支付订单的查询，商户可以通过该接口主动查询订单状态，完成下一步的业务逻辑。
+     * 需要调用查询接口的情况：
+     * ◆ 当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知；
+     * ◆ 调用支付接口后，返回系统错误或未知交易状态情况；
+     * ◆ 调用被扫支付API，返回USERPAYING的状态；
+     * ◆ 调用关单或撤销接口API之前，需确认支付状态；
+     *
+     * @param transactionID
+     * @param outTradeNo
+     * @return
+     */
+    @RequestMapping(value = "order_query", method = RequestMethod.GET)
+    public OrderQueryResData orderQuery(String transactionID, String outTradeNo) {
+        try {
+            return orderQueryService.query(new OrderQueryReqData(transactionID, outTradeNo));
+        } catch (Exception e) {
             return null;
         }
     }

@@ -19,8 +19,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 import javax.net.ssl.SSLContext;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -159,6 +161,16 @@ public class HttpsRequest implements IServiceRequest {
 
         } finally {
             httpPost.abort();
+        }
+
+        try {
+            boolean isSign = Signature.checkIsSignValidFromResponseString(result);
+            if (!isSign) {
+                log.warn("Validate sign fail: {}", result);
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return result;

@@ -14,7 +14,7 @@ import java.util.Map;
  * Date: 2014/10/25
  * Time: 13:54
  */
-public class ScanPayQueryReqData {
+public class OrderQueryReqData {
 
     //每个字段具体的意思请查看API文档
     private String appid = "";
@@ -31,7 +31,7 @@ public class ScanPayQueryReqData {
      * @return API返回的XML数据
      * @throws Exception
      */
-    public ScanPayQueryReqData(String transactionID, String outTradeNo){
+    public OrderQueryReqData(String transactionID, String outTradeNo){
 
         //--------------------------------------------------------------------
         //以下是测试数据，请商户按照自己的实际情况填写具体的值进去
