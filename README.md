@@ -2,8 +2,11 @@
 
 各种支付SDK的集合与重构
 
-### Maven
+### Build Tools
+
 使用之前务必配置[Maven私服](http://172.16.8.21:20000/helper/nexus-maven-repo)
+
+#### Maven
 ```xml
 <dependency>
     <groupId>com.boyuanitsm</groupId>
@@ -11,9 +14,7 @@
     <version>${pay.version}</version>
 </dependency>
 ```
-
-### Gradle
-使用之前务必配置[Maven私服](http://172.16.8.21:20000/helper/nexus-maven-repo)
+#### Gradle
 ```
 compile "com.boyuanitsm:pay:${pay.version}"
 ```
