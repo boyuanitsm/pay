@@ -1,7 +1,9 @@
 package com.boyuanitsm.pay.wxpay.service;
 
+import com.boyuanitsm.pay.wxpay.common.XMLParser;
 import com.boyuanitsm.pay.wxpay.protocol.refund_protocol.RefundReqData;
 import com.boyuanitsm.pay.wxpay.common.Configure;
+import com.boyuanitsm.pay.wxpay.protocol.refund_protocol.RefundResData;
 
 /**
  * User: rizenguo
@@ -20,7 +22,7 @@ public class RefundService extends BaseService{
      * @return API返回的XML数据
      * @throws Exception
      */
-    public String request(RefundReqData refundReqData) throws Exception {
+    public String  request(RefundReqData refundReqData) throws Exception {
 
         //--------------------------------------------------------------------
         //发送HTTPS的Post请求到API地址
@@ -28,6 +30,11 @@ public class RefundService extends BaseService{
         String responseString = sendPost(refundReqData);
 
         return responseString;
+        //return (RefundResData) XMLParser.getObjectFromXML(responseString, RefundResData.class);
+    }
+
+    public RefundResData refund(RefundReqData refundReqData) throws Exception {
+        return (RefundResData) XMLParser.getObjectFromXML(request(refundReqData), RefundResData.class);
     }
 
 }

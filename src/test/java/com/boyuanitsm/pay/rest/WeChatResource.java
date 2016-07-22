@@ -8,9 +8,12 @@ import com.boyuanitsm.pay.wxpay.common.Signature;
 import com.boyuanitsm.pay.wxpay.common.XMLParser;
 import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryReqData;
 import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryResData;
+import com.boyuanitsm.pay.wxpay.protocol.refund_protocol.RefundReqData;
+import com.boyuanitsm.pay.wxpay.protocol.refund_protocol.RefundResData;
 import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderReqData;
 import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderResData;
 import com.boyuanitsm.pay.wxpay.service.OrderQueryService;
+import com.boyuanitsm.pay.wxpay.service.RefundService;
 import net.glxn.qrgen.javase.QRCode;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.impl.cookie.PublicSuffixDomainFilter;
@@ -37,6 +40,7 @@ public class WeChatResource {
     private static Logger log = LoggerFactory.getLogger(WeChatResource.class);
 
     private OrderQueryService orderQueryService = new OrderQueryService();
+    private RefundService refundService = new RefundService();
 
     public WeChatResource() throws IllegalAccessException, ClassNotFoundException, InstantiationException {
     }
@@ -154,6 +158,32 @@ public class WeChatResource {
     public OrderQueryResData orderQuery(String transactionID, String outTradeNo) {
         try {
             return orderQueryService.query(new OrderQueryReqData(transactionID, outTradeNo));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * 申请退款
+     * 当交易发生之后一段时间内，由于买家或者卖家的原因需要退款时，卖家可以通过退款接口将支付款退还给买家，微信支付将在收到退款请求并且验证成功之后，按照退款规则将支付款按原路退到买家帐号上。
+     * 注意：
+     * 1、交易时间超过一年的订单无法提交退款；
+     * 2、微信支付退款支持单笔交易分多次退款，多次退款需要提交原支付订单的商户订单号和设置不同的退款单号。一笔退款失败后重新提交，要采用原来的退款单号。总退款金额不能超过用户实际支付金额。
+     *
+     * @param transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
+     * @param outTradeNo    商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
+     * @param deviceInfo    微信支付分配的终端设备号，与下单一致
+     * @param outRefundNo   商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
+     * @param totalFee      订单总金额，单位为分
+     * @param refundFee     退款总金额，单位为分,可以做部分退款
+     * @param opUserID      操作员帐号, 默认为商户号
+     * @param refundFeeType 货币类型，符合ISO 4217标准的三位字母代码，默认为CNY（人民币）
+     * @return
+     */
+    @RequestMapping(value = "refund", method = RequestMethod.POST)
+    public RefundResData refund(String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, int totalFee, int refundFee, String opUserID, String refundFeeType) {
+        try {
+            return refundService.refund(new RefundReqData(transactionID, outTradeNo, deviceInfo, outRefundNo, totalFee, refundFee, opUserID, refundFeeType));
         } catch (Exception e) {
             return null;
         }
