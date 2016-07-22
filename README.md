@@ -32,3 +32,13 @@ compile "com.boyuanitsm:pay:${pay.version}"
 ```
 ./gradlew
 ```
+
+### TODO
+
+- 微信支付API封装
+    - 查询订单
+    - 关闭订单
+    - 申请退款
+    - 查询退款
+    - 下载对账单
+- 银联支付接入
