@@ -1,0 +1,10 @@
+Please view this file on the master branch, on stable branches it's out of date.
+
+v 1.1.0
+
+    - 微信SDK基本支付功能
+    - 重构文档
+
+v 1.0.0
+
+    - 支付宝SDK接入
