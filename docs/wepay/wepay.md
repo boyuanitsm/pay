@@ -1,130 +1,49 @@
-## 微信扫码支付 API
+# Wxpay API
 
-本SDK是基于[wxpay_scanpay_java_sdk_proj](https://github.com/grz/wxpay_scanpay_java_sdk_proj)开发，这里对grz表示感谢🙏
+> [微信支付开发文档](https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=1_1)
 
-有任何疑问请发邮件给我（hua.zhang@boyuanitsm.com）, 也可以直接在GitLab上提issue，感谢大家的贡献
+## 统一下单
+除被扫支付场景以外，商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付交易回话标识后再按扫码、JSAPI、APP等不同场景生成交易串调起支付。
+### 方法
 
-### 快速上手
-
-- [场景介绍](https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_1)
-- [案例及规范](https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_2)
-- 开发步骤
-    - [模式一]()
-- 后期工作
-    - [查询订单]()
-    - [关闭订单]()
-    - [申请退款]()
-    - [查询退款]()
-    - [下载对账单]()
-    - [转换短链接]()
-
-### 开发步骤
-
-#### 模式一
-
-以下均以Spring MVC为例, log使用slf4j
-
-> [微信开发者文档](https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4)
-
-##### 构造微信扫码支付的二维码
-
-```java
-/**
- * 构造微信支付的二维码
- *
- * @param product_id 产品ID
- * @param response http servlet response, auto inject
- */
-@RequestMapping(value = "qrcode", method = RequestMethod.GET)
-public void qrcode(String product_id, HttpServletResponse response) throws IOException {
-    String qrcodeUrl = Util.buildQRcodeUrl(product_id);
-    log.debug("QRCode url is: {}", qrcodeUrl);
-    ByteArrayOutputStream stream = QRCode.from(qrcodeUrl).stream();
-    response.getOutputStream().write(stream.toByteArray());
-}
+```
+UnifiedOrderBusiness unifiedOrderBusiness = new UnifiedOrderBusiness();
+UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(new SimpleOrder(String, String, int, String)));
 ```
 
-##### 回调商户支付URL
+#### 方法参数
+- String body 商品名称
+- String tradeNo 商户订单号
+- int totalFee 付款金额（分）
+- String productId 商户产品ID
 
-```java
-/**
- * 回调商户支付URL, 商户提供的支付回调URL（回调地址设置）需要实现以下功能：接收用户扫码后微信支付系统发送的数据，根据接收的数据生成支付订单，调用【统一下单API】提交支付交易。
- *
- * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4">https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4</a>
- * @param request http request
- * @return
- * @throws IOException
- * @throws ParserConfigurationException
- * @throws SAXException
- */
-@RequestMapping(value = "pay_callback", method = RequestMethod.POST)
-public String payCallback(HttpServletRequest request) throws Exception {
-    InputStream inputStream = request.getInputStream();
-    String responseString = IOUtils.toString(inputStream);
-    log.debug("Pay callback response string is: {}", responseString);
-    // 检查签名
-    boolean isSignValid = Signature.checkIsSignValidFromResponseString(responseString);
-    // 输出结果
-    Map<String, Object> result = new HashMap<>();
+#### 返回
+UnifiedOrderResData实体，为微信返回的统一下单返回结果
 
-    if (isSignValid) {
-        result.put("return_code", "SUCCESS");
-        result.put("appid", Configure.getAppid());
-        result.put("mch_id", Configure.getMchid());
-        result.put("nonce_str", RandomStringGenerator.getRandomStringByLength(Configure.NONCE_STR_LENGTH));
-        // 调用统一下单API
-        UnifiedOrderBusiness unifiedOrderBusiness = new UnifiedOrderBusiness();
-        UnifiedOrderResData resData = unifiedOrderBusiness.run(getUnifiedOrderReqDataTest(responseString));
-        log.info("预支付交易会话标识: {}", resData.getPrepay_id());
-        result.put("prepay_id", resData.getPrepay_id());
-        result.put("result_code", "SUCCESS");
-    } else {
-        result.put("return_code", "FAIL");
-        result.put("return_msg", "签名失败");
-    }
+## 支付结果通用通知
+支付完成后，微信会把相关支付结果和用户信息发送给商户，商户需要接收处理，并返回应答。
+对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，微信会通过一定的策略定期重新发起通知，尽可能提高通知的成功率，但微信不保证通知最终能成功。 （通知频率为15/15/30/180/1800/1800/1800/1800/3600，单位：秒）
 
-    // 签名
-    result.put("sign", Signature.getSign(request));
+**注意：同样的通知可能会多次发送给商户系统。商户系统必须能够正确处理重复的通知。**
 
-    String xml = XMLParser.getXMLFromMap(result);
-    log.debug("Pay callback return string is: {}", xml);
-    return xml;
-}
+推荐的做法是，当收到通知进行处理时，首先检查对应业务数据的状态，判断该通知是否已经处理过，如果没有处理过再进行处理，如果处理过直接返回结果成功。在对业务数据进行状态检查和处理之前，要采用数据锁进行并发控制，以避免函数重入造成的数据混乱。
 
-private UnifiedOrderReqData getUnifiedOrderReqDataTest(String responseString) {
-    Map<String, Object> map = new HashMap<>();
-    String product_id = String.valueOf(map.get("product_id"));
-    String notify_url = "localhost/api/wechat/pay_result_callback";
-    int total_fee = 1;// 1分钱
-    return new UnifiedOrderReqData("WePay Test", "wxtest123456", total_fee, notify_url, product_id);
-}
+**特别提醒：商户系统对于支付结果通知的内容一定要做签名验证，防止数据泄漏导致出现“假通知”，造成资金损失。**
+
+### 方法
+接收到通知后务必检查签名是否正确
+```
+boolean isSign = Signature.checkIsSignValidFromResponseString(responseString);
 ```
 
-##### 支付结果通用通知
+## 获得App 调起支付需要的请求参数
 
-> [微信开发者文档](https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7)
+> [APP调起支付](https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_12&index=2)
 
-```java
-/**
- * 支付结果通用通知
- *
- * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7">https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7</a>
- * @param request
- * @return
- */
-@RequestMapping(value = "pay_result_callback", method = RequestMethod.POST)
-public String payResultCallback(HttpServletRequest request) throws IOException {
-    String responseString = IOUtils.toString(request.getInputStream());
-    log.debug("Pay result callback response string is: {}", responseString);
-    Map<String, Object> result = new HashMap<>();
-    result.put("return_code", "SUCCESS");
-    result.put("return_msg", "OK");
-    String xml = XMLParser.getXMLFromMap(result);
-    log.debug("Pay result callback return string is: {}", xml);
-    return xml;
-}
+### 方法
+首先需要调用`统一下单`，获得到返回值`resData`后, 得到预支付交易会话ID
 ```
-
-### 后期工作
-
-#### 查询订单
+new AppPayParams(resData.getPrepay_id())
+```
+### 返回
+AppPayParams实体为APP端调起支付的参数
