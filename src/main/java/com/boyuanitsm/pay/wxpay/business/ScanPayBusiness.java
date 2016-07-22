@@ -13,7 +13,7 @@ import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.ScanPayQueryResData;
 import com.boyuanitsm.pay.wxpay.protocol.reverse_protocol.ReverseReqData;
 import com.boyuanitsm.pay.wxpay.protocol.reverse_protocol.ReverseResData;
 import com.boyuanitsm.pay.wxpay.service.ReverseService;
-import com.boyuanitsm.pay.wxpay.service.ScanPayQueryService;
+import com.boyuanitsm.pay.wxpay.service.OrderQueryService;
 import com.boyuanitsm.pay.wxpay.service.ScanPayService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ public class ScanPayBusiness {
 
     public ScanPayBusiness() throws IllegalAccessException, ClassNotFoundException, InstantiationException {
         scanPayService = new ScanPayService();
-        scanPayQueryService = new ScanPayQueryService();
+        orderQueryService = new OrderQueryService();
         reverseService = new ReverseService();
     }
 
@@ -77,7 +77,7 @@ public class ScanPayBusiness {
 
     private ScanPayService scanPayService;
 
-    private ScanPayQueryService scanPayQueryService;
+    private OrderQueryService orderQueryService;
 
     private ReverseService reverseService;
 
@@ -255,7 +255,7 @@ public class ScanPayBusiness {
         String payQueryServiceResponseString;
 
         ScanPayQueryReqData scanPayQueryReqData = new ScanPayQueryReqData("",outTradeNo);
-        payQueryServiceResponseString = scanPayQueryService.request(scanPayQueryReqData);
+        payQueryServiceResponseString = orderQueryService.request(scanPayQueryReqData);
 
         log.info("支付订单查询API返回的数据如下：");
         log.info(payQueryServiceResponseString);
@@ -411,8 +411,8 @@ public class ScanPayBusiness {
         scanPayService = service;
     }
 
-    public void setScanPayQueryService(ScanPayQueryService service) {
-        scanPayQueryService = service;
+    public void setOrderQueryService(OrderQueryService service) {
+        orderQueryService = service;
     }
 
     public void setReverseService(ReverseService service) {

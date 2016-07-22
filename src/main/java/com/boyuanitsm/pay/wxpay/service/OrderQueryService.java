@@ -8,9 +8,9 @@ import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.ScanPayQueryReqData;
  * Date: 2014/10/29
  * Time: 16:04
  */
-public class ScanPayQueryService extends BaseService{
+public class OrderQueryService extends BaseService{
 
-    public ScanPayQueryService() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+    public OrderQueryService() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         super(Configure.PAY_QUERY_API);
     }
 
