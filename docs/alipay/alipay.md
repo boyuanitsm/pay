@@ -6,32 +6,35 @@
 
 > [https://doc.open.alipay.com/doc2/detail?treeId=62&articleId=103566&docType=1](https://doc.open.alipay.com/doc2/detail?treeId=62&articleId=103566&docType=1)
 
-#### 即时到账交易接口
+### 即时到账交易接口
 
 > [https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.2IkYt2&treeId=62&articleId=104743&docType=1](https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.2IkYt2&treeId=62&articleId=104743&docType=1)
 
-##### 支付宝即时到账交易接口快速通道
+#### 支付宝即时到账交易接口快速通道
 
-```java
-/**
- * 支付宝即时到账交易接口快速通道
- *
- * @param WIDout_trade_no 商户订单号
- * @param WIDsubject 商品名称
- * @param WIDtotal_fee 付款金额
- * @param WIDbody 商品描述
- * @param response
- * @throws IOException
- */
-@RequestMapping(value = "pay", method = RequestMethod.POST)
-public void pay(String WIDout_trade_no, String WIDsubject, String WIDtotal_fee, String WIDbody, HttpServletResponse response) throws IOException {
-    String sHtmlText = AlipaySubmit.buildRequest(WIDout_trade_no, WIDsubject, WIDtotal_fee, WIDbody);
-    response.setHeader("Content-Type", "text/html;charset=UTF-8");
-    response.getWriter().println(sHtmlText);
-}
-```
+##### 应用场景
 
-##### 页面跳转同步
+在PC端选择支付宝支付后，提交支付表单跳转到支付宝支付页面进行支付宝扫码支付或登录支付
+
+##### 方法
+建立支付宝即时到账(create_direct_pay_by_user)请求, 以表单HTML形式构造（默认）以POST方式提交表单
+
+ AlipaySubmit.buildRequest(String, String, String, String);
+
+##### 方法参数
+
+- String outTradeNo 商户订单号
+- String subject 商品名称
+- String totalFee 付款金额
+- String body 商品描述
+
+##### 返回结果
+
+提交表单HTML文本
+
+#### 页面跳转同步通知页面
+
+####
 
 ```java
 /**
