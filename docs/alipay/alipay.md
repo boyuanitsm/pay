@@ -2,13 +2,10 @@
 
 文档中的代码均以Spring Mvc为例
 
-### 即时到账
-
-> [https://doc.open.alipay.com/doc2/detail?treeId=62&articleId=103566&docType=1](https://doc.open.alipay.com/doc2/detail?treeId=62&articleId=103566&docType=1)
-
-### 即时到账交易接口
-
-> [https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.2IkYt2&treeId=62&articleId=104743&docType=1](https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.2IkYt2&treeId=62&articleId=104743&docType=1)
+> ###### 即时到账
+>[https://doc.open.alipay.com/doc2/detail?treeId=62&articleId=103566&docType=1](https://doc.open.alipay.com/doc2/detail?treeId=62&articleId=103566&docType=1)
+> ###### 即时到账交易接口
+>[https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.2IkYt2&treeId=62&articleId=104743&docType=1](https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.2IkYt2&treeId=62&articleId=104743&docType=1)
 
 #### 支付宝即时到账交易接口快速通道
 
@@ -19,7 +16,7 @@
 ##### 方法
 建立支付宝即时到账(create_direct_pay_by_user)请求, 以表单HTML形式构造（默认）以POST方式提交表单
 
- AlipaySubmit.buildRequest(String, String, String, String);
+ **AlipaySubmit.buildRequest(String, String, String, String)**
 
 ##### 方法参数
 
@@ -29,115 +26,31 @@
 - String body 商品描述
 
 ##### 返回结果
-
 提交表单HTML文本
-
 #### 页面跳转同步通知页面
+##### 应用场景
+支付宝对商户的请求数据处理完成后，会将处理的结果数据通过系统程序控制客户端页面自动跳转的方式通知给商户网站。这些处理结果数据就是页面跳转同步通知参数。
+##### 方法
+可以使用com.boyuanitsm.pay.alipay.bean.SyncReturn接收同步通知参数， 收到通知后务必验证签名，以免造成资金损失
+#### 服务器异步通知
+##### 应用场景
+支付宝对商户的请求数据处理完成后，会将处理的结果数据通过服务器主动通知的方式通知给商户网站。这些处理结果数据就是服务器异步通知参数。
+###### 方法
+可以使用com.boyuanitsm.pay.alipay.bean.AyncNotify接收异步通知参数，收到通知后务必验证签名，以免造成资金损失
+### 即时到账有密退款接口
+#### 支付宝即时到账批量退款有密接口快速通道
+##### 应用场景
+用户成功支付后，由于各种原因需要退款，提交表单到支付宝页面，需要输入支付密码才可以提交退款操作
+##### 方法
+建立即时到账批量退款有密接口(refund_fastpay_by_platform_pwd)请求, 以表单HTML形式构造（默认）以POST方式提交表单
 
-####
-
-```java
-/**
- * 支付宝页面跳转同步通知页面
- *
- * @param ayncReturn
- * @param request
- * @return
- */
-@RequestMapping(value = "sync_return", method = RequestMethod.GET)
-public String syncreturn(SyncReturn ayncReturn, HttpServletRequest request) {
-    log.info("Alipay sync return: {}", ayncReturn);
-    // 验证签名
-    if (AlipayNotify.verifyRequest(request.getParameterMap())) {
-        //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
-
-        if(ayncReturn.getTrade_status().equals("TRADE_FINISHED") || ayncReturn.getTrade_status().equals("TRADE_SUCCESS")){
-            //判断该笔订单是否在商户网站中已经做过处理
-            //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-            //如果有做过处理，不执行商户的业务程序
-        }
-        //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
-
-        log.info("Verify sync notify success!");
-        //该页面可做页面美工编辑
-        return ayncReturn.toString();
-    } else {
-        log.info("Verify sync notify fail!");
-        //该页面可做页面美工编辑
-        return "验证支付宝签名失败";
-    }
-}
-```
-
-##### 服务器异步通知
-
-```java
-/**
- * 支付宝服务器异步通知页面
- *
- * @param ayncNotify
- * @param request
- * @return
- */
-@RequestMapping(value = "aync_notify", method = RequestMethod.POST)
-@ResponseBody
-public String ayncnotify(AyncNotify ayncNotify, HttpServletRequest request) {
-    log.info("Alipay aync notify: {}", ayncNotify);
-    // 验证签名
-    if (AlipayNotify.verifyRequest(request.getParameterMap())) {
-        //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
-
-        if(ayncNotify.getTrade_status().equals("TRADE_FINISHED")){
-            //判断该笔订单是否在商户网站中已经做过处理
-            //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-            //请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
-            //如果有做过处理，不执行商户的业务程序
-
-            //注意：
-            //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
-        } else if (ayncNotify.getTrade_status().equals("TRADE_SUCCESS")){
-            //判断该笔订单是否在商户网站中已经做过处理
-            //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-            //请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
-            //如果有做过处理，不执行商户的业务程序
-
-            //注意：
-            //付款完成后，支付宝系统发送该交易状态通知
-        }
-
-        //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
-        log.info("Verify aync notify success!");
-        return "success";
-    } else {
-        log.error("Verify aync notify fail!");
-        return "fail";
-    }
-}
-```
-
-#### 即时到账有密退款接口
-
-##### 支付宝即时到账批量退款有密接口快速通道
-
-调用后会打开一个支付宝页面，需要输入支付密码才可以提交退款操作
-
-```java
-/**
- * 支付宝即时到账批量退款有密接口快速通道
- *
- * @param WIDbatch_no 退款批次号
- * @param WIDbatch_num 退款笔数
- * @param WIDdetail_data 退款详细数据
- * @param response
- * @throws IOException
- */
-@RequestMapping(value = "refund", method = RequestMethod.POST)
-public void refund(String WIDbatch_no, String WIDbatch_num, String WIDdetail_data, HttpServletResponse response) throws IOException {
-    String sHtmlText = AlipaySubmit.buildRequest(WIDbatch_no, WIDbatch_num, WIDdetail_data);
-    response.setHeader("Content-Type", "text/html;charset=UTF-8");
-    response.getWriter().println(sHtmlText);
-}
-```
+AlipaySubmit.buildRequest(String, String, String);
+##### 方法参数
+- String batchNo 退款批次号
+- String batchNum 退款笔数
+- String detailData 退款详细数据
+##### 返回结果
+提交表单HTML文本
 
 ### 移动支付
 
