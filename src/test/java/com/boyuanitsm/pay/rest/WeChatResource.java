@@ -18,7 +18,6 @@ import com.boyuanitsm.pay.wxpay.service.RefundService;
 import net.glxn.qrgen.javase.QRCode;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
-import org.apache.http.impl.cookie.PublicSuffixDomainFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
