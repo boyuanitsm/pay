@@ -1,6 +1,7 @@
 package com.boyuanitsm.pay.rest;
 
 import com.boyuanitsm.pay.wxpay.bean.AppPayParams;
+import com.boyuanitsm.pay.wxpay.bean.H5PayParams;
 import com.boyuanitsm.pay.wxpay.bean.Result;
 import com.boyuanitsm.pay.wxpay.bean.SimpleOrder;
 import com.boyuanitsm.pay.wxpay.business.UnifiedOrderBusiness;
@@ -132,10 +133,7 @@ public class WeChatResource {
      */
     @RequestMapping(value = "app_pay_params", method = RequestMethod.GET)
     public AppPayParams appPayParams(String productId, HttpServletResponse response) {
-        // 调用统一下单API
-        UnifiedOrderBusiness unifiedOrderBusiness = null;
         try {
-            unifiedOrderBusiness = new UnifiedOrderBusiness();
             UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(getOrderById(productId)));
             log.debug("订单信息: {}", resData);
             // 获得预支付交易会话ID
@@ -143,6 +141,29 @@ public class WeChatResource {
             return new AppPayParams(prepay_id);
         } catch (Exception e) {
             log.error("app_pay_params error!", e);
+            response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
+    /**
+     * 获得H5 调起支付需要的请求参数
+     * H5端调起支付的参数列表
+     *
+     * @param productId 产品ID
+     * @return 调起支付需要的请求参数
+     * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6">https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6</a>
+     */
+    @RequestMapping(value = "h5_pay_params", method = RequestMethod.GET)
+    public H5PayParams h5PayParams(String productId, HttpServletResponse response) {
+        try {
+            UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(getOrderById(productId)));
+            log.debug("订单信息: {}", resData);
+            // 获得预支付交易会话ID
+            String prepay_id = resData.getPrepay_id();
+            return new H5PayParams(prepay_id);
+        } catch (Exception e) {
+            log.error("h5_pay_params error!", e);
             response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
             return null;
         }
