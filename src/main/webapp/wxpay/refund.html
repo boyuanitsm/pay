@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <title>Wxpay Refund</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>WxPay Refund</h1>
+            <form action="/api/wechat/refund" method="post">
+                <div class="form-group">
+                    <label>transactionID 微信系统为每一笔支付交易分配的订单号</label>
+                    <input class="form-control" type="text" name="transactionID">
+                </div>
+                <div class="form-group">
+                    <label>outTradeNo 商户系统内部的订单号,transaction_id 、out_trade_no 二选一</label>
+                    <input class="form-control" type="text" name="outTradeNo" value="wxtest1469091448063">
+                </div>
+                <div class="form-group">
+                    <label>deviceInfo 微信支付分配的终端设备号，与下单一致</label>
+                    <input class="form-control" type="text" name="deviceInfo" value="WEB">
+                </div>
+                <div class="form-group">
+                    <label>outRefundNo 商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔</label>
+                    <input class="form-control" type="text" name="outRefundNo" value="wxtest123">
+                </div>
+                <div class="form-group">
+                    <label>totalFee 订单总金额，单位为分</label>
+                    <input class="form-control" type="text" name="totalFee">
+                </div>
+                <div class="form-group">
+                    <label>refundFee 退款总金额，单位为分,可以做部分退款</label>
+                    <input class="form-control" type="text" name="refundFee">
+                </div>
+                <div class="form-group">
+                    <label>opUserID 操作员帐号, 默认为商户号</label>
+                    <input class="form-control" type="text" name="opUserID" value="1281492501">
+                </div>
+                <div class="form-group">
+                    <label>refundFeeType 货币类型，符合ISO 4217标准的三位字母代码，默认为CNY（人民币）</label>
+                    <input class="form-control" type="text" name="refundFee" value="CNY">
+                </div>
+                <button class="btn btn-primary" type="submit">Refund</button>
+            </form>
+        </div>
+    </body>
+</html>
