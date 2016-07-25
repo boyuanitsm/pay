@@ -27,22 +27,22 @@ public class RefundReqData {
     private String out_refund_no = "";
     private int total_fee = 0;
     private int refund_fee = 0;
-    private String refund_fee_type = "CNY";
+    private String refund_fee_type = "";
     private String op_user_id = "";
 
     /**
      * 请求退款服务
      * @param transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
      * @param outTradeNo 商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
-     * @param deviceInfo 微信支付分配的终端设备号，与下单一致
      * @param outRefundNo 商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
      * @param totalFee 订单总金额，单位为分
      * @param refundFee 退款总金额，单位为分,可以做部分退款
-     * @param opUserID 操作员帐号, 默认为商户号
-     * @param refundFeeType 货币类型，符合ISO 4217标准的三位字母代码，默认为CNY（人民币）
      */
-    public RefundReqData(String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, int totalFee, int refundFee, String opUserID, String refundFeeType){
+    public RefundReqData(String transactionID, String outTradeNo, String outRefundNo, int totalFee, int refundFee){
 
+        this.device_info = Configure.DEVICE_INFO;
+        this.op_user_id = Configure.getMchid();
+        this.refund_fee_type = "CNY";
         //微信分配的公众号ID（开通公众号之后可以获取到）
         setAppid(Configure.getAppid());
 
@@ -55,16 +55,11 @@ public class RefundReqData {
         //商户系统自己生成的唯一的订单号
         setOut_trade_no(outTradeNo);
 
-        //微信支付分配的终端设备号，与下单一致
-        setDevice_info(deviceInfo);
-
         setOut_refund_no(outRefundNo);
 
         setTotal_fee(totalFee);
 
         setRefund_fee(refundFee);
-
-        setOp_user_id(opUserID);
 
         //随机字符串，不长于32 位
         setNonce_str(RandomStringGenerator.getRandomStringByLength(32));

@@ -8,7 +8,6 @@ import com.boyuanitsm.pay.wxpay.business.UnifiedOrderBusiness;
 import com.boyuanitsm.pay.wxpay.common.Signature;
 import com.boyuanitsm.pay.wxpay.common.XMLParser;
 import com.boyuanitsm.pay.wxpay.protocol.downloadbill_protocol.DownloadBillReqData;
-import com.boyuanitsm.pay.wxpay.protocol.downloadbill_protocol.DownloadBillResData;
 import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryReqData;
 import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryResData;
 import com.boyuanitsm.pay.wxpay.protocol.refund_protocol.RefundReqData;
@@ -209,20 +208,17 @@ public class WeChatResource {
      *
      * @param transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
      * @param outTradeNo    商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
-     * @param deviceInfo    微信支付分配的终端设备号，与下单一致
      * @param outRefundNo   商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
      * @param totalFee      订单总金额，单位为分
      * @param refundFee     退款总金额，单位为分,可以做部分退款
-     * @param opUserID      操作员帐号, 默认为商户号
-     * @param refundFeeType 货币类型，符合ISO 4217标准的三位字母代码，默认为CNY（人民币）
      * @param response
      * @return
      */
     @RequestMapping(value = "refund", method = RequestMethod.POST)
-    public RefundResData refund(String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, int totalFee,
-                                int refundFee, String opUserID, String refundFeeType, HttpServletResponse response) {
+    public RefundResData refund(String transactionID, String outTradeNo, String outRefundNo, int totalFee,
+                                int refundFee, HttpServletResponse response) {
         try {
-            return refundService.refund(new RefundReqData(transactionID, outTradeNo, deviceInfo, outRefundNo, totalFee, refundFee, opUserID, refundFeeType));
+            return refundService.refund(new RefundReqData(transactionID, outTradeNo, outRefundNo, totalFee, refundFee));
         } catch (Exception e) {
             log.error("refund error!", e);
             response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
@@ -236,17 +232,16 @@ public class WeChatResource {
      *
      * @param transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
      * @param outTradeNo    商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
-     * @param deviceInfo    微信支付分配的终端设备号，与下单一致
      * @param outRefundNo   商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
      * @param refundID      来自退款API的成功返回，微信退款单号refund_id、out_refund_no、out_trade_no 、transaction_id 四个参数必填一个，如果同事存在优先级为：refund_id>out_refund_no>transaction_id>out_trade_no
      * @param response
      * @return
      */
     @RequestMapping(value = "refundquery", method = RequestMethod.GET)
-    public RefundQueryResData refundquery(String transactionID, String outTradeNo, String deviceInfo, String outRefundNo,
+    public RefundQueryResData refundquery(String transactionID, String outTradeNo, String outRefundNo,
                                           String refundID, HttpServletResponse response) {
         try {
-            return refundQueryService.refundQuery(new RefundQueryReqData(transactionID, outTradeNo, deviceInfo, outRefundNo, refundID));
+            return refundQueryService.refundQuery(new RefundQueryReqData(transactionID, outTradeNo, outRefundNo, refundID));
         } catch (Exception e) {
             log.error("refund query error!", e);
             response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
@@ -264,7 +259,6 @@ public class WeChatResource {
      * <p>
      * 4、对账单接口只能下载三个月以内的账单。
      *
-     * @param deviceInfo 商户自己定义的扫码支付终端设备号，方便追溯这笔交易发生在哪台终端设备上
      * @param billDate   下载对账单的日期，格式：yyyyMMdd 例如：20140603
      * @param billType   账单类型
      *                   ALL，返回当日所有订单信息，默认值
@@ -274,9 +268,9 @@ public class WeChatResource {
      * @return
      */
     @RequestMapping(value = "downloadbill", method = RequestMethod.GET)
-    public String downloadbill(String deviceInfo, String billDate, String billType, HttpServletResponse response) {
+    public String downloadbill(String billDate, String billType, HttpServletResponse response) {
         try {
-            return downloadBillService.request(new DownloadBillReqData(deviceInfo, billDate, billType));
+            return downloadBillService.request(new DownloadBillReqData(billDate, billType));
         } catch (Exception e) {
             log.error("download bill error!", e);
             response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);

@@ -28,12 +28,11 @@ public class RefundQueryReqData {
      * 请求退款查询服务
      * @param transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
      * @param outTradeNo 商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
-     * @param deviceInfo 微信支付分配的终端设备号，与下单一致
      * @param outRefundNo 商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
      * @param refundID 来自退款API的成功返回，微信退款单号refund_id、out_refund_no、out_trade_no 、transaction_id 四个参数必填一个，如果同事存在优先级为：refund_id>out_refund_no>transaction_id>out_trade_no
      */
 
-    public RefundQueryReqData(String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, String refundID){
+    public RefundQueryReqData(String transactionID, String outTradeNo, String outRefundNo, String refundID){
 
         //微信分配的公众号ID（开通公众号之后可以获取到）
         setAppid(Configure.getAppid());
@@ -48,7 +47,7 @@ public class RefundQueryReqData {
         setOut_trade_no(outTradeNo);
 
         //微信支付分配的终端设备号，与下单一致
-        setDevice_info(deviceInfo);
+        setDevice_info(Configure.DEVICE_INFO);
 
         setOut_refund_no(outRefundNo);
 

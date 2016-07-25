@@ -25,7 +25,6 @@ public class DownloadBillReqData {
 
     /**
      * 请求对账单下载服务
-     * @param deviceInfo 商户自己定义的扫码支付终端设备号，方便追溯这笔交易发生在哪台终端设备上
      * @param billDate 下载对账单的日期，格式：yyyyMMdd 例如：20140603
      * @param billType 账单类型
      *                 ALL，返回当日所有订单信息，默认值
@@ -33,7 +32,7 @@ public class DownloadBillReqData {
     REFUND，返回当日退款订单
     REVOKED，已撤销的订单
      */
-    public DownloadBillReqData(String deviceInfo, String billDate, String billType){
+    public DownloadBillReqData(String billDate, String billType){
 
         //微信分配的公众号ID（开通公众号之后可以获取到）
         setAppid(Configure.getAppid());
@@ -42,7 +41,7 @@ public class DownloadBillReqData {
         setMch_id(Configure.getMchid());
 
         //商户自己定义的扫码支付终端设备号，方便追溯这笔交易发生在哪台终端设备上
-        setDevice_info(deviceInfo);
+        setDevice_info(Configure.DEVICE_INFO);
 
         setBill_date(billDate);
 
