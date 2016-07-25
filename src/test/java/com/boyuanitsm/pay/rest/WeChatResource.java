@@ -11,9 +11,12 @@ import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryReqData;
 import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryResData;
 import com.boyuanitsm.pay.wxpay.protocol.refund_protocol.RefundReqData;
 import com.boyuanitsm.pay.wxpay.protocol.refund_protocol.RefundResData;
+import com.boyuanitsm.pay.wxpay.protocol.refund_query_protocol.RefundQueryReqData;
+import com.boyuanitsm.pay.wxpay.protocol.refund_query_protocol.RefundQueryResData;
 import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderReqData;
 import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderResData;
 import com.boyuanitsm.pay.wxpay.service.OrderQueryService;
+import com.boyuanitsm.pay.wxpay.service.RefundQueryService;
 import com.boyuanitsm.pay.wxpay.service.RefundService;
 import net.glxn.qrgen.javase.QRCode;
 import org.apache.commons.io.IOUtils;
@@ -43,6 +46,7 @@ public class WeChatResource {
     private UnifiedOrderBusiness unifiedOrderBusiness = new UnifiedOrderBusiness();
     private OrderQueryService orderQueryService = new OrderQueryService();
     private RefundService refundService = new RefundService();
+    private RefundQueryService refundQueryService = new RefundQueryService();
 
     public WeChatResource() throws IllegalAccessException, ClassNotFoundException, InstantiationException {
     }
@@ -178,7 +182,7 @@ public class WeChatResource {
      * ◆ 调用关单或撤销接口API之前，需确认支付状态；
      *
      * @param transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
-     * @param outTradeNo 商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
+     * @param outTradeNo    商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
      * @return 订单详情
      */
     @RequestMapping(value = "order_query", method = RequestMethod.GET)
@@ -207,6 +211,7 @@ public class WeChatResource {
      * @param refundFee     退款总金额，单位为分,可以做部分退款
      * @param opUserID      操作员帐号, 默认为商户号
      * @param refundFeeType 货币类型，符合ISO 4217标准的三位字母代码，默认为CNY（人民币）
+     * @param response
      * @return
      */
     @RequestMapping(value = "refund", method = RequestMethod.POST)
@@ -216,6 +221,30 @@ public class WeChatResource {
             return refundService.refund(new RefundReqData(transactionID, outTradeNo, deviceInfo, outRefundNo, totalFee, refundFee, opUserID, refundFeeType));
         } catch (Exception e) {
             log.error("refund error!", e);
+            response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
+    /**
+     * 查询退款
+     * 提交退款申请后，通过调用该接口查询退款状态。退款有一定延时，用零钱支付的退款20分钟内到账，银行卡支付的退款3个工作日后重新查询退款状态。
+     *
+     * @param transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
+     * @param outTradeNo    商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
+     * @param deviceInfo    微信支付分配的终端设备号，与下单一致
+     * @param outRefundNo   商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
+     * @param refundID      来自退款API的成功返回，微信退款单号refund_id、out_refund_no、out_trade_no 、transaction_id 四个参数必填一个，如果同事存在优先级为：refund_id>out_refund_no>transaction_id>out_trade_no
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "refundquery", method = RequestMethod.GET)
+    public RefundQueryResData refundquery(String transactionID, String outTradeNo, String deviceInfo, String outRefundNo,
+                                          String refundID, HttpServletResponse response) {
+        try {
+            return refundQueryService.refundQuery(new RefundQueryReqData(transactionID, outTradeNo, deviceInfo, outRefundNo, refundID));
+        } catch (Exception e) {
+            log.error("refund query error!", e);
             response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
             return null;
         }

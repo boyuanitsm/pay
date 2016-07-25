@@ -1,7 +1,9 @@
 package com.boyuanitsm.pay.wxpay.service;
 
 import com.boyuanitsm.pay.wxpay.common.Configure;
+import com.boyuanitsm.pay.wxpay.common.XMLParser;
 import com.boyuanitsm.pay.wxpay.protocol.refund_query_protocol.RefundQueryReqData;
+import com.boyuanitsm.pay.wxpay.protocol.refund_query_protocol.RefundQueryResData;
 
 /**
  * User: rizenguo
@@ -30,7 +32,7 @@ public class RefundQueryService extends BaseService{
         return responseString;
     }
 
-
-
-
+    public RefundQueryResData refundQuery(RefundQueryReqData refundQueryReqData) throws Exception {
+        return (RefundQueryResData) XMLParser.getObjectFromXML(request(refundQueryReqData), RefundQueryResData.class);
+    }
 }
