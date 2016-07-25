@@ -16,6 +16,7 @@ import com.boyuanitsm.pay.wxpay.service.OrderQueryService;
 import com.boyuanitsm.pay.wxpay.service.RefundService;
 import net.glxn.qrgen.javase.QRCode;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpStatus;
 import org.apache.http.impl.cookie.PublicSuffixDomainFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,7 @@ public class WeChatResource {
 
     private static Logger log = LoggerFactory.getLogger(WeChatResource.class);
 
+    private UnifiedOrderBusiness unifiedOrderBusiness = new UnifiedOrderBusiness();
     private OrderQueryService orderQueryService = new OrderQueryService();
     private RefundService refundService = new RefundService();
 
@@ -55,9 +57,7 @@ public class WeChatResource {
     @RequestMapping(value = "unifiedorder", method = RequestMethod.GET)
     public void unifiedorder(HttpServletResponse response, String productId) throws IOException {
         // 调用统一下单API
-        UnifiedOrderBusiness unifiedOrderBusiness = null;
         try {
-            unifiedOrderBusiness = new UnifiedOrderBusiness();
             UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(getOrderById(productId)));
             log.debug("订单信息: {}", resData);
             // 获得二维码URL
@@ -67,10 +67,16 @@ public class WeChatResource {
             // 输出
             response.getOutputStream().write(stream.toByteArray());
         } catch (Exception e) {
-            response.getWriter().println("ServerError");
+            response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     * 获得简单订单(测试)
+     *
+     * @param productId 商户产品ID
+     * @return 简单订单(测试)
+     */
     private SimpleOrder getOrderById(String productId) {
         return new SimpleOrder("WxPay Text", "wxtest" + System.currentTimeMillis(), 1, productId);
     }
@@ -121,11 +127,11 @@ public class WeChatResource {
      * APP端调起支付的参数列表
      *
      * @param productId 产品ID
-     * @return
+     * @return 调起支付需要的请求参数
      * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_12&index=2">https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_12&index=2</a>
      */
     @RequestMapping(value = "app_pay_params", method = RequestMethod.GET)
-    public AppPayParams appPayParams(String productId) {
+    public AppPayParams appPayParams(String productId, HttpServletResponse response) {
         // 调用统一下单API
         UnifiedOrderBusiness unifiedOrderBusiness = null;
         try {
@@ -137,6 +143,7 @@ public class WeChatResource {
             return new AppPayParams(prepay_id);
         } catch (Exception e) {
             log.error("app_pay_params error!", e);
+            response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
             return null;
         }
     }
@@ -150,15 +157,17 @@ public class WeChatResource {
      * ◆ 调用被扫支付API，返回USERPAYING的状态；
      * ◆ 调用关单或撤销接口API之前，需确认支付状态；
      *
-     * @param transactionID
-     * @param outTradeNo
-     * @return
+     * @param transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
+     * @param outTradeNo 商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
+     * @return 订单详情
      */
     @RequestMapping(value = "order_query", method = RequestMethod.GET)
-    public OrderQueryResData orderQuery(String transactionID, String outTradeNo) {
+    public OrderQueryResData orderQuery(String transactionID, String outTradeNo, HttpServletResponse response) {
         try {
             return orderQueryService.query(new OrderQueryReqData(transactionID, outTradeNo));
         } catch (Exception e) {
+            log.error("order_query error!", e);
+            response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
             return null;
         }
     }
@@ -181,10 +190,13 @@ public class WeChatResource {
      * @return
      */
     @RequestMapping(value = "refund", method = RequestMethod.POST)
-    public RefundResData refund(String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, int totalFee, int refundFee, String opUserID, String refundFeeType) {
+    public RefundResData refund(String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, int totalFee,
+                                int refundFee, String opUserID, String refundFeeType, HttpServletResponse response) {
         try {
             return refundService.refund(new RefundReqData(transactionID, outTradeNo, deviceInfo, outRefundNo, totalFee, refundFee, opUserID, refundFeeType));
         } catch (Exception e) {
+            log.error("refund error!", e);
+            response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
             return null;
         }
     }
