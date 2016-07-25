@@ -74,7 +74,11 @@ RefundQueryService refundQueryService = new RefundQueryService();
 refundQueryService.refundQuery(new RefundQueryReqData(String, String, String, String));
 ```
 #### 方法参数
-transactionID, outTradeNo, outRefundNo, refundID
+- String transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
+- String outTradeNo 商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
+- String outRefundNo 商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
+- String refundID 来自退款API的成功返回，微信退款单号refund_id、out_refund_no、out_trade_no 、transaction_id 四个参数必填一个，如果同事存在优先级为：refund_id>out_refund_no>transaction_id>out_trade_no
+
 #### 返回
 `RefundResData`实体，为微信返回的查询退款结果
 
@@ -113,7 +117,7 @@ String为微信返回的下载对账单结果
 
 **特别提醒：商户系统对于支付结果通知的内容一定要做签名验证，防止数据泄漏导致出现“假通知”，造成资金损失。**
 
-### 方法
+#### 方法
 接收到通知后务必检查签名是否正确
 ```
 boolean isSign = Signature.checkIsSignValidFromResponseString(responseString);
@@ -123,22 +127,22 @@ boolean isSign = Signature.checkIsSignValidFromResponseString(responseString);
 
 > [APP调起支付](https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_12&index=2)
 
-### 方法
+#### 方法
 首先需要调用`统一下单`，获得到返回值`resData`后, 得到预支付交易会话ID
 ```
 new AppPayParams(resData.getPrepay_id())
 ```
-### 返回
+#### 返回
 AppPayParams实体为APP端调起支付的参数
 
 ## 获得H5 调起支付需要到请求参数
 
 > [H5调起支付](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6)
 
-### 方法
+#### 方法
 首先需要调用`统一下单`，获得到返回值`resData`后, 得到预支付交易会话ID
 ```
 new H5PayParams(resData.getPrepay_id())
 ```
-### 返回
+#### 返回
 H5PayParams实体为APP端调起支付的参数
