@@ -47,3 +47,15 @@ new AppPayParams(resData.getPrepay_id())
 ```
 ### 返回
 AppPayParams实体为APP端调起支付的参数
+
+## 获得H5 调起支付需要到请求参数
+
+> [H5调起支付]()
+
+### 方法
+首先需要调用`统一下单`，获得到返回值`resData`后, 得到预支付交易会话ID
+```
+new H5PayParams(resData.getPrepay_id())
+```
+### 返回
+H5PayParams实体为APP端调起支付的参数
