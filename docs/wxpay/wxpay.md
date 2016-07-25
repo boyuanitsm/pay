@@ -50,7 +50,7 @@ AppPayParams实体为APP端调起支付的参数
 
 ## 获得H5 调起支付需要到请求参数
 
-> [H5调起支付]()
+> [H5调起支付](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6)
 
 ### 方法
 首先需要调用`统一下单`，获得到返回值`resData`后, 得到预支付交易会话ID
