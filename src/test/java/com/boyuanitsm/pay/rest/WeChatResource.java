@@ -7,6 +7,8 @@ import com.boyuanitsm.pay.wxpay.bean.SimpleOrder;
 import com.boyuanitsm.pay.wxpay.business.UnifiedOrderBusiness;
 import com.boyuanitsm.pay.wxpay.common.Signature;
 import com.boyuanitsm.pay.wxpay.common.XMLParser;
+import com.boyuanitsm.pay.wxpay.protocol.downloadbill_protocol.DownloadBillReqData;
+import com.boyuanitsm.pay.wxpay.protocol.downloadbill_protocol.DownloadBillResData;
 import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryReqData;
 import com.boyuanitsm.pay.wxpay.protocol.pay_query_protocol.OrderQueryResData;
 import com.boyuanitsm.pay.wxpay.protocol.refund_protocol.RefundReqData;
@@ -15,6 +17,7 @@ import com.boyuanitsm.pay.wxpay.protocol.refund_query_protocol.RefundQueryReqDat
 import com.boyuanitsm.pay.wxpay.protocol.refund_query_protocol.RefundQueryResData;
 import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderReqData;
 import com.boyuanitsm.pay.wxpay.protocol.unified_order_protocol.UnifiedOrderResData;
+import com.boyuanitsm.pay.wxpay.service.DownloadBillService;
 import com.boyuanitsm.pay.wxpay.service.OrderQueryService;
 import com.boyuanitsm.pay.wxpay.service.RefundQueryService;
 import com.boyuanitsm.pay.wxpay.service.RefundService;
@@ -47,6 +50,7 @@ public class WeChatResource {
     private OrderQueryService orderQueryService = new OrderQueryService();
     private RefundService refundService = new RefundService();
     private RefundQueryService refundQueryService = new RefundQueryService();
+    private DownloadBillService downloadBillService = new DownloadBillService();
 
     public WeChatResource() throws IllegalAccessException, ClassNotFoundException, InstantiationException {
     }
@@ -245,6 +249,36 @@ public class WeChatResource {
             return refundQueryService.refundQuery(new RefundQueryReqData(transactionID, outTradeNo, deviceInfo, outRefundNo, refundID));
         } catch (Exception e) {
             log.error("refund query error!", e);
+            response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
+    /**
+     * 下载对账单
+     * 商户可以通过该接口下载历史交易清单。比如掉单、系统错误等导致商户侧和微信侧数据不一致，通过对账单核对后可校正支付状态。
+     * 注意：
+     * 1、微信侧未成功下单的交易不会出现在对账单中。支付成功后撤销的交易会出现在对账单中，跟原支付单订单号一致，bill_type为REVOKED；
+     * 2、微信在次日9点启动生成前一天的对账单，建议商户10点后再获取；
+     * 3、对账单中涉及金额的字段单位为“元”。
+     * <p>
+     * 4、对账单接口只能下载三个月以内的账单。
+     *
+     * @param deviceInfo 商户自己定义的扫码支付终端设备号，方便追溯这笔交易发生在哪台终端设备上
+     * @param billDate   下载对账单的日期，格式：yyyyMMdd 例如：20140603
+     * @param billType   账单类型
+     *                   ALL，返回当日所有订单信息，默认值
+     *                   SUCCESS，返回当日成功支付的订单
+     *                   REFUND，返回当日退款订单
+     *                   REVOKED，已撤销的订单
+     * @return
+     */
+    @RequestMapping(value = "downloadbill", method = RequestMethod.GET)
+    public String downloadbill(String deviceInfo, String billDate, String billType, HttpServletResponse response) {
+        try {
+            return downloadBillService.request(new DownloadBillReqData(deviceInfo, billDate, billType));
+        } catch (Exception e) {
+            log.error("download bill error!", e);
             response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
             return null;
         }

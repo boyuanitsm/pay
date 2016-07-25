@@ -7,6 +7,7 @@ import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.Configurable;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.ConnectionPoolTimeoutException;
@@ -164,13 +165,18 @@ public class HttpsRequest implements IServiceRequest {
         }
 
         try {
+            if (Configure.DOWNLOAD_BILL_API.equals(url)) {
+                // 下载对账单接口 无需验证签名
+                return result;
+            }
             boolean isSign = Signature.checkIsSignValidFromResponseString(result);
             if (!isSign) {
                 log.warn("Validate sign fail: {}", result);
                 return null;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.warn("Validate sign Error: {}", result, e);
+            return null;
         }
 
         return result;

@@ -1,7 +1,9 @@
 package com.boyuanitsm.pay.wxpay.service;
 
 import com.boyuanitsm.pay.wxpay.common.Configure;
+import com.boyuanitsm.pay.wxpay.common.XMLParser;
 import com.boyuanitsm.pay.wxpay.protocol.downloadbill_protocol.DownloadBillReqData;
+import com.boyuanitsm.pay.wxpay.protocol.downloadbill_protocol.DownloadBillResData;
 
 /**
  * User: rizenguo
@@ -42,5 +44,4 @@ public class DownloadBillService extends BaseService{
 
         return responseString;
     }
-
 }
