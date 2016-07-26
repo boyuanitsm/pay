@@ -123,6 +123,32 @@ String为微信返回的下载对账单结果
 boolean isSign = Signature.checkIsSignValidFromResponseString(responseString);
 ```
 
+## 扫码支付
+
+> [扫码支付](https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_1)
+
+扫码支付建议使用模式二，模式二与模式一相比，流程更为简单，不依赖设置的回调支付URL。商户后台系统先调用微信支付的统一下单接口，微信后台系统返回链接参数code_url，商户后台系统将code_url值生成二维码图片，用户使用微信客户端扫码后发起支付。
+
+注意：code_url有效期为2小时，过期后扫码不能再发起支付。
+
+#### 方法
+首先需要调用`统一下单`，获得到返回值`resData`后, 得到预二维码链接
+
+```
+// 获得二维码URL
+String qrcodeUrl = resData.getCode_url();
+// 生成二维码字节数组输出流
+ByteArrayOutputStream stream = QRCode.from(qrcodeUrl).stream();
+```
+
+#### 返回
+
+返回`ByteArrayOutputStream` 字节数组输出流, 输出到HttpServletResponse
+
+```
+response.getOutputStream().write(stream.toByteArray());
+```
+
 ## 获得App 调起支付需要的请求参数
 
 > [APP调起支付](https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_12&index=2)
