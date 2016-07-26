@@ -1,5 +1,6 @@
 package com.boyuanitsm.pay.unionpay.acp;
 
+import com.boyuanitsm.pay.PayProperties;
 import com.boyuanitsm.pay.unionpay.acp.config.SDKConstants;
 
 import java.io.BufferedReader;
@@ -26,17 +27,21 @@ import java.util.TreeMap;
 public class Acp {
 
 	//默认配置的是UTF-8
-	public static String encoding_UTF8 = "UTF-8";
+	public static final String encoding_UTF8 = "UTF-8";
 	
-	public static String encoding_GBK = "GBK";
+	public static final String encoding_GBK = "GBK";
 	//全渠道固定值
-	public static String version = "5.0.0";
-	
+	public static final String version = "5.0.0";
+
+	public static final String merId = PayProperties.getInstance().getUnionpay().getAcp().getMerId();
+
+	public static final String trId = PayProperties.getInstance().getUnionpay().getAcp().getTrId();
+
 	//后台服务对应的写法参照 FrontRcvResponse.java
-	public static String frontUrl = "http://127.0.0.1:8080/ACPSample_WuTiaoZhuan_Token/frontRcvResponse";
+	public static final String frontUrl = PayProperties.getInstance().getUnionpay().getAcp().getFrontUrl();
 
 	//后台服务对应的写法参照 BackRcvResponse.java
-	public static String backUrl = "http://222.222.222.222:8080/ACPSample_WuTiaoZhuan_Token/BackRcvResponse";//受理方和发卡方自选填写的域[O]--后台通知地址
+	public static final String backUrl = PayProperties.getInstance().getUnionpay().getAcp().getBackUrl();//受理方和发卡方自选填写的域[O]--后台通知地址
 
 	// 商户发送交易时间 格式:YYYYMMDDhhmmss
 	public static String getCurrentTime() {

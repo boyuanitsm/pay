@@ -18,7 +18,13 @@ public class OpenCardFront {
 
     private Logger log = LoggerFactory.getLogger(OpenCardFront.class);
 
-    public String build(String merId, String orderId, String txnTime) {
+    /**
+     * 构建HTML请求报文
+     *
+     * @param orderId 商户订单号，8-40位数字字母，不能含“-”或“_”，可以自行定制规则
+     * @return 跳转到银联侧开通快捷支付的HTML代码
+     */
+    public String build(String orderId) {
         Map<String, String> contentData = new HashMap<>();
 
         /***银联全渠道系统，产品参数，除了encoding自行选择外其他不需修改***/
@@ -31,14 +37,14 @@ public class OpenCardFront {
         contentData.put("channelType", "07");                          //渠道类型07-PC
 
         /***商户接入参数***/
-        contentData.put("merId", merId);                               //商户号码（本商户号码仅做为测试调通交易使用，该商户号配置了需要对敏感信息加密）测试时请改成自己申请的商户号，【自己注册的测试777开头的商户号不支持代收产品】
+        contentData.put("merId", Acp.merId);                               //商户号码（本商户号码仅做为测试调通交易使用，该商户号配置了需要对敏感信息加密）测试时请改成自己申请的商户号，【自己注册的测试777开头的商户号不支持代收产品】
         contentData.put("accessType", "0");                            //接入类型，商户接入固定填0，不需修改
         contentData.put("orderId", orderId);                           //商户订单号，8-40位数字字母，不能含“-”或“_”，可以自行定制规则
-        contentData.put("txnTime", txnTime);                           //订单发送时间，格式为YYYYMMDDhhmmss，必须取当前时间，否则会报txnTime无效
+        contentData.put("txnTime", Acp.getCurrentTime());                           //订单发送时间，格式为YYYYMMDDhhmmss，必须取当前时间，否则会报txnTime无效
         contentData.put("accType", "01");                              //账号类型
 
         //测试环境trId固定值62000000001，生产环境的trId值请咨询银联业务。
-        contentData.put("tokenPayData", "{trId=62000000001&tokenType=01}");
+        contentData.put("tokenPayData", "{trId=" + Acp.trId + "&tokenType=01}");
 
         //只支持贷记卡 必送：卡号、手机号、CVN2、有效期；验证码看业务配置（默认不要短信验证码,本测试商户777290058110097配置了需要）。
         //        Map<String, String> customerInfoMap = new HashMap<String, String>();
