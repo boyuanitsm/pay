@@ -41,12 +41,12 @@ public class OpenCardFront {
         contentData.put("tokenPayData", "{trId=62000000001&tokenType=01}");
 
         //只支持贷记卡 必送：卡号、手机号、CVN2、有效期；验证码看业务配置（默认不要短信验证码,本测试商户777290058110097配置了需要）。
-        Map<String, String> customerInfoMap = new HashMap<String, String>();
-        customerInfoMap.put("phoneNo", "13552535506");                    //手机号
-        customerInfoMap.put("cvn2", "123");                            //卡背面的cvn2三位数字
-        customerInfoMap.put("expired", "1711");                        //有效期 年在前月在后
-        customerInfoMap.put("certifTp", "01");                        //证件类型
-        customerInfoMap.put("certifId", "341126197709218366");        //证件号码
+        //        Map<String, String> customerInfoMap = new HashMap<String, String>();
+        //        customerInfoMap.put("phoneNo", "13552535506");                    //手机号
+        //        customerInfoMap.put("cvn2", "123");                            //卡背面的cvn2三位数字
+        //        customerInfoMap.put("expired", "1711");                        //有效期 年在前月在后
+        //        customerInfoMap.put("certifTp", "01");                        //证件类型
+        //        customerInfoMap.put("certifId", "341126197709218366");        //证件号码
 
         //选送卡号、手机号、证件类型+证件号、姓名
         //也可以都不送,在界面输入这些要素
