@@ -257,6 +257,15 @@ public class PayProperties {
             private String signCertType;
             private String validateCertDir;
             private String singleMode;
+            private String encryptCertPath;
+
+            public String getEncryptCertPath() {
+                return encryptCertPath;
+            }
+
+            public void setEncryptCertPath(String encryptCertPath) {
+                this.encryptCertPath = encryptCertPath;
+            }
 
             public String getFrontTransUrl() {
                 return frontTransUrl;

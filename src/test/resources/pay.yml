@@ -87,4 +87,9 @@ unionpay:
         # 验证签名证书目录，只配置到目录即可，必须使用绝对路径，如果不想使用绝对路径，可以自行实现相对路径获取证书的方法；测试证书所有商户共用开发包中的测试验证证书，生产环境所有商户共用开发包中的生产验签证书
         validateCertDir: /Users/zhanghua/certs/
         # 是否启用多证书模式(true:单证书|false:多证书---没有配置此项时,默认为单证书模式)
+
+        ##########################加密证书配置################################
+        ##敏感信息加密证书路径(商户号开通了商户对敏感信息加密的权限，需要对 卡号accNo，pin和phoneNo，cvn2，expired加密（如果这些上送的话），对敏感信息加密使用)
+        encryptCertPath: /Users/zhanghua/certs/acp_test_enc.cer
+
         singleMode: true
