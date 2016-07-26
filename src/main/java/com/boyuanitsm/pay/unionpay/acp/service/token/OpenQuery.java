@@ -1,8 +1,7 @@
-package com.boyuanitsm.pay.unionpay.acp.service;
+package com.boyuanitsm.pay.unionpay.acp.service.token;
 
 import com.boyuanitsm.pay.unionpay.acp.AcpService;
 import com.boyuanitsm.pay.unionpay.acp.DemoBase;
-import com.boyuanitsm.pay.unionpay.acp.LogUtil;
 import com.boyuanitsm.pay.unionpay.acp.SDKConfig;
 import com.boyuanitsm.pay.unionpay.acp.exception.SignValidateFailException;
 import org.apache.commons.httpclient.HttpException;

@@ -1,4 +1,4 @@
-package com.boyuanitsm.pay.unionpay.acp.service;
+package com.boyuanitsm.pay.unionpay.acp.service.token;
 
 import com.boyuanitsm.pay.unionpay.acp.AcpService;
 import com.boyuanitsm.pay.unionpay.acp.DemoBase;
