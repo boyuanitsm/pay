@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class Consume {
 
-    private Logger log = LoggerFactory.getLogger(ComsumeSMS.class);
+    private Logger log = LoggerFactory.getLogger(Consume.class);
 
     public Map<String, String> consume(String merId, String orderId, String txnTime, String txnAmt, String token) throws HttpException, SignValidateFailException {
         Map<String, String> contentData = new HashMap<>();

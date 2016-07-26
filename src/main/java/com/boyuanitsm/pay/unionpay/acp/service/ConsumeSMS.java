@@ -17,9 +17,9 @@ import java.util.Map;
  *
  * @author hookszhang on 7/26/16.
  */
-public class ComsumeSMS {
+public class ConsumeSMS {
 
-    private Logger log = LoggerFactory.getLogger(ComsumeSMS.class);
+    private Logger log = LoggerFactory.getLogger(ConsumeSMS.class);
 
     public Map<String, String> request(String merId, String orderId, String txnTime, String txnAmt, String phoneNo, String token) throws SignValidateFailException, HttpException {
         Map<String, String> contentData = new HashMap<>();
