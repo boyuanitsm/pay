@@ -240,6 +240,10 @@ public class PayProperties {
 
         public static class Acp {
 
+            private String merId;
+            private String trId;
+            private String frontUrl;
+            private String backUrl;
             private String frontTransUrl;
             private String backTransUrl;
             private String singleQueryUrl;
@@ -258,6 +262,38 @@ public class PayProperties {
             private String validateCertDir;
             private String singleMode;
             private String encryptCertPath;
+
+            public String getMerId() {
+                return merId;
+            }
+
+            public void setMerId(String merId) {
+                this.merId = merId;
+            }
+
+            public String getTrId() {
+                return trId;
+            }
+
+            public void setTrId(String trId) {
+                this.trId = trId;
+            }
+
+            public String getFrontUrl() {
+                return frontUrl;
+            }
+
+            public void setFrontUrl(String frontUrl) {
+                this.frontUrl = frontUrl;
+            }
+
+            public String getBackUrl() {
+                return backUrl;
+            }
+
+            public void setBackUrl(String backUrl) {
+                this.backUrl = backUrl;
+            }
 
             public String getEncryptCertPath() {
                 return encryptCertPath;
@@ -406,7 +442,11 @@ public class PayProperties {
             @Override
             public String toString() {
                 return "Acp{" +
-                        "frontTransUrl='" + frontTransUrl + '\'' +
+                        "merId='" + merId + '\'' +
+                        ", trId='" + trId + '\'' +
+                        ", frontUrl='" + frontUrl + '\'' +
+                        ", backUrl='" + backUrl + '\'' +
+                        ", frontTransUrl='" + frontTransUrl + '\'' +
                         ", backTransUrl='" + backTransUrl + '\'' +
                         ", singleQueryUrl='" + singleQueryUrl + '\'' +
                         ", batchTransUrl='" + batchTransUrl + '\'' +
@@ -423,6 +463,7 @@ public class PayProperties {
                         ", signCertType='" + signCertType + '\'' +
                         ", validateCertDir='" + validateCertDir + '\'' +
                         ", singleMode='" + singleMode + '\'' +
+                        ", encryptCertPath='" + encryptCertPath + '\'' +
                         '}';
             }
         }
