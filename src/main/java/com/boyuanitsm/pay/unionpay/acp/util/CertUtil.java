@@ -13,7 +13,10 @@
  *   xshu       2014-05-28       证书工具类.
  * =============================================================================
  */
-package com.boyuanitsm.pay.unionpay.acp;
+package com.boyuanitsm.pay.unionpay.acp.util;
+
+import com.boyuanitsm.pay.unionpay.acp.config.SDKConfig;
+import com.boyuanitsm.pay.unionpay.acp.config.SDKConstants;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,7 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.boyuanitsm.pay.unionpay.acp.SDKUtil.isEmpty;
+import static com.boyuanitsm.pay.unionpay.acp.util.SDKUtil.isEmpty;
 
 public class CertUtil {
 	/** 证书容器. */
@@ -164,7 +167,7 @@ public class CertUtil {
 	private static void initTrackKey() {
 		if (!isEmpty(SDKConfig.getConfig().getEncryptTrackKeyModulus())
 				&& !isEmpty(SDKConfig.getConfig().getEncryptTrackKeyExponent())) {
-			encryptTrackKey = SecureUtil.getPublicKey(SDKConfig.getConfig().getEncryptTrackKeyModulus(), 
+			encryptTrackKey = SecureUtil.getPublicKey(SDKConfig.getConfig().getEncryptTrackKeyModulus(),
 					SDKConfig.getConfig().getEncryptTrackKeyExponent());
 			LogUtil.writeLog("LoadEncryptTrackKey Successful");
 		} else {

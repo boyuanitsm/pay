@@ -15,6 +15,8 @@
  */
 package com.boyuanitsm.pay.unionpay.acp;
 
+import com.boyuanitsm.pay.unionpay.acp.util.LogUtil;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

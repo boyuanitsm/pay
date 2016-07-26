@@ -13,7 +13,7 @@
  *   xshu       2014-05-28       MPI基本参数工具类
  * =============================================================================
  */
-package com.boyuanitsm.pay.unionpay.acp;
+package com.boyuanitsm.pay.unionpay.acp.config;
 
 import com.boyuanitsm.pay.PayProperties;
 
