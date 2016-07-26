@@ -26,6 +26,7 @@ dependencies {
     compile group: 'commons-httpclient', name: 'commons-httpclient', version: '3.0.1'
     compile group: 'commons-codec', name: 'commons-codec', version: '1.6'
     compile group: 'commons-logging', name: 'commons-logging', version: '1.1.1'
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
     compile group: 'dom4j', name: 'dom4j', version: '1.6.1'
     compile group: 'jaxen', name: 'jaxen', version: '1.1.1'
 }
