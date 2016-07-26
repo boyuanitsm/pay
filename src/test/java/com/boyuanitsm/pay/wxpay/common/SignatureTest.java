@@ -1,6 +1,7 @@
 package com.boyuanitsm.pay.wxpay.common;
 
 import com.boyuanitsm.pay.PayProperties;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Map;
  *
  * @author hookszhang on 7/7/16.
  */
+@Ignore
 public class SignatureTest {
 
     @Test
