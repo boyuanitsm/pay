@@ -68,10 +68,10 @@ ConsumeSMS consumeSMS = new ConsumeSMS();
 consumeSMS.request(String, String, String, String);
 ```
 #### 方法参数
-- String orderId 商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
-- String txnAmt 交易金额，单位分，不要带小数点
-- String phoneNo 手机号
-- String token 从前台开通的后台通知中获取或者后台开通的返回报文中获取
+- `String orderId` 商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
+- `String txnAmt` 交易金额，单位分，不要带小数点
+- `String phoneNo` 手机号
+- `String token` 从前台开通的后台通知中获取或者后台开通的返回报文中获取
 
 #### 返回
 应答报文
@@ -95,16 +95,30 @@ Consume consume = new Consume();
 consume.consume(String, String, String, String, String);
 ```
 #### 方法参数
-- String orderId     商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
-- String txnAmt      交易金额，单位分，不要带小数点
-- String token       从前台开通的后台通知中获取或者后台开通的返回报文中获取
-- String smsCode     短信验证码
-- String reqReserved 请求方保留域，透传字段（可以实现商户自定义参数的追踪）本交易的后台通知,对本交易的交易状态查询交易、对账文件中均会原样返回，商户可以按需上传，长度为1-1024个字节
+- `String orderId`     商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
+- `String txnAmt`      交易金额，单位分，不要带小数点
+- `String token`       从前台开通的后台通知中获取或者后台开通的返回报文中获取
+- `String smsCode`     短信验证码
+- `String reqReserved` 请求方保留域，透传字段（可以实现商户自定义参数的追踪）本交易的后台通知,对本交易的交易状态查询交易、对账文件中均会原样返回，商户可以按需上传，长度为1-1024个字节
 
 #### 返回
 应答报文
 
-#### 交易状态查询
+## 开通并支付
+即消费交易和开通交易两者合一，发往前台交易地址。
+
+#### 方法
+```
+OpenAndConsume openAndConsume = new OpenAndConsume();
+openAndConsume.build(String, String, String);
+```
+#### 方法参数
+- `String orderId` 商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
+- `String txnAmt` 交易金额，单位分，不要带小数点
+- `String accNo` 银联卡号 这里测试的时候使用的是测试卡号，正式环境请使用真实卡号
+
+
+## 交易状态查询
 对于未收到交易结果的联机交易，商户向银联全渠道支付平台发起交易状态查询交易，查询交易结果。完成交易的过程不需要同持卡人交互，属于后台交易。交易查询类交易可由商户通过SDK向银联全渠道支付交易平台发起交易。
 
 对于成功的前台资金类交易，一般情况下以接收后台通知为主，若未收到后台通知(如3分钟后)，则可间隔（2的n次方秒）发起交易查询；
@@ -125,8 +139,8 @@ ConsumeStatusQuery consumeStatusQuery = new ConsumeStatusQuery();
 consumeStatusQuery.query(String, String);
 ```
 #### 方法参数
-- String orderId 商户订单号，每次发交易测试需修改为被查询的交易的订单号
-- String txnTime 订单发送时间，每次发交易测试需修改为被查询的交易的订单发送时间
+- `String orderId` 商户订单号，每次发交易测试需修改为被查询的交易的订单号
+- `String txnTime` 订单发送时间，每次发交易测试需修改为被查询的交易的订单发送时间
 
 #### 返回
 应答报文
