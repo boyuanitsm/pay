@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 银联侧开通
+ * 银联全渠道支付开通交易用于开通银行卡的银联全渠道支付功能。
  *
  * @author hookszhang on 7/26/16.
  */
@@ -19,7 +19,18 @@ public class OpenCardFront {
     private Logger log = LoggerFactory.getLogger(OpenCardFront.class);
 
     /**
-     * 构建HTML请求报文
+     * 构建银联全渠道支付开通交易用于开通银行卡的银联全渠道支付功能HTML请求报文
+     * 交易步骤：
+     * <p>
+     * 1、持卡人通过商户页面，选择银联全渠道支付开通交易；
+     * <p>
+     * 2、商户组织相关报文发送至全渠道；
+     * <p>
+     * 3、持卡人在银联全渠道支付系统页面输入相关信息；
+     * <p>
+     * 4、全渠道系统完成用户的处理要求；
+     * <p>
+     * 5、全渠道将处理结果反馈给商户后台通知。
      *
      * @param orderId 商户订单号，8-40位数字字母，不能含“-”或“_”，可以自行定制规则
      * @return 跳转到银联侧开通快捷支付的HTML代码
