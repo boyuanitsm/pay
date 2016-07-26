@@ -1,10 +1,12 @@
-# 微信扫码支付
+##########
+## 微信支付
+##########
 wechat:
     # 这个就是自己要保管好的私有Key了（切记只能放在自己的后台代码里，不能放在任何可能被看到源代码的客户端程序中）
     # 每次自己Post数据给API的时候都要用这个key来对所有字段进行签名，生成的签名会放在Sign这个字段，API收到Post数据的时候也会用同样的签名算法对Post过来的数据进行签名和验证
     # 收到API的返回的时候也要用这个key来对返回的数据算下签名，跟API的Sign数据进行比较，如果值不一致，有可能数据被第三方给篡改
     key: F19436EC27A84B01CA7D5B5531DAA26A
-    # 微信分配的公众号ID（开通公众号之后可以获取到）https://mp.weixin.qq.com/advanced/advanced?action=dev&t=advanced/dev&token=526901686&lang=zh_CN
+    # 微信分配的公众号ID（开通公众号之后可以获取到）https://mp.weixin.qq.com/advanced/advanced?action: dev&t: advanced/dev&token: 526901686&lang: zh_CN
     appid: wxa259843dd2f9e29c
     # 微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到） https://pay.weixin.qq.com/index.php/core/account/info
     mchid: 1281492501
@@ -18,22 +20,25 @@ wechat:
     useThreadToDoReport: true
     # 填写为本机的IP地址
     ip: 123.12.12.123
-    # 支付结果通用通知URL https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7
+    # 支付结果通用通知URL https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter: 9_7
     notifyUrl: http://180.167.77.58:30003/api/wechat/pay_result_callback
-# Alipay
+
+##########
+## 支付宝
+##########
 ali:
     # 合作身份者ID，签约账号，以2088开头由16位纯数字组成的字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
     partner: 2088121145819891
     # 收款支付宝账号，以2088开头由16位纯数字组成的字符串，一般情况下收款账号就是签约账号
     sellerId: 2088121145819891
     # 商户的私钥,需要PKCS8格式
-    # RSA公私钥生成：https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.nBDxfy&treeId=58&articleId=103242&docType=1
-    privateKey: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBANzRqp1ZKcQ30aJm+PkTwte+FovXWD1aqzC4h4kluZ/z9irjjeMWJJnxlNkW9ujfNfNqqtVpfF6C2kZiuwwi1iGAc7u6biwHEHnwLAbMZ4FZj+hHT7Gf0HSBifdjTBW9ccxaqlLfm/8DyXDUHnz8atA/QYbdlyR2UK4a5iY3pxcvAgMBAAECgYBZSCTVzfFHNtJ5+Wx9OPI0zNTM4dr5o6lH37RdTXWKKNfFa5A42wEdhUILrG9UpLtpmh1MgIQaqoman9zFAWjWDpCKJIXl1YMr8cJMz4vmsR3GY3N0cxprf4cgmwpfGqSKXAebG3qex3nv/RQLiCeHYw5Qs0Q+wROw1DlyAL28AQJBAPHembv4YcQbhqDobzLzU8HOVDErLwEzB8gOhsa7g7yckBPsYopEyBzTjVmABPM396AU5pkmp/GvKcox02HiaQECQQDpuDwCv89eSb3WCLsxQvZNV4EZqSh+0k3FVwkZ0jnOj1tNY52kpETaFcGPBeAfbaD32MoQuVmq2JEWirh8xdAvAkEAjHAI6bjV441sBWAQuQ/KMT0Ba688UsDzori0jw3v9wMdMURPDyPS4dIAP9hyh1qW4I9iOcjVOSLQ7AM0TqCtAQJBAJ3aD7XvpHfTKELxvLRFvKJ58jjJlg8prNsWsI/e+6n2Cr1XBXbYd6Qvw338guXXHjunELqA5P3NrRhjcrzawYMCQG32GAF1J5iaNuuGHOie08UyPYWo9NdJzpv4zatXPQzaZJ9J7ST93ib4OMy6fHxZ5fWya83/vJZyRbk7d/xioaw=
+    # RSA公私钥生成：https://doc.open.alipay.com/doc2/detail.htm?spm: a219a.7629140.0.0.nBDxfy&treeId: 58&articleId: 103242&docType: 1
+    privateKey: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBANzRqp1ZKcQ30aJm+PkTwte+FovXWD1aqzC4h4kluZ/z9irjjeMWJJnxlNkW9ujfNfNqqtVpfF6C2kZiuwwi1iGAc7u6biwHEHnwLAbMZ4FZj+hHT7Gf0HSBifdjTBW9ccxaqlLfm/8DyXDUHnz8atA/QYbdlyR2UK4a5iY3pxcvAgMBAAECgYBZSCTVzfFHNtJ5+Wx9OPI0zNTM4dr5o6lH37RdTXWKKNfFa5A42wEdhUILrG9UpLtpmh1MgIQaqoman9zFAWjWDpCKJIXl1YMr8cJMz4vmsR3GY3N0cxprf4cgmwpfGqSKXAebG3qex3nv/RQLiCeHYw5Qs0Q+wROw1DlyAL28AQJBAPHembv4YcQbhqDobzLzU8HOVDErLwEzB8gOhsa7g7yckBPsYopEyBzTjVmABPM396AU5pkmp/GvKcox02HiaQECQQDpuDwCv89eSb3WCLsxQvZNV4EZqSh+0k3FVwkZ0jnOj1tNY52kpETaFcGPBeAfbaD32MoQuVmq2JEWirh8xdAvAkEAjHAI6bjV441sBWAQuQ/KMT0Ba688UsDzori0jw3v9wMdMURPDyPS4dIAP9hyh1qW4I9iOcjVOSLQ7AM0TqCtAQJBAJ3aD7XvpHfTKELxvLRFvKJ58jjJlg8prNsWsI/e+6n2Cr1XBXbYd6Qvw338guXXHjunELqA5P3NrRhjcrzawYMCQG32GAF1J5iaNuuGHOie08UyPYWo9NdJzpv4zatXPQzaZJ9J7ST93ib4OMy6fHxZ5fWya83/vJZyRbk7d/xioaw: 
     # 支付宝的公钥,查看地址：https://b.alipay.com/order/pidAndKey.htm
     alipayPublicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB
-    # 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
+    # 服务器异步通知页面路径  需http://格式的完整路径，不能加?id: 123这类自定义参数，必须外网可以正常访问
     notifyUrl: http://180.167.77.58:30003/api/alipay/aync_notify
-    # 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
+    # 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id: 123这类自定义参数，必须外网可以正常访问
     returnUrl: http://180.167.77.58:30003/api/alipay/sync_return
     # 签名方式
     signType: RSA
@@ -46,3 +51,40 @@ ali:
     antiPhishingKey:
     # 客户端的IP地址 非局域网的外网IP地址，如：221.0.0.1
     exterInvokeIp:
+
+##########
+## 银联
+##########
+unionpay:
+    # 无跳转支付
+    acp:
+        # 交易请求地址
+        frontTransUrl: https://101.231.204.80:5000/gateway/api/frontTransReq.do
+        backTransUrl: https://101.231.204.80:5000/gateway/api/backTransReq.do
+        singleQueryUrl: https://101.231.204.80:5000/gateway/api/queryTrans.do
+        batchTransUrl: https://101.231.204.80:5000/gateway/api/batchTrans.do
+        fileTransUrl: https://101.231.204.80:9080/
+        appTransUrl: https://101.231.204.80:5000/gateway/api/appTransReq.do
+        cardTransUrl: https://101.231.204.80:5000/gateway/api/cardTransReq.do
+
+        # 以下缴费产品使用，其余产品用不到
+        jfFrontTransUrl: https://101.231.204.80:5000/jiaofei/api/frontTransReq.do
+        jfBackTransUrl: https://101.231.204.80:5000/jiaofei/api/backTransReq.do
+        jfSingleQueryUrl: https://101.231.204.80:5000/jiaofei/api/queryTrans.do
+        jfCardTransUrl: https://101.231.204.80:5000/jiaofei/api/cardTransReq.do
+        jfAppTransUrl: https://101.231.204.80:5000/jiaofei/api/appTransReq.do
+
+        ######################### 入网测试环境签名证书配置 ################################
+
+        ## 签名证书路径，必须使用绝对路径，如果不想使用绝对路径，可以自行实现相对路径获取证书的方法；测试证书所有商户共用开发包中的测试签名证书，生产环境请从cfca下载得到
+        signCertPath: /Users/zhanghua/certs/acp_test_sign.pfx
+        ## 签名证书密码，测试环境固定000000，生产环境请修改为从cfca下载的正式证书的密码，正式环境证书密码位数需小于等于6位，否则上传到商户服务网站会失败
+        signCertPwd: 000000
+        ## 签名证书类型，固定不需要修改
+        signCertType: PKCS12
+
+        ########################## 验签证书配置 ################################
+        # 验证签名证书目录，只配置到目录即可，必须使用绝对路径，如果不想使用绝对路径，可以自行实现相对路径获取证书的方法；测试证书所有商户共用开发包中的测试验证证书，生产环境所有商户共用开发包中的生产验签证书
+        validateCertDir: /Users/zhanghua/certs/
+        # 是否启用多证书模式(true:单证书|false:多证书---没有配置此项时,默认为单证书模式)
+        singleMode: true
