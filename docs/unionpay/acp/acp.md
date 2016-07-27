@@ -73,12 +73,11 @@ openQuery.query(String, String);
 #### 方法
 ```
 ConsumeSMS consumeSMS = new ConsumeSMS();
-consumeSMS.request(String, String, String, String);
+consumeSMS.request(String, String, String);
 ```
 #### 方法参数
 - `String orderId` 商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
 - `String txnAmt` 交易金额，单位分，不要带小数点
-- `String phoneNo` 手机号
 - `String token` 从前台开通的后台通知中获取或者后台开通的返回报文中获取
 
 #### 返回
