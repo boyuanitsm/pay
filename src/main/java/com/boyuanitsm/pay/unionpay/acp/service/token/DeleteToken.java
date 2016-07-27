@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 删除token号
+ * 商户可通过发起解除标记交易解除之前在银联全渠道支付平台申请的Token标记。
  *
  * @author hookszhang on 7/26/16.
  */
@@ -20,7 +20,17 @@ public class DeleteToken {
 
     private Logger log = LoggerFactory.getLogger(DeleteToken.class);
 
-    public Map<String, String> delete(String merId, String orderId, String txnTime, String token) throws HttpException, SignValidateFailException {
+    /**
+     * 商户可通过发起解除标记交易解除之前在银联全渠道支付平台申请的Token标记。
+     * 交易流程同支付开通交易。
+     *
+     * @param orderId 商户订单号，8-40位数字字母，不能含“-”或“_”，可以自行定制规则
+     * @param token 从前台开通的后台通知中获取或者后台开通的返回报文中获取
+     * @return
+     * @throws HttpException
+     * @throws SignValidateFailException
+     */
+    public Map<String, String> delete(String orderId, String token) throws HttpException, SignValidateFailException {
         Map<String, String> contentData = new HashMap<>();
 
         /***银联全渠道系统，产品参数，除了encoding自行选择外其他不需修改***/
@@ -33,12 +43,12 @@ public class DeleteToken {
         contentData.put("channelType", "07");                          //渠道类型07-PC
 
         /***商户接入参数***/
-        contentData.put("merId", merId);                               //商户号码（本商户号码仅做为测试调通交易使用，该商户号配置了需要对敏感信息加密）测试时请改成自己申请的商户号，【自己注册的测试777开头的商户号不支持代收产品】
+        contentData.put("merId", Acp.merId);                               //商户号码（本商户号码仅做为测试调通交易使用，该商户号配置了需要对敏感信息加密）测试时请改成自己申请的商户号，【自己注册的测试777开头的商户号不支持代收产品】
         contentData.put("accessType", "0");                            //接入类型，商户接入固定填0，不需修改
         contentData.put("orderId", orderId);                           //商户订单号，8-40位数字字母，不能含“-”或“_”，可以自行定制规则
-        contentData.put("txnTime", txnTime);                           //订单发送时间，格式为YYYYMMDDhhmmss，必须取当前时间，否则会报txnTime无效
+        contentData.put("txnTime", Acp.getCurrentTime());                           //订单发送时间，格式为YYYYMMDDhhmmss，必须取当前时间，否则会报txnTime无效
         //token号（从前台开通的后台通知中获取或者后台开通的返回报文中获取）
-        contentData.put("tokenPayData", "{token=" + token + "&trId=62000000001}");
+        contentData.put("tokenPayData", "{token=" + token + "&trId=" + Acp.trId + "}");
         //contentData.put("reqReserved", "透传字段");        					//请求方保留域，透传字段（可以实现商户自定义参数的追踪）本交易的后台通知,对本交易的交易状态查询交易、对账文件中均会原样返回，商户可以按需上传，长度为1-1024个字节
 
         /**对请求参数进行签名并发送http post请求，接收同步应答报文**/

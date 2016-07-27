@@ -118,7 +118,14 @@ public class UnionPayAcpResource {
     }
 
     @RequestMapping("delete_token")
-    public Map<String, String> deleteToken() {
+    public Map<String, String> deleteToken(String orderId, String token) {
+        try {
+            return deleteToken.delete(orderId, token);
+        } catch (HttpException e) {
+            e.printStackTrace();
+        } catch (SignValidateFailException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
