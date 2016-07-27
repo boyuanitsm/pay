@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <title>Unionpay - Acp Token 消费状态查询</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>消费状态查询</h1>
+            <form action="/api/unionpay/acp/consume_status_query" method="post">
+                <div class="form-group">
+                    <label>OrderId</label>
+                    <input id="orderId" class="form-control" type="text" name="orderId">
+                </div>
+                <div class="form-group">
+                    <label>TxnTime</label>
+                    <input class="form-control" type="text" name="txnTime">
+                </div>
+                <button class="btn btn-primary" type="submit" name="button">Open</button>
+            </form>
+        </div>
+        <script type="text/javascript">
+            document.getElementById('orderId').value = new Date().valueOf();
+        </script>
+    </body>
+</html>
