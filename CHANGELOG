@@ -1,9 +1,12 @@
 Please view this file on the master branch, on stable branches it's out of date.
 
-v 1.2.1(no released)
+v 1.2.1
 
-    - 修复No such provider: BC
-    - 增加前后台接收通知的验证签名方法
+    - 银联无跳转支付
+        - 修复No such provider: BC
+        - 增加前后台接收通知的验证签名方法
+        - 发送短信验证码时，不需要手机号
+        - 增加删除Token方法
 
 v 1.2.0
 
