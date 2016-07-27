@@ -42,4 +42,16 @@ public class UnionPayAcpResource {
         }
         return allRequestMap;
     }
+
+    @RequestMapping("back_notify")
+    public Map<String, String> backNotify(HttpServletRequest request) {
+        Map<String, String> allRequestMap = AcpService.getAllRequestParam(request.getParameterMap());
+        log.debug("Back notify: {}", allRequestMap);
+        boolean isSign = AcpService.validate(allRequestMap, Acp.encoding_UTF8);
+        if (!isSign) {
+            log.warn("Sign validate fail!");
+            return new HashMap<>();
+        }
+        return allRequestMap;
+    }
 }

@@ -39,7 +39,7 @@ public class LogUtil {
 	 * @param cont
 	 */
 	public static void writeLog(String cont) {
-		GATELOG.info(cont);
+		GATELOG.debug(cont);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class LogUtil {
 	 * @param msg
 	 */
 	public static void writeMessage(String msg) {
-		GATELOG_MESSAGE.info(msg);
+		GATELOG_MESSAGE.debug(msg);
 	}
 
 	/**

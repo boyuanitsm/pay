@@ -139,6 +139,9 @@ public class SDKUtil {
 			sf.append(en.getKey() + SDKConstants.EQUAL + en.getValue()
 					+ SDKConstants.AMPERSAND);
 		}
+		if (sf.length() == 0) {
+			return "";
+		}
 		return sf.substring(0, sf.length() - 1);
 	}
 
