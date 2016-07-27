@@ -88,7 +88,34 @@ public class AcpService {
 		}
 		return false;
 	}
-	
+
+    /**
+     * 验证签名(SHA-1摘要算法)<br>
+     *
+     * @param encoding 上送请求报文域encoding字段的值
+     * @param rspData request.getParameterMap()
+     * @return true 通过 false 未通过
+     */
+    public static boolean validate(String encoding, Map<String, String[]> rspData) {
+        return validate(toMap(rspData), encoding);
+    }
+
+    /**
+     * 将request.getParameterMap()返回的Map String, String[]转换成Map String, String, 如果源Map values不为空, 则只去下标为0的元素
+     *
+     * @param map
+     * @return
+     */
+    private static Map<String, String> toMap(Map<String, String[]> map) {
+        Map<String, String> res = new HashMap<>();
+        for (String key: map.keySet()) {
+            String[] values = map.get(key);
+            if (values != null && values.length > 0) {
+                res.put(key, values[0]);
+            }
+        }
+        return res;
+    }
 
 	/**
 	 * 对控件支付成功返回的结果信息中data域进行验签（控件端获取的应答信息）

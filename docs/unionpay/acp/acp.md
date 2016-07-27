@@ -2,6 +2,13 @@
 
 > [无跳转支付](https://open.unionpay.com/ajweb/product/detail?id=2)
 
+## 签名与验证签名
+**前后台接收通知时一定要验证签名，以防财产损失**
+```
+AcpService.validate(Acp.encoding_UTF8, request.getParameterMap());
+```
+调用时会抛出`SignValidateFailException`异常的方法无需再次验证签名，捕获异常并根据业务逻辑处理即可
+
 ## 卡开通
 银联全渠道支付开通交易用于开通银行卡的银联全渠道支付功能
 
