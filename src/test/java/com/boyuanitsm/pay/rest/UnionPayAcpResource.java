@@ -77,9 +77,9 @@ public class UnionPayAcpResource {
     }
 
     @RequestMapping("consume_sms")
-    public Map<String, String> consumeSMS(String orderId, String txnAmt, String phoneNo, String token) {
+    public Map<String, String> consumeSMS(String orderId, String txnAmt, String token) {
         try {
-            return consumeSMS.request(orderId, txnAmt, phoneNo, token);
+            return consumeSMS.request(orderId, txnAmt, token);
         } catch (SignValidateFailException e) {
             e.printStackTrace();
         } catch (HttpException e) {

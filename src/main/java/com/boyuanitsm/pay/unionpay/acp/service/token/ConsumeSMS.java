@@ -26,13 +26,12 @@ public class ConsumeSMS {
      *
      * @param orderId 商户订单号，8-40位数字字母，不能含“-”或“_”，可以自行定制规则
      * @param txnAmt 交易金额，单位分，不要带小数点
-     * @param phoneNo 手机号
      * @param token 从前台开通的后台通知中获取或者后台开通的返回报文中获取
      * @return
      * @throws SignValidateFailException
      * @throws HttpException
      */
-    public Map<String, String> request(String orderId, String txnAmt, String phoneNo, String token) throws SignValidateFailException, HttpException {
+    public Map<String, String> request(String orderId, String txnAmt, String token) throws SignValidateFailException, HttpException {
         Map<String, String> contentData = new HashMap<>();
 
         /***银联全渠道系统，产品参数，除了encoding自行选择外其他不需修改***/
@@ -53,12 +52,13 @@ public class ConsumeSMS {
         contentData.put("txnAmt", txnAmt);                               //交易金额，单位分，不要带小数点
         contentData.put("accType", "01");                              //账号类型
 
-        //送手机号码
-        Map<String, String> customerInfoMap = new HashMap<>();
-        customerInfoMap.put("phoneNo", phoneNo);                    //手机号
-        String customerInfoStr = AcpService.getCustomerInfoWithEncrypt(customerInfoMap, null, Acp.encoding_UTF8);
+        // Token版不送
+        // 送手机号码
+        // Map<String, String> customerInfoMap = new HashMap<>();
+        // customerInfoMap.put("phoneNo", phoneNo);                    //手机号
+        // String customerInfoStr = AcpService.getCustomerInfoWithEncrypt(customerInfoMap, null, Acp.encoding_UTF8);
 
-        contentData.put("customerInfo", customerInfoStr);
+        // contentData.put("customerInfo", customerInfoStr);
         contentData.put("encryptCertId", CertUtil.getEncryptCertId());       //加密证书的certId，配置在acp_sdk.properties文件 acpsdk.encryptCert.path属性下
         //消费短信：token号（从前台开通的后台通知中获取或者后台开通的返回报文中获取）
         contentData.put("tokenPayData", "{token=" + token + "&trId="+ Acp.trId +"}");
