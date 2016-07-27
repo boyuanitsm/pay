@@ -2,9 +2,19 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Unionpay - Acp Token 银联侧开卡</title>
+        <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <title>Unionpay - Acp Token 卡开通</title>
     </head>
     <body>
-        Hello World
+        <div class="container">
+            <h1>卡开通</h1>
+            <form action="/api/unionpay/acp/open_card_front" method="post">
+                <div class="form-group">
+                    <label>OrderId</label>
+                    <input class="form-control" type="text" name="orderId">
+                </div>
+                <button class="btn btn-primary" type="submit" name="button">Open</button>
+            </form>
+        </div>
     </body>
 </html>
