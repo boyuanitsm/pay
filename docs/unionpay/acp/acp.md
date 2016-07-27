@@ -28,13 +28,13 @@ boolean isSign = AcpService.validate(allRequestMap, Acp.encoding_UTF8);
 #### 方法
 ```
 OpenCardFront openCardFront = new OpenCardFront();
-openCardFront.build(String);
+String html = openCardFront.build(String);
 ```
 #### 方法参数
 - String orderId 商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
 
 #### 返回
-银联全渠道支付开通交易用于开通银行卡的银联全渠道支付功能HTML请求报文
+银联全渠道支付开通交易用于开通银行卡的银联全渠道支付功能HTML请求报文, 将这个报文输出到浏览器，Content-Type: text/html 即可实现自动提交表单到银联全渠道系统
 
 ## 开通查询
 全渠道支付开通查询交易，用于查询银行卡是否已开通银联全渠道支付。
@@ -50,7 +50,7 @@ openCardFront.build(String);
 #### 方法
 ```
 OpenQuery openQuery = new OpenQuery();
-openQuery.query(String, String);
+Map<String, String> resData = openQuery.query(String, String);
 ```
 #### 方法参数
 - `String orderId` 商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
@@ -73,7 +73,7 @@ openQuery.query(String, String);
 #### 方法
 ```
 ConsumeSMS consumeSMS = new ConsumeSMS();
-consumeSMS.request(String, String, String);
+Map<String, String> resData = consumeSMS.request(String, String, String);
 ```
 #### 方法参数
 - `String orderId` 商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
@@ -99,7 +99,7 @@ consumeSMS.request(String, String, String);
 #### 方法
 ```
 Consume consume = new Consume();
-consume.consume(String, String, String, String, String);
+Map<String, String> resData = consume.consume(String, String, String, String, String);
 ```
 #### 方法参数
 - `String orderId`     商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
@@ -117,13 +117,15 @@ consume.consume(String, String, String, String, String);
 #### 方法
 ```
 OpenAndConsume openAndConsume = new OpenAndConsume();
-openAndConsume.build(String, String, String);
+String html = openAndConsume.build(String, String, String);
 ```
 #### 方法参数
 - `String orderId` 商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
 - `String txnAmt` 交易金额，单位分，不要带小数点
 - `String accNo` 银联卡号 这里测试的时候使用的是测试卡号，正式环境请使用真实卡号
 
+#### 返回
+消费交易和开通交易两者合一功能HTML请求报文, 将这个报文输出到浏览器，Content-Type: text/html 即可实现自动提交表单到银联全渠道系统
 
 ## 交易状态查询
 对于未收到交易结果的联机交易，商户向银联全渠道支付平台发起交易状态查询交易，查询交易结果。完成交易的过程不需要同持卡人交互，属于后台交易。交易查询类交易可由商户通过SDK向银联全渠道支付交易平台发起交易。
@@ -143,11 +145,26 @@ openAndConsume.build(String, String, String);
 #### 方法
 ```
 ConsumeStatusQuery consumeStatusQuery = new ConsumeStatusQuery();
-consumeStatusQuery.query(String, String);
+Map<String, String> resData = consumeStatusQuery.query(String, String);
 ```
 #### 方法参数
 - `String orderId` 商户订单号，每次发交易测试需修改为被查询的交易的订单号
 - `String txnTime` 订单发送时间，每次发交易测试需修改为被查询的交易的订单发送时间
 
 #### 返回
+应答报文
+
+## 删除Token（解除绑定）
+商户可通过发起解除标记交易解除之前在银联全渠道支付平台申请的Token标记。
+
+#### 方法
+```
+DeleteToken deleteToken = new DeleteToken();
+Map<String, String> resData = deleteToken.delete(String, String);
+```
+#### 方法参数
+- `String orderId` 商户订单号，每次发交易测试需修改为被查询的交易的订单号
+- `String token`       从前台开通的后台通知中获取或者后台开通的返回报文中获取
+
+## 返回
 应答报文
