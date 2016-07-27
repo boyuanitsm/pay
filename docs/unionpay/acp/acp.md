@@ -1,10 +1,10 @@
 # 银联支付 无跳转Token API
 
-> [无跳转支付](https://open.unionpay.com/ajweb/product/detail?id=2)
+> [银联官方无跳转支付文档](https://open.unionpay.com/ajweb/product/detail?id=2)
 
 ## 签名与验证签名
 **前后台接收通知时一定要验证签名，以防财产损失**
-```
+```java
 Map<String, String> allRequestMap = AcpService.getAllRequestParam(request.getParameterMap());
 boolean isSign = AcpService.validate(allRequestMap, Acp.encoding_UTF8);
 ```
@@ -26,12 +26,12 @@ boolean isSign = AcpService.validate(allRequestMap, Acp.encoding_UTF8);
 5、全渠道将处理结果反馈给商户后台通知。
 
 #### 方法
-```
+```java
 OpenCardFront openCardFront = new OpenCardFront();
 String html = openCardFront.build(String);
 ```
 #### 方法参数
-- String orderId 商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
+- `String orderId` 商户订单号，8-40位数字字母，不能含 - 或 _ ，可以自行定制规则
 
 #### 返回
 银联全渠道支付开通交易用于开通银行卡的银联全渠道支付功能HTML请求报文, 将这个报文输出到浏览器，Content-Type: text/html 即可实现自动提交表单到银联全渠道系统
@@ -48,7 +48,7 @@ String html = openCardFront.build(String);
 3、全渠道系统组织交易结果报文，返回给商户。
 
 #### 方法
-```
+```java
 OpenQuery openQuery = new OpenQuery();
 Map<String, String> resData = openQuery.query(String, String);
 ```
@@ -71,7 +71,7 @@ Map<String, String> resData = openQuery.query(String, String);
 3、全渠道系统组织交易结果报文，返回给商户。
 
 #### 方法
-```
+```java
 ConsumeSMS consumeSMS = new ConsumeSMS();
 Map<String, String> resData = consumeSMS.request(String, String, String);
 ```
@@ -97,7 +97,7 @@ Map<String, String> resData = consumeSMS.request(String, String, String);
 4、因消费交易涉及资金清算，全渠道系统发送后台通知（交易结果）给商户。
 
 #### 方法
-```
+```java
 Consume consume = new Consume();
 Map<String, String> resData = consume.consume(String, String, String, String, String);
 ```
@@ -115,7 +115,7 @@ Map<String, String> resData = consume.consume(String, String, String, String, St
 即消费交易和开通交易两者合一，发往前台交易地址。
 
 #### 方法
-```
+```java
 OpenAndConsume openAndConsume = new OpenAndConsume();
 String html = openAndConsume.build(String, String, String);
 ```
@@ -143,7 +143,7 @@ String html = openAndConsume.build(String, String, String);
 若查询动作成功，即应答码为“00“，则根据“原交易应答码”即origRespCode来判断被查询交易是否成功。此时若origRespCode为00，则表示被查询交易成功。
 
 #### 方法
-```
+```java
 ConsumeStatusQuery consumeStatusQuery = new ConsumeStatusQuery();
 Map<String, String> resData = consumeStatusQuery.query(String, String);
 ```
@@ -158,7 +158,7 @@ Map<String, String> resData = consumeStatusQuery.query(String, String);
 商户可通过发起解除标记交易解除之前在银联全渠道支付平台申请的Token标记。
 
 #### 方法
-```
+```java
 DeleteToken deleteToken = new DeleteToken();
 Map<String, String> resData = deleteToken.delete(String, String);
 ```
