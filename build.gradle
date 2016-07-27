@@ -29,6 +29,7 @@ dependencies {
     compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
     compile group: 'dom4j', name: 'dom4j', version: '1.6.1'
     compile group: 'jaxen', name: 'jaxen', version: '1.1.1'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.46'
 }
 
 // build source jar

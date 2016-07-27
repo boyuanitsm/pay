@@ -533,10 +533,10 @@ public class CertUtil {
 		try {
 			if (Security.getProvider("BC") == null) {
 				LogUtil.writeLog("add BC provider");
-				// Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+				Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 			} else {
 				Security.removeProvider("BC"); //解决eclipse调试时tomcat自动重新加载时，BC存在不明原因异常的问题。
-				// Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+				Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 				LogUtil.writeLog("re-add BC provider");
 			}
 			KeyStore ks = null;

@@ -97,7 +97,7 @@ public class AcpService {
      * @return true 通过 false 未通过
      */
     public static boolean validate(String encoding, Map<String, String[]> rspData) {
-        return validate(toMap(rspData), encoding);
+        return validate(getAllRequestParam(rspData), encoding);
     }
 
     /**
@@ -106,7 +106,7 @@ public class AcpService {
      * @param map
      * @return
      */
-    private static Map<String, String> toMap(Map<String, String[]> map) {
+    public static Map<String, String> getAllRequestParam(Map<String, String[]> map) {
         Map<String, String> res = new HashMap<>();
         for (String key: map.keySet()) {
             String[] values = map.get(key);

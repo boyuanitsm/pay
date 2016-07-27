@@ -1,5 +1,9 @@
 Please view this file on the master branch, on stable branches it's out of date.
 
+v 1.2.1
+
+    - 修复No such provider: BC
+
 v 1.2.0
 
     - 增加银联 － 无跳转支付SDK
