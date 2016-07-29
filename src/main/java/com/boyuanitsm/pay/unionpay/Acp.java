@@ -1,7 +1,7 @@
-package com.boyuanitsm.pay.unionpay.acp;
+package com.boyuanitsm.pay.unionpay;
 
 import com.boyuanitsm.pay.PayProperties;
-import com.boyuanitsm.pay.unionpay.acp.config.SDKConstants;
+import com.boyuanitsm.pay.unionpay.config.SDKConstants;
 
 import java.io.BufferedReader;
 import java.io.File;

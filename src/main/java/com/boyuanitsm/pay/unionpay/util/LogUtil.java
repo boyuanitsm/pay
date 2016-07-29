@@ -13,7 +13,7 @@
  *   xshu       2014-05-28       日志打印工具类
  * =============================================================================
  */
-package com.boyuanitsm.pay.unionpay.acp.util;
+package com.boyuanitsm.pay.unionpay.util;
 
 import java.util.Iterator;
 import java.util.Map;

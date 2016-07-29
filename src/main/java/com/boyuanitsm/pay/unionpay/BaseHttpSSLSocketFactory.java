@@ -13,9 +13,9 @@
  *   xshu       2014-05-28     SSLSocket 链接工具类(用于https)
  * =============================================================================
  */
-package com.boyuanitsm.pay.unionpay.acp;
+package com.boyuanitsm.pay.unionpay;
 
-import com.boyuanitsm.pay.unionpay.acp.util.LogUtil;
+import com.boyuanitsm.pay.unionpay.util.LogUtil;
 
 import java.io.IOException;
 import java.net.InetAddress;

@@ -13,9 +13,9 @@
  *   xshu       2014-05-28       HTTP通信工具类
  * =============================================================================
  */
-package com.boyuanitsm.pay.unionpay.acp;
+package com.boyuanitsm.pay.unionpay;
 
-import com.boyuanitsm.pay.unionpay.acp.util.LogUtil;
+import com.boyuanitsm.pay.unionpay.util.LogUtil;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

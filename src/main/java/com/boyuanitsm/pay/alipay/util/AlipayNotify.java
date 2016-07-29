@@ -29,7 +29,7 @@ public class AlipayNotify {
     /**
      * 支付宝消息验证地址
      */
-    private static final String HTTPS_VERIFY_URL = "https://mapi.alipay.com/gateway.do?service=notify_verify&";
+    private static final String HTTPS_VERIFY_URL = "https://mapi.alipay.com/gateway.do?common=notify_verify&";
 
     /**
      * 验证消息是否是支付宝发出的合法消息

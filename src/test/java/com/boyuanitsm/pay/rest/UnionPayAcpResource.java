@@ -1,10 +1,10 @@
 package com.boyuanitsm.pay.rest;
 
-import com.boyuanitsm.pay.unionpay.acp.Acp;
-import com.boyuanitsm.pay.unionpay.acp.exception.SignValidateFailException;
-import com.boyuanitsm.pay.unionpay.acp.service.AcpService;
-import com.boyuanitsm.pay.unionpay.acp.service.ConsumeStatusQuery;
-import com.boyuanitsm.pay.unionpay.acp.service.token.*;
+import com.boyuanitsm.pay.unionpay.Acp;
+import com.boyuanitsm.pay.unionpay.error.SignValidateFailException;
+import com.boyuanitsm.pay.unionpay.common.AcpService;
+import com.boyuanitsm.pay.unionpay.common.ConsumeStatusQuery;
+import com.boyuanitsm.pay.unionpay.token.*;
 import org.apache.commons.httpclient.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

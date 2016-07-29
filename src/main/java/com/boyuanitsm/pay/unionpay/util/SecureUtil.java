@@ -13,7 +13,7 @@
  *   xshu       2014-05-28     报文加密解密等操作的工具类
  * =============================================================================
  */
-package com.boyuanitsm.pay.unionpay.acp.util;
+package com.boyuanitsm.pay.unionpay.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

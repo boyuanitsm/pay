@@ -110,7 +110,7 @@ public class AlipaySubmit {
     public static String buildRequest(String outTradeNo, String subject, String totalFee, String body) {
         //把请求参数打包成MAP
         Map<String, String> sParaTemp = new HashMap<>();
-        sParaTemp.put("service", AlipayConfig.create_direct_pay_by_user);
+        sParaTemp.put("common", AlipayConfig.create_direct_pay_by_user);
         sParaTemp.put("partner", AlipayConfig.partner);
         sParaTemp.put("seller_id", AlipayConfig.seller_id);
         sParaTemp.put("_input_charset", AlipayConfig.input_charset);
@@ -138,7 +138,7 @@ public class AlipaySubmit {
      */
     public static String buildRequest(String batchNo, String batchNum, String detailData) {
         Map<String, String> sParaTemp = new HashMap<>();
-        sParaTemp.put("service", AlipayConfig.refund_fastpay_by_platform_pwd);
+        sParaTemp.put("common", AlipayConfig.refund_fastpay_by_platform_pwd);
         sParaTemp.put("partner", AlipayConfig.partner);
         sParaTemp.put("_input_charset", AlipayConfig.input_charset);
         sParaTemp.put("notify_url", AlipayConfig.notify_url);
@@ -165,7 +165,7 @@ public class AlipaySubmit {
                                                         DocumentException, IOException {
 
         //构造访问query_timestamp接口的URL串
-        String strUrl = ALIPAY_GATEWAY_NEW + "service=query_timestamp&partner=" + AlipayConfig.partner + "&_input_charset" +AlipayConfig.input_charset;
+        String strUrl = ALIPAY_GATEWAY_NEW + "common=query_timestamp&partner=" + AlipayConfig.partner + "&_input_charset" +AlipayConfig.input_charset;
         StringBuffer result = new StringBuffer();
 
         SAXReader reader = new SAXReader();

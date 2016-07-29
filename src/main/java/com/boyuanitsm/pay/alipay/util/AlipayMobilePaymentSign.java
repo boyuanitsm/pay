@@ -28,7 +28,7 @@ public class AlipayMobilePaymentSign {
      */
     public static String pay(String outTradeNO, String subject, String totalFee) throws UnsupportedEncodingException {
         String[] parameters = new String[]{
-                String.format("service=\"%s\"", AlipayConfig.mobile_securitypay_pay),
+                String.format("common=\"%s\"", AlipayConfig.mobile_securitypay_pay),
                 String.format("partner=\"%s\"", AlipayConfig.partner),
                 String.format("_input_charset=\"%s\"", AlipayConfig.input_charset),
                 String.format("notify_url=\"%s\"", AlipayConfig.notify_url),
