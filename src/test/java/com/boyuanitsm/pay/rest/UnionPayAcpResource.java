@@ -1,6 +1,7 @@
 package com.boyuanitsm.pay.rest;
 
 import com.boyuanitsm.pay.unionpay.Acp;
+import com.boyuanitsm.pay.unionpay.b2c.FrontConsume;
 import com.boyuanitsm.pay.unionpay.error.SignValidateFailException;
 import com.boyuanitsm.pay.unionpay.common.AcpService;
 import com.boyuanitsm.pay.unionpay.common.ConsumeStatusQuery;
@@ -33,6 +34,7 @@ public class UnionPayAcpResource {
     private OpenAndConsume openAndConsume = new OpenAndConsume();
     private ConsumeStatusQuery consumeStatusQuery = new ConsumeStatusQuery();
     private DeleteToken deleteToken = new DeleteToken();
+    private FrontConsume frontConsume = new FrontConsume();
 
     @RequestMapping("open_card_front")
     public String openCardFront(String orderId) {
@@ -127,5 +129,10 @@ public class UnionPayAcpResource {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @RequestMapping("front_consume")
+    public String frontConsume(String txnAmt) {
+        return frontConsume.consume(txnAmt);
     }
 }
