@@ -13,7 +13,7 @@
  *   xshu       2014-05-28       MPI基本参数工具类
  * =============================================================================
  */
-package com.boyuanitsm.pay.unionpay.acp.config;
+package com.boyuanitsm.pay.unionpay.config;
 
 import com.boyuanitsm.pay.PayProperties;
 
@@ -27,26 +27,26 @@ public class SDKConfig {
 
 	private SDKConfig() {
 		// 从PayProperties中获得配置
-		PayProperties.UnionPay.Acp acp = PayProperties.getInstance().getUnionpay().getAcp();
-		this.frontRequestUrl = acp.getFrontTransUrl();
-		this.backRequestUrl = acp.getBackTransUrl();
-		this.singleQueryUrl = acp.getSingleQueryUrl();
-		this.batchTransUrl = acp.getBatchTransUrl();
-		this.fileTransUrl = acp.getFileTransUrl();
-		this.signCertPath = acp.getSignCertPath();
-		this.signCertPwd = acp.getSignCertPwd();
-		this.signCertType = acp.getSignCertType();
-		this.encryptCertPath = acp.getEncryptCertPath();
-		this.validateCertDir = acp.getValidateCertDir();
-		this.cardRequestUrl = acp.getCardTransUrl();
-		this.appRequestUrl = acp.getAppTransUrl();
-		this.singleMode = acp.getSingleMode();
+		PayProperties.UnionPay unionpay = PayProperties.getInstance().getUnionpay();
+		this.frontRequestUrl = unionpay.getFrontTransUrl();
+		this.backRequestUrl = unionpay.getBackTransUrl();
+		this.singleQueryUrl = unionpay.getSingleQueryUrl();
+		this.batchTransUrl = unionpay.getBatchTransUrl();
+		this.fileTransUrl = unionpay.getFileTransUrl();
+		this.signCertPath = unionpay.getSignCertPath();
+		this.signCertPwd = unionpay.getSignCertPwd();
+		this.signCertType = unionpay.getSignCertType();
+		this.encryptCertPath = unionpay.getEncryptCertPath();
+		this.validateCertDir = unionpay.getValidateCertDir();
+		this.cardRequestUrl = unionpay.getCardTransUrl();
+		this.appRequestUrl = unionpay.getAppTransUrl();
+		this.singleMode = unionpay.getSingleMode();
 
-		this.jfFrontRequestUrl = acp.getJfFrontTransUrl();
-		this.jfBackRequestUrl = acp.getJfBackTransUrl();
-		this.jfSingleQueryUrl = acp.getJfSingleQueryUrl();
-		this.jfCardRequestUrl = acp.getJfCardTransUrl();
-		this.jfAppRequestUrl = acp.getJfAppTransUrl();
+		this.jfFrontRequestUrl = unionpay.getJfFrontTransUrl();
+		this.jfBackRequestUrl = unionpay.getJfBackTransUrl();
+		this.jfSingleQueryUrl = unionpay.getJfSingleQueryUrl();
+		this.jfCardRequestUrl = unionpay.getJfCardTransUrl();
+		this.jfAppRequestUrl = unionpay.getJfAppTransUrl();
 	}
 
 	/** 前台请求URL. */

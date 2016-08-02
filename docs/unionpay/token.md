@@ -1,16 +1,10 @@
 # 银联支付 无跳转Token API
 
+> [银联支付通用API](unionpay.md)
 > [银联官方无跳转支付文档](https://open.unionpay.com/ajweb/product/detail?id=2)
 
-## 签名与验证签名
-**前后台接收通知时一定要验证签名，以防财产损失**
-```java
-Map<String, String> allRequestMap = AcpService.getAllRequestParam(request.getParameterMap());
-boolean isSign = AcpService.validate(allRequestMap, Acp.encoding_UTF8);
-```
-调用时会抛出`SignValidateFailException`异常的方法无需再次验证签名，捕获异常并根据业务逻辑处理即可
-
 ## 卡开通
+------------
 银联全渠道支付开通交易用于开通银行卡的银联全渠道支付功能
 
 交易步骤：
@@ -39,6 +33,7 @@ String html = openCardFront.build(String);
 **卡开通通知报文含有Token, 请务必保留，当第二次消费的时候使用，如果丢失，调用开通查询方法传入卡开通订单号即可查询Token**
 
 ## 开通查询
+------------
 全渠道支付开通查询交易，用于查询银行卡是否已开通银联全渠道支付。
 
 交易步骤：
@@ -62,6 +57,7 @@ Map<String, String> resData = openQuery.query(String, String);
 开通状态应答报文，包含Token
 
 ## 短信交易（消费短信）
+------------
 发送短信验证码类交易为商户提供在银行在线支付平台的辅助交易功能支持。发送短信验证码类交易可由商户通过SDK向银联全渠道支付交易平台发起交易。
 
 交易步骤：
@@ -86,6 +82,7 @@ Map<String, String> resData = consumeSMS.request(String, String, String);
 应答报文
 
 ## 消费
+------------
 消费是指境内外持卡人在境内外商户网站进行购物等消费时用银行卡结算的交易，经批准的消费额将即时地反映到该持卡人的账户余额上。
 
 交易步骤：
@@ -114,6 +111,7 @@ Map<String, String> resData = consume.consume(String, String, String, String, St
 应答报文
 
 ## 开通并支付
+------------
 即消费交易和开通交易两者合一，发往前台交易地址。
 
 #### 方法
@@ -132,6 +130,7 @@ String html = openAndConsume.build(String, String, String);
 **开通并支付通知报文不含有Token, 需要调用开通查询方法传入开通并支付订单号查询Token**
 
 ## 交易状态查询
+------------
 对于未收到交易结果的联机交易，商户向银联全渠道支付平台发起交易状态查询交易，查询交易结果。完成交易的过程不需要同持卡人交互，属于后台交易。交易查询类交易可由商户通过SDK向银联全渠道支付交易平台发起交易。
 
 对于成功的前台资金类交易，一般情况下以接收后台通知为主，若未收到后台通知(如3分钟后)，则可间隔（2的n次方秒）发起交易查询；
@@ -159,6 +158,7 @@ Map<String, String> resData = consumeStatusQuery.query(String, String);
 应答报文
 
 ## 删除Token（解除绑定）
+------------
 商户可通过发起解除标记交易解除之前在银联全渠道支付平台申请的Token标记。
 
 #### 方法

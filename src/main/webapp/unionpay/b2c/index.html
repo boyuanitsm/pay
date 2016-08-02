@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <title>Unionpay - 网关支付</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>网关支付</h1>
+            <form action="/api/unionpay/acp/front_consume" method="post">
+                <div class="form-group">
+                    <label>TxnAmt</label>
+                    <input class="form-control" type="text" name="txnAmt">
+                </div>
+                <button class="btn btn-primary" type="submit" name="button">Consume</button>
+            </form>
+        </div>
+    </body>
+</html>

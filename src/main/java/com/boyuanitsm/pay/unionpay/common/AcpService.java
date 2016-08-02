@@ -1,11 +1,11 @@
-package com.boyuanitsm.pay.unionpay.acp.service;
+package com.boyuanitsm.pay.unionpay.common;
 
-import com.boyuanitsm.pay.unionpay.acp.*;
-import com.boyuanitsm.pay.unionpay.acp.config.SDKConstants;
-import com.boyuanitsm.pay.unionpay.acp.util.CertUtil;
-import com.boyuanitsm.pay.unionpay.acp.util.LogUtil;
-import com.boyuanitsm.pay.unionpay.acp.util.SDKUtil;
-import com.boyuanitsm.pay.unionpay.acp.util.SecureUtil;
+import com.boyuanitsm.pay.unionpay.HttpClient;
+import com.boyuanitsm.pay.unionpay.config.SDKConstants;
+import com.boyuanitsm.pay.unionpay.util.CertUtil;
+import com.boyuanitsm.pay.unionpay.util.LogUtil;
+import com.boyuanitsm.pay.unionpay.util.SDKUtil;
+import com.boyuanitsm.pay.unionpay.util.SecureUtil;
 
 import java.io.File;
 import java.io.FileInputStream;

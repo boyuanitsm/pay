@@ -1,4 +1,4 @@
-package com.boyuanitsm.pay.unionpay.acp.exception;
+package com.boyuanitsm.pay.unionpay.error;
 
 /**
  * 签名验证失败异常

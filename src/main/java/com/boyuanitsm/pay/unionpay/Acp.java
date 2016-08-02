@@ -1,7 +1,7 @@
-package com.boyuanitsm.pay.unionpay.acp;
+package com.boyuanitsm.pay.unionpay;
 
 import com.boyuanitsm.pay.PayProperties;
-import com.boyuanitsm.pay.unionpay.acp.config.SDKConstants;
+import com.boyuanitsm.pay.unionpay.config.SDKConstants;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,15 +33,15 @@ public class Acp {
 	//全渠道固定值
 	public static final String version = "5.0.0";
 
-	public static final String merId = PayProperties.getInstance().getUnionpay().getAcp().getMerId();
+	public static final String merId = PayProperties.getInstance().getUnionpay().getMerId();
 
-	public static final String trId = PayProperties.getInstance().getUnionpay().getAcp().getTrId();
+	public static final String trId = PayProperties.getInstance().getUnionpay().getTrId();
 
 	//后台服务对应的写法参照 FrontRcvResponse.java
-	public static final String frontUrl = PayProperties.getInstance().getUnionpay().getAcp().getFrontUrl();
+	public static final String frontUrl = PayProperties.getInstance().getUnionpay().getFrontUrl();
 
 	//后台服务对应的写法参照 BackRcvResponse.java
-	public static final String backUrl = PayProperties.getInstance().getUnionpay().getAcp().getBackUrl();//受理方和发卡方自选填写的域[O]--后台通知地址
+	public static final String backUrl = PayProperties.getInstance().getUnionpay().getBackUrl();//受理方和发卡方自选填写的域[O]--后台通知地址
 
 	// 商户发送交易时间 格式:YYYYMMDDhhmmss
 	public static String getCurrentTime() {

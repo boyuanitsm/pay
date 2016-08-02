@@ -1,15 +1,13 @@
-package com.boyuanitsm.pay.unionpay.acp.service.token;
+package com.boyuanitsm.pay.unionpay.token;
 
-import com.boyuanitsm.pay.unionpay.acp.Acp;
-import com.boyuanitsm.pay.unionpay.acp.config.SDKConfig;
-import com.boyuanitsm.pay.unionpay.acp.service.AcpService;
+import com.boyuanitsm.pay.unionpay.Acp;
+import com.boyuanitsm.pay.unionpay.config.SDKConfig;
+import com.boyuanitsm.pay.unionpay.common.AcpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.boyuanitsm.pay.unionpay.acp.Acp.merId;
 
 /**
  * 即消费交易和开通交易两者合一，发往前台交易地址。
@@ -40,7 +38,7 @@ public class OpenAndConsume {
         contentData.put("channelType", "07");                          //渠道类型07-PC
 
         /***商户接入参数***/
-        contentData.put("merId", merId);                               //商户号码（本商户号码仅做为测试调通交易使用，该商户号配置了需要对敏感信息加密）测试时请改成自己申请的商户号，【自己注册的测试777开头的商户号不支持代收产品】
+        contentData.put("merId", Acp.merId);                               //商户号码（本商户号码仅做为测试调通交易使用，该商户号配置了需要对敏感信息加密）测试时请改成自己申请的商户号，【自己注册的测试777开头的商户号不支持代收产品】
         contentData.put("accessType", "0");                            //接入类型，商户接入固定填0，不需修改
         contentData.put("orderId", orderId);                           //商户订单号，8-40位数字字母，不能含“-”或“_”，可以自行定制规则
         contentData.put("txnTime", Acp.getCurrentTime());                           //订单发送时间，格式为YYYYMMDDhhmmss，必须取当前时间，否则会报txnTime无效

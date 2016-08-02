@@ -13,9 +13,9 @@
  *   xshu       2014-05-28      MPI工具类
  * =============================================================================
  */
-package com.boyuanitsm.pay.unionpay.acp.util;
+package com.boyuanitsm.pay.unionpay.util;
 
-import com.boyuanitsm.pay.unionpay.acp.config.SDKConstants;
+import com.boyuanitsm.pay.unionpay.config.SDKConstants;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.UnsupportedEncodingException;

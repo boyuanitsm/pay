@@ -13,10 +13,10 @@
  *   xshu       2014-05-28       证书工具类.
  * =============================================================================
  */
-package com.boyuanitsm.pay.unionpay.acp.util;
+package com.boyuanitsm.pay.unionpay.util;
 
-import com.boyuanitsm.pay.unionpay.acp.config.SDKConfig;
-import com.boyuanitsm.pay.unionpay.acp.config.SDKConstants;
+import com.boyuanitsm.pay.unionpay.config.SDKConfig;
+import com.boyuanitsm.pay.unionpay.config.SDKConstants;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,7 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.boyuanitsm.pay.unionpay.acp.util.SDKUtil.isEmpty;
+import static com.boyuanitsm.pay.unionpay.util.SDKUtil.isEmpty;
 
 public class CertUtil {
 	/** 证书容器. */
