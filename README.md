@@ -26,8 +26,8 @@ compile "com.boyuanitsm:pay:${pay.version}"
 
 - [Alipay](docs/alipay/alipay.md)
 - [Wxpay](docs/wxpay/wxpay.md)
-- UnionPay
-    - [无跳转支付](docs/unionpay/acp/acp.md)
+- [UnionPay](docs/unionpay/unionpay.md)
+    - [无跳转支付](docs/unionpay/token.md)
     - [网关支付](docs/unionpay/b2c.md)
 
 ### Development

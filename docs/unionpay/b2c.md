@@ -1,5 +1,6 @@
 # 银联支付 网关支付API
 
+> [银联支付通用API](unionpay.md)
 > [银联官方网关支付文档](https://open.unionpay.com/ajweb/product/detail?id=1)
 
 ## 消费
