@@ -35,7 +35,3 @@ compile "com.boyuanitsm:pay:${pay.version}"
 ```
 ./gradlew
 ```
-
-### TODO
-
-- 银联支付接入
