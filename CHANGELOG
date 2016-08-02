@@ -1,5 +1,10 @@
 Please view this file on the master branch, on stable branches it's out of date.
 
+v 1.3.0
+
+    - 重构银联开发包结构
+    - 银联网关支付
+
 v 1.2.1
 
     - 银联无跳转支付
