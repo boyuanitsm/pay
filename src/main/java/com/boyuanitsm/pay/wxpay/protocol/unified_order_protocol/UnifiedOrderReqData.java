@@ -67,6 +67,30 @@ public class UnifiedOrderReqData {
         this(simpleOrder.getBody(), simpleOrder.getTradeNo(), simpleOrder.getTotalFee(), simpleOrder.getProductId());
     }
 
+    /**
+     * 微信H5支付
+     *
+     * @param body
+     * @param out_trade_no
+     * @param total_fee
+     * @param openid
+     * @throws IllegalAccessException
+     */
+    public UnifiedOrderReqData(String body, String out_trade_no, String openid, int total_fee) throws IllegalAccessException {
+        this.appid = Configure.getAppid();
+        this.mch_id = Configure.getMchid();
+        this.device_info = "WEB";
+        this.nonce_str = RandomStringGenerator.getRandomStringByLength(Configure.NONCE_STR_LENGTH);
+        this.body = body;
+        this.out_trade_no = out_trade_no;
+        this.total_fee = total_fee;
+        this.spbill_create_ip = Configure.getIP();
+        this.notify_url = Configure.NOTIFY_URL;
+        this.trade_type = "JSAPI";
+        this.openid = openid;
+        this.sign = Signature.getSign(this);
+    }
+
     public UnifiedOrderReqData() {
     }
 
