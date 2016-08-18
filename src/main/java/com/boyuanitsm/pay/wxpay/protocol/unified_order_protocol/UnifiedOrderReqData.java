@@ -9,8 +9,8 @@ import com.boyuanitsm.pay.wxpay.common.Signature;
  * 统一下单, 请求参数。应用场景: 除被扫支付场景以外，商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付交易回话标识后再按扫码、JSAPI、APP等不同场景生成交易串调起支付。
  * 接口链接: https://api.mch.weixin.qq.com/pay/unifiedorder
  *
- * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1">https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1</a>
  * @author hookszhang on 7/8/16.
+ * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1">https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1</a>
  */
 public class UnifiedOrderReqData {
 
@@ -38,12 +38,36 @@ public class UnifiedOrderReqData {
     /**
      * 扫码支付 统一下单构造器, 只有必填字段
      *
-     * @param body 商品描述
+     * @param body         商品描述
      * @param out_trade_no 商户订单号
-     * @param total_fee 总金额, 单位为分
-     * @param product_id 商品ID
+     * @param total_fee    总金额, 单位为分
+     * @param product_id   商品ID
      */
     public UnifiedOrderReqData(String body, String out_trade_no, int total_fee, String product_id) throws IllegalAccessException {
+        this(body, out_trade_no, total_fee);
+        this.trade_type = "NATIVE";
+        this.product_id = product_id;
+        this.sign = Signature.getSign(this);
+    }
+
+    /**
+     * 扫码支付 统一下单构造器
+     *
+     * @param body         商品描述
+     * @param out_trade_no 商户订单号
+     * @param total_fee    总金额, 单位为分
+     * @param product_id   商品ID
+     * @param attach       attach
+     */
+    public UnifiedOrderReqData(String body, String out_trade_no, int total_fee, String product_id, String attach) throws IllegalAccessException {
+        this(body, out_trade_no, total_fee);
+        this.trade_type = "NATIVE";
+        this.product_id = product_id;
+        this.attach = attach;
+        this.sign = Signature.getSign(this);
+    }
+
+    private UnifiedOrderReqData(String body, String out_trade_no, int total_fee) {
         this.appid = Configure.getAppid();
         this.mch_id = Configure.getMchid();
         this.device_info = "WEB";
@@ -53,9 +77,6 @@ public class UnifiedOrderReqData {
         this.total_fee = total_fee;
         this.spbill_create_ip = Configure.getIP();
         this.notify_url = Configure.NOTIFY_URL;
-        this.trade_type = "NATIVE";
-        this.product_id = product_id;
-        this.sign = Signature.getSign(this);
     }
 
     /**
@@ -65,6 +86,70 @@ public class UnifiedOrderReqData {
      */
     public UnifiedOrderReqData(SimpleOrder simpleOrder) throws IllegalAccessException {
         this(simpleOrder.getBody(), simpleOrder.getTradeNo(), simpleOrder.getTotalFee(), simpleOrder.getProductId());
+    }
+
+    /**
+     * 微信APP支付
+     *
+     * @param body         商品描述
+     * @param total_fee    总金额, 单位分
+     * @param out_trade_no 商户订单号
+     * @throws IllegalAccessException
+     */
+    public UnifiedOrderReqData(String body, int total_fee, String out_trade_no) throws IllegalAccessException {
+        this(body, out_trade_no, total_fee);
+        this.trade_type = "APP";
+        this.sign = Signature.getSign(this);
+    }
+
+    /**
+     * 微信APP支付
+     *
+     * @param body         商品描述
+     * @param total_fee    总金额, 单位分
+     * @param out_trade_no 商户订单号
+     * @param attach       attach
+     * @throws IllegalAccessException
+     */
+    public UnifiedOrderReqData(String body, int total_fee, String out_trade_no, String attach) throws IllegalAccessException {
+        this(body, out_trade_no, total_fee);
+        this.trade_type = "APP";
+        this.attach = attach;
+        this.sign = Signature.getSign(this);
+    }
+
+    /**
+     * 微信H5支付
+     *
+     * @param body         商品描述
+     * @param out_trade_no 商户订单号
+     * @param total_fee    总金额, 单位分
+     * @param openid       openid
+     * @throws IllegalAccessException
+     */
+    public UnifiedOrderReqData(String body, String out_trade_no, String openid, int total_fee) throws IllegalAccessException {
+        this(body, out_trade_no, total_fee);
+        this.trade_type = "JSAPI";
+        this.openid = openid;
+        this.sign = Signature.getSign(this);
+    }
+
+    /**
+     * 微信H5支付
+     *
+     * @param body         商品描述
+     * @param out_trade_no 商户订单号
+     * @param total_fee    总金额, 单位分
+     * @param openid       openid
+     * @param attach       attach
+     * @throws IllegalAccessException
+     */
+    public UnifiedOrderReqData(String body, String out_trade_no, String openid, int total_fee, String attach) throws IllegalAccessException {
+        this(body, out_trade_no, total_fee);
+        this.trade_type = "JSAPI";
+        this.openid = openid;
+        this.attach = attach;
+        this.sign = Signature.getSign(this);
     }
 
     public UnifiedOrderReqData() {

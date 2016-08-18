@@ -140,7 +140,7 @@ public class WeChatResource {
     @RequestMapping(value = "app_pay_params", method = RequestMethod.GET)
     public AppPayParams appPayParams(String productId, HttpServletResponse response) {
         try {
-            UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(getOrderById(productId)));
+            UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData("WxPay Text", 1, "wxtest" + System.currentTimeMillis()));
             log.debug("订单信息: {}", resData);
             // 获得预支付交易会话ID
             String prepay_id = resData.getPrepay_id();
@@ -156,14 +156,14 @@ public class WeChatResource {
      * 获得H5 调起支付需要的请求参数
      * H5端调起支付的参数列表
      *
-     * @param productId 产品ID
+     * @param openId openid
      * @return 调起支付需要的请求参数
      * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6">https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6</a>
      */
     @RequestMapping(value = "h5_pay_params", method = RequestMethod.GET)
-    public H5PayParams h5PayParams(String productId, HttpServletResponse response) {
+    public H5PayParams h5PayParams(String openId, HttpServletResponse response) {
         try {
-            UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(getOrderById(productId)));
+            UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData("WxPay Text", "wxtest" + System.currentTimeMillis(), openId, 1));
             log.debug("订单信息: {}", resData);
             // 获得预支付交易会话ID
             String prepay_id = resData.getPrepay_id();

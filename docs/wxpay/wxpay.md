@@ -6,7 +6,7 @@
 除被扫支付场景以外，商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付交易回话标识后再按扫码、JSAPI、APP等不同场景生成交易串调起支付。
 #### 方法
 
-```
+```java
 UnifiedOrderBusiness unifiedOrderBusiness = new UnifiedOrderBusiness();
 UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(new SimpleOrder(String, String, int, String)));
 ```
@@ -29,7 +29,7 @@ UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(n
 - 调用关单或撤销接口API之前，需确认支付状态；
 
 #### 方法
-```
+```java
 OrderQueryService orderQueryService = new OrderQueryService();
 orderQueryService.query(new OrderQueryReqData(String, String));
 ```
@@ -51,7 +51,7 @@ orderQueryService.query(new OrderQueryReqData(String, String));
 - 微信支付退款支持单笔交易分多次退款，多次退款需要提交原支付订单的商户订单号和设置不同的退款单号。一笔退款失败后重新提交，要采用原来的退款单号。总退款金额不能超过用户实际支付金额。
 
 #### 方法
-```
+```java
 RefundService refundService = new RefundService();
 refundService.refund(new RefundReqData(String, String, String, int, int));
 ```
@@ -69,7 +69,7 @@ refundService.refund(new RefundReqData(String, String, String, int, int));
 提交退款申请后，通过调用该接口查询退款状态。退款有一定延时，用零钱支付的退款20分钟内到账，银行卡支付的退款3个工作日后重新查询退款状态。
 
 #### 方法
-```
+```java
 RefundQueryService refundQueryService = new RefundQueryService();
 refundQueryService.refundQuery(new RefundQueryReqData(String, String, String, String));
 ```
@@ -92,7 +92,7 @@ refundQueryService.refundQuery(new RefundQueryReqData(String, String, String, St
 - 对账单接口只能下载三个月以内的账单。
 
 #### 方法
-```
+```java
 DownloadBillService downloadBillService = new DownloadBillService();
 downloadBillService.request(new DownloadBillReqData(billDate, billType));
 ```
@@ -119,7 +119,7 @@ String为微信返回的下载对账单结果
 
 #### 方法
 接收到通知后务必检查签名是否正确
-```
+```java
 boolean isSign = Signature.checkIsSignValidFromResponseString(responseString);
 ```
 
@@ -134,7 +134,7 @@ boolean isSign = Signature.checkIsSignValidFromResponseString(responseString);
 #### 方法
 首先需要调用`统一下单`，获得到返回值`resData`后, 得到预二维码链接
 
-```
+```javajava
 // 获得二维码URL
 String qrcodeUrl = resData.getCode_url();
 // 生成二维码字节数组输出流
@@ -145,7 +145,7 @@ ByteArrayOutputStream stream = QRCode.from(qrcodeUrl).stream();
 
 返回`ByteArrayOutputStream` 字节数组输出流, 输出到HttpServletResponse
 
-```
+```java
 response.getOutputStream().write(stream.toByteArray());
 ```
 
@@ -155,9 +155,19 @@ response.getOutputStream().write(stream.toByteArray());
 
 #### 方法
 首先需要调用`统一下单`，获得到返回值`resData`后, 得到预支付交易会话ID
-```
+
+```java
+UnifiedOrderBusiness unifiedOrderBusiness = new UnifiedOrderBusiness();
+UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(String, int, String));
 new AppPayParams(resData.getPrepay_id())
 ```
+
+#### 方法参数
+
+- String 商品描述
+- int 总金额，单位分
+- String 商户订单号
+
 #### 返回
 AppPayParams实体为APP端调起支付的参数
 
@@ -167,8 +177,18 @@ AppPayParams实体为APP端调起支付的参数
 
 #### 方法
 首先需要调用`统一下单`，获得到返回值`resData`后, 得到预支付交易会话ID
-```
+```java
+UnifiedOrderBusiness unifiedOrderBusiness = new UnifiedOrderBusiness();
+UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(String, String, String, int));
 new H5PayParams(resData.getPrepay_id())
 ```
+
+#### 方法参数
+
+- String 商品描述
+- String 商户订单号
+- String openid
+- int 总金额，单位分
+
 #### 返回
 H5PayParams实体为APP端调起支付的参数
