@@ -21,6 +21,13 @@ public class Signature {
 
     private static Logger log = LoggerFactory.getLogger(Signature.class);
 
+    private static String packageKeyword(String name) {
+        if ("_package".equals(name)) {
+            name = "package";
+        }
+        return name;
+    }
+
     /**
      * 签名算法
      *
@@ -35,7 +42,10 @@ public class Signature {
         for (Field f : fields) {
             f.setAccessible(true);
             if (f.get(o) != null && f.get(o) != "") {
-                list.add(f.getName() + "=" + f.get(o) + "&");
+                String name = f.getName();
+                // 处理package关键字
+                name = packageKeyword(name);
+                list.add(name + "=" + f.get(o) + "&");
             }
         }
         int size = list.size();
