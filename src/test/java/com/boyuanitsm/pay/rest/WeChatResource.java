@@ -140,7 +140,7 @@ public class WeChatResource {
     @RequestMapping(value = "app_pay_params", method = RequestMethod.GET)
     public AppPayParams appPayParams(String productId, HttpServletResponse response) {
         try {
-            UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData(getOrderById(productId)));
+            UnifiedOrderResData resData = unifiedOrderBusiness.run(new UnifiedOrderReqData("WxPay Text", 1, "wxtest" + System.currentTimeMillis()));
             log.debug("订单信息: {}", resData);
             // 获得预支付交易会话ID
             String prepay_id = resData.getPrepay_id();

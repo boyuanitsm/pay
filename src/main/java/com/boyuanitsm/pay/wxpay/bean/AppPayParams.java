@@ -26,6 +26,10 @@ public class AppPayParams {
     private String appid;
     private String partnerid;
     private String prepayid;
+    /**
+     * 官方文档要的参数时package, 由于这个属性是java关键字, 所以要在签名的时候将前面的下划线去掉,
+     * 已在签名时处理这个问题
+     */
     private String _package;
     private String noncestr;
     private String timestamp;
