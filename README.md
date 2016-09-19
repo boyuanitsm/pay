@@ -6,9 +6,9 @@
 
 ### Import from
 
-使用之前务必配置[Maven私服](http://172.16.8.21:20000/ppd/nexus-maven-repo)
+使用之前务必配置[Maven私服](/ppd/nexus-maven-repo)
 
-[Version List](http://172.16.8.21:20000/ppd/pay/tags)
+[Version List](/ppd/pay/tags)
 #### Maven
 ```xml
 <dependency>
