@@ -123,6 +123,12 @@ String为微信返回的下载对账单结果
 boolean isSign = Signature.checkIsSignValidFromResponseString(responseString);
 ```
 
+#### 通知微信接收情况
+
+```java
+return XMLParser.getXMLFromObject(new Result(return_code, return_msg));
+```
+
 ## 扫码支付
 
 > [扫码支付](https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_1)
