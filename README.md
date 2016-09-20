@@ -6,9 +6,8 @@
 
 ### Import from
 
-使用之前务必配置[Maven私服](http://180.167.77.60:30000/ppd/nexus-maven-repo)
+使用之前务必配置[Maven私服](http://180.167.77.60:30000/ppd/nexus-maven-repo), `${pay.version}`请查看Tags
 
-[Version List](http://180.167.77.60:30000/ppd/pay/tags)
 #### Maven
 ```xml
 <dependency>
@@ -22,15 +21,23 @@
 compile "com.boyuanitsm:pay:${pay.version}"
 ```
 
-### [Configure(pay.yml)](docs/pay.yml.md)
+### Configure
+
+- [pay.yml](docs/pay.yml.md)
 
 ### API
 
-- [Alipay](docs/alipay/alipay.md)
-- [Wxpay](docs/wxpay/wxpay.md)
-- [UnionPay](docs/unionpay/unionpay.md)
+- [支付宝](docs/alipay/alipay.md)
+- [微信支付](docs/wxpay/wxpay.md)
+- [银联支付](docs/unionpay/unionpay.md)
     - [无跳转Token支付](docs/unionpay/token.md)
     - [网关支付](docs/unionpay/b2c.md)
+
+### Sample
+
+- [AlipayResource.java](src/test/java/com/boyuanitsm/pay/rest/AlipayResource.java)
+- [UnionPayAcpResource.java](src/test/java/com/boyuanitsm/pay/rest/UnionPayAcpResource.java)
+- [WeChatResource.java](src/test/java/com/boyuanitsm/pay/rest/WeChatResource.java)
 
 ### Development
 
