@@ -6,19 +6,19 @@
 
 ### Import from
 
-使用之前务必配置[Maven私服](http://180.167.77.60:30000/ppd/nexus-maven-repo), `${pay.version}`请查看Tags
+使用之前务必配置[Boyuan Maven Repository](https://boyuanitsm.github.io/2017/02/07/maven-repository.html)
 
 #### Maven
 ```xml
 <dependency>
     <groupId>com.boyuanitsm</groupId>
     <artifactId>pay</artifactId>
-    <version>${pay.version}</version>
+    <version>1.3.1</version>
 </dependency>
 ```
 #### Gradle
 ```
-compile "com.boyuanitsm:pay:${pay.version}"
+compile "com.boyuanitsm:pay:1.3.1"
 ```
 
 ### Configure
