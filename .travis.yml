@@ -11,7 +11,5 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-install:
-  - ./gradlew install
 script:
   - ./gradlew bootRepackage
