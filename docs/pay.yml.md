@@ -16,7 +16,7 @@ wechat:
     mchid: 10000100
     # 受理模式下给子商户分配的子商户号
     submchid:
-    # HTTPS证书的本地路径
+    # HTTPS证书的本地路径 https://pay.weixin.qq.com/index.php/core/cert/api_cert
     certLocalPath:
     # HTTPS证书密码，默认密码等于商户号MCHID
     certPassword:
